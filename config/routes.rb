@@ -5,6 +5,6 @@ Tutorial::Application.routes.draw do
   resources :users
 
   match 'login' => 'user_sessions#new', :as => :login
-  match 'logout' => 'user_sessions#destory', :as => :logout
+  match 'logout' => 'user_sessions#destroy', :as => :logout
 
 end
