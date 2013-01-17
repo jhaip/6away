@@ -1,6 +1,8 @@
 Tutorial::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  SITE_URL = "http://rocky-lowlands-8268.herokuapp.com"
+
   # Code is not reloaded between requests
   config.cache_classes = true
 
