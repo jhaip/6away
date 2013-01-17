@@ -91,4 +91,5 @@ class UsersController < ApplicationController
       not_authenticated
     end
   end
+  
 end
