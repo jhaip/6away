@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  skip_before_filter :require_login, :only => [:index, :new, :create]
+  skip_before_filter :require_login, :only => [:index, :new, :create, :activate]
   # GET /users
   # GET /users.json
   def index
@@ -80,6 +80,15 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { head :no_content }
+    end
+  end
+
+  def activate
+    if (@user = User.load_from_activation_token(params[:id]))
+      @user.activate!
+      redirect_to(login_path, :notice => 'User was successfully activated.')
+    else
+      not_authenticated
     end
   end
 end
