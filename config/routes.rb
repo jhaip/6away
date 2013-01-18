@@ -1,4 +1,6 @@
 Tutorial::Application.routes.draw do
+  get "graph/index"
+
   get "main/index"
 
   get "password_resets/create"
@@ -19,5 +21,7 @@ Tutorial::Application.routes.draw do
 
   match 'login' => 'user_sessions#new', :as => :login
   match 'logout' => 'user_sessions#destroy', :as => :logout
+  
+  match 'graph' => 'graph#index', :as => :graph
 
 end
