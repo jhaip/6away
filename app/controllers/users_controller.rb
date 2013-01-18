@@ -4,16 +4,17 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    if current_user.username == "admin" do
-      @users = User.all
+    #if current_user.username == "admin" do
+    @users = User.all
 
-      respond_to do |format|
-        format.html # index.html.erb
-        format.json { render json: @users }
-      end
-    else
-      render 'main#index'
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @users }
     end
+    render :js => "alert('#{current_user.email}');"
+    #else
+    #  redirect_to root_url, :alert => "Please log in first"
+    #end
   end
 
   # GET /users/1
