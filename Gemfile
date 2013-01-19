@@ -26,6 +26,8 @@ gem 'jquery-rails', '2.0.2'
 
 gem 'sorcery'
 
+gem 'neography'
+
 group :production do
   gem 'pg', '0.12.2'
 end
