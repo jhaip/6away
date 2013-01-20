@@ -5,7 +5,7 @@ class GraphController < ApplicationController
   	@one = @neo.execute_query("START n=node(*) WHERE n.athena ='jhaip' RETURN n.name, n.course, n.year, n.living_group, n.likes;")["data"]
   	@two = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='jhaip' RETURN collect(type(r));")["data"]
   	@three = @neo.execute_query("START n=node(*) MATCH n<-[r]-() WHERE n.athena ='jhaip' RETURN collect(type(r));")["data"]
-  	
+
   	@name = @one[0]
   	@course = @one[1]
   	@year = @one[2]
@@ -13,6 +13,14 @@ class GraphController < ApplicationController
   	@likes = @one[4]  	
   	@out_relations = @two
   	@in_relations = @three
+
+  	puts @name
+  	puts @course
+  	puts @year
+  	puts @living_group
+  	puts @likes
+  	puts @out_relations
+  	puts @in_relations
 =begin
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
 
