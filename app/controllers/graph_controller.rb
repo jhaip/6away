@@ -78,7 +78,7 @@ class GraphController < ApplicationController
 
   end
 
-  def create_graph
+  def create
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
   	me = @neo.create_node("athena" => "jhaip","name"=>"Jacob Haip","course"=>6,"year"=>2,"living_group"=>"Pi Lambda Phi","likes"=>["art","tech"])
   	user1 = @neo.create_node("athena" => "user1","name"=>"User One","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
