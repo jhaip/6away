@@ -22,7 +22,7 @@ var w = 960,
 var force = d3.layout.force() 
     .on("tick", tick)
     .size([w, h])
-    .linkDistance(50);
+    .linkDistance(100);
 
 var vis = d3.select("#chart").append("svg:svg")
     .attr("width", w)
@@ -70,11 +70,11 @@ function update() {
       .attr("class", "node")
       .attr("cx", function(d) { return d.x; })
       .attr("cy", function(d) { return d.y; })
-      .attr("r", function(d) { return 40+"px"; })
+      .attr("r", function(d) { return 20+"px"; })
       .style("fill", color)
       .on("click", click)
       .call(force.drag)
-      .append("svg:text")
+      .append("svg:title")
       .text(function(d) { return d.name });
 
   // Exit any old nodes.
