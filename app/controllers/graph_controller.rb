@@ -1,6 +1,7 @@
 class GraphController < ApplicationController
 
   def index
+=begin
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
 
   	johnathan = @neo.create_node("name" => 'Johnathan')
@@ -29,6 +30,9 @@ class GraphController < ApplicationController
 	                 "depth" => 2}).map{|n| n["data"]["name"]}.join(', ')
 
 	render :text => "Johnathan should become friends with #{s}" and return
+=end
+
+
 
 =begin
 	def create_person(name)

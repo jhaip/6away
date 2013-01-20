@@ -28,6 +28,8 @@ gem 'sorcery'
 
 gem 'neography'
 
+gem "d3-rails"
+
 group :production do
   gem 'pg', '0.12.2'
 end
