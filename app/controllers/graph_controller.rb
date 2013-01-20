@@ -2,16 +2,17 @@ class GraphController < ApplicationController
 
   def index
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-  	@one = @neo.execute_query("START n=node(*) WHERE n.athena ='jhaip' RETURN n.name, n.course, n.year, n.living_group, n.likes;")
-  	puts "GENERAL INFORMATION--------"
-  	puts @one["data"]
-  	@two = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='jhaip' RETURN collect(type(r));")
-  	puts "OUT RELATIONS--------"
-  	puts @two["data"]
-  	@three = @neo.execute_query("START n=node(*) MATCH n<-[r]-() WHERE n.athena ='jhaip' RETURN collect(type(r));")
-  	puts "IN RELATIONS--------"
-  	puts @three["data"]
-  	puts "DONE--------"
+  	@one = @neo.execute_query("START n=node(*) WHERE n.athena ='jhaip' RETURN n.name, n.course, n.year, n.living_group, n.likes;")["data"]
+  	@two = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='jhaip' RETURN collect(type(r));")["data"]
+  	@three = @neo.execute_query("START n=node(*) MATCH n<-[r]-() WHERE n.athena ='jhaip' RETURN collect(type(r));")["data"]
+  	
+  	@name = @one[0]
+  	@course = @one[1]
+  	@year = @one[2]
+  	@living_group = @one[3]
+  	@likes = @one[4]  	
+  	@out_relations = @two
+  	@in_relations = @three
 =begin
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
 
