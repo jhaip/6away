@@ -10,17 +10,17 @@ class GraphController < ApplicationController
   	@course = @one[1]
   	@year = @one[2]
   	@living_group = @one[3]
-  	@likes = @one[4]  	
-  	@out_relations = @two
-  	@in_relations = @three
+  	#@likes = @one[4]
+  	#@out_relations = @two
+  	#@in_relations = @three
 
   	puts @name
   	puts @course
   	puts @year
   	puts @living_group
-  	puts @likes
-  	puts @out_relations
-  	puts @in_relations
+  	#puts @likes
+  	#puts @out_relations
+  	#puts @in_relations
 =begin
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
 
