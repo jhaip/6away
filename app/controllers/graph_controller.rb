@@ -75,4 +75,11 @@ class GraphController < ApplicationController
 =end
 
   end
+
+  def datapull
+  	respond_to do |format|
+      format.html { render :text => "Don't do this." }
+      format.json { render :partial => "graph/datapull" }
+    end
+  end
 end
