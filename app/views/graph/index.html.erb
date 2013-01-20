@@ -72,11 +72,14 @@ function update() {
       .attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; })
       .style("fill", color)
       .on("click", click)
-      .call(force.drag);
+      .call(force.drag)
+      .append("svg:title")
+      .text(function(d) { return d.name });
 
   // Exit any old nodes.
   node.exit().remove();
 
+/*
   // Update the labels…
   node = vis.selectAll("text.label")
       .data(nodes, function(d) { return d.name; });
@@ -93,6 +96,7 @@ function update() {
 
   // Exit any old nodes.
   node.exit().remove();
+  */
 }
 
 function tick() {
