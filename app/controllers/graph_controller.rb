@@ -90,6 +90,8 @@ class GraphController < ApplicationController
   	@neo.create_relationship("hangs_with",me,user3)
   	@neo.create_relationship("urop",me,user3)
 
+  	render :text => "done"
+
   end
 
   def datapull
