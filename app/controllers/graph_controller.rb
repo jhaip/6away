@@ -60,7 +60,9 @@ class GraphController < ApplicationController
   		t = {:name => c, :type => "category", :children => Array.new }
   		children << t
   	end
-  	ret = {:name => name, :type => "person", :course => course, :year => year, :living_group => living_group, :likes => likes, :children => children }
+  	ret = {:details => {:name => name, :course => course, :year => year, :living_group => living_group, :likes => likes},
+           :graph   => {:name => name, :type => "person", :children => children }
+          }
   	render :json => ret.to_json
   end
 end

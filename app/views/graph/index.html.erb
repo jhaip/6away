@@ -1,7 +1,11 @@
 <h1>This is your social graph <%= current_user.username %>, enjoy.</h1>
 
 <div id="chart"></div>
-<h1><%= @name %></h1>
+<h1 id="path">Name Path</h1>
+<hr>
+<div id="details">
+  <h1>Detail title</h1>
+  <div id="person_info"></div>
 <p>Course <%= @course %>, year <%= @year %></p>
 <p>Lives at <%= @living_group %></p>
 <h3>Likes:</h3>
@@ -10,6 +14,7 @@
   <li><%= like %></li>
 <% end %>
 </ul>
+</div>
 <script type="text/javascript">
 
 var w = 960,
@@ -17,26 +22,42 @@ var w = 960,
     node,
     link,
     root,
-    path = "jhaip";
+    path;
 
 var force = d3.layout.force() 
     .on("tick", tick)
     .size([w, h])
-    .linkDistance(80)
-    .charge(-60);
+    .linkDistance(100)
+    .charge(-300);
 
 var vis = d3.select("#chart").append("svg:svg")
     .attr("width", w)
     .attr("height", h);
 
+function path_update(new_path) {
+  path = new_path;
+  d3.select("#path").text(path);
+  last = path[path.length-1];
+  console.log("new path");
+  console.log(path);
+  if ( last.type == "person" ) {
+    console.log("type: person");
+    d3.json("http://stark-hamlet-8685.herokuapp.com/datapull/"+last.name, function(json) {
+      console.log("json returned");
+      root = json.graph;
+      details = json.details;
+      console.log(root);
+      console.log(details);
+      update();
+    });
+  }
+}
 
-  d3.json("http://stark-hamlet-8685.herokuapp.com/datapull/jhaip", function(json) {
-    root = json;
-    update();
-  });
+path_update([{type:"person",name="jhaip"}]);
 
 
 function update() {
+  console.log("updating");
   var nodes = flatten(root),
       links = d3.layout.tree().links(nodes);
 
