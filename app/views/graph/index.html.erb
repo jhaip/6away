@@ -18,7 +18,7 @@ var vis = d3.select("#chart").append("svg:svg")
     .attr("width", w)
     .attr("height", h);
 
-  d3.json(<%= :datapull %>, function(json) {
+  d3.json("http://stark-hamlet-8685.herokuapp.com/datapull", function(json) {
     root = json;
     update();
   });
