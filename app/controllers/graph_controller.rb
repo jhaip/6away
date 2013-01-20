@@ -1,6 +1,7 @@
 class GraphController < ApplicationController
 
   def index
+  	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
   	@me = @neo.execute_query("START n=node(*) WHERE n.athena ='jhaip' RETURN n")
   	puts @me
 =begin
