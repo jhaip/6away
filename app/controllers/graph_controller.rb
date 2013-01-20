@@ -113,13 +113,13 @@ class GraphController < ApplicationController
   end
 
   def datapull
-  	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-  	@neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN n.name, collect(type(r));")["data"][0]
-  	name = @neo[0]
-  	@connections = @neo[1]
+  	#@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
+  	#@neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN n.name, collect(type(r));")["data"][0]
+  	name = "Jacob"#@neo[0]
+  	@connections = ["red","green","blue"]#@neo[1]
   	children = Array.new
   	@connections.each do |c|
-  		t = {:name => c, :type => "category", :children => []}
+  		t = {:name => c, :type => "category", :children => Array.new }
   		children << t
   	end
   	ret = {:name => name, :type => "person", :children => children }
