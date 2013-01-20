@@ -24,10 +24,10 @@ header {
 }
 
 header #logo {
-	font-size: 30px;
-	font-weight: 900px;
+	font-size: 24px;
 	color: #BBB;
 	float: left;
+	line-height: 110%;
 }
 header #nav {
 	float: right;
