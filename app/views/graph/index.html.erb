@@ -22,7 +22,8 @@ var w = 960,
 var force = d3.layout.force() 
     .on("tick", tick)
     .size([w, h])
-    .linkDistance(100);
+    .linkDistance(80)
+    .charge(-60);
 
 var vis = d3.select("#chart").append("svg:svg")
     .attr("width", w)

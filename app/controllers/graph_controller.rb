@@ -1,6 +1,7 @@
 class GraphController < ApplicationController
 
   def index
+=begin
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
   	@one = @neo.execute_query("START n=node(*) WHERE n.athena ='jhaip' RETURN n.name, n.course, n.year, n.living_group, n.likes;")["data"][0]
   	@two = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='jhaip' RETURN collect(type(r));")["data"][0]
@@ -21,79 +22,12 @@ class GraphController < ApplicationController
   	puts @likes
   	puts @out_relations
   	puts @in_relations
-=begin
-  	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-
-  	johnathan = @neo.create_node("name" => 'Johnathan')
-	mark = @neo.create_node("name" => 'Mark')
-	phil = @neo.create_node("name" => 'Phil')
-	mary = @neo.create_node("name" => 'Mary')
-	luke = @neo.create_node("name" => 'Luke')
-	@neo.create_relationship("friends", johnathan, mark)
-	@neo.create_relationship("friends", mark, johnathan)
-	@neo.create_relationship("friends", mark, mary)
-	@neo.create_relationship("friends", mary, mark)
-	@neo.create_relationship("friends", mark, phil)
-	@neo.create_relationship("friends", phil, mark)
-	@neo.create_relationship("friends", mary, phil)
-	@neo.create_relationship("friends", phil, mary)
-	@neo.create_relationship("friends", phil, luke)
-	@neo.create_relationship("friends", luke, phil)
-	s = @neo.traverse(johnathan,
-	                "nodes", 
-	                {"order" => "breadth first", 
-	                 "uniqueness" => "node global", 
-	                 "relationships" => {"type"=> "friends", 
-	                                     "direction" => "in"}, 
-	                 "return filter" => {"language" => "javascript",
-	                                     "body" => "position.length() == 2;"},
-	                 "depth" => 2}).map{|n| n["data"]["name"]}.join(', ')
-
-	render :text => "Johnathan should become friends with #{s}" and return
 =end
-
-
-
-=begin
-	def create_person(name)
-	  @neo.create_node("name" => name)
-	end
-
-	def make_mutual_friends(node1, node2)
-	  @neo.create_relationship("friends", node1, node2)
-	  @neo.create_relationship("friends", node2, node1)
-	end
-
-	def suggestions_for(node)
-	  @neo.traverse(node,
-	                "nodes", 
-	                {"order" => "breadth first", 
-	                 "uniqueness" => "node global", 
-	                 "relationships" => {"type"=> "friends", 
-	                                     "direction" => "in"}, 
-	                 "return filter" => {"language" => "javascript",
-	                                     "body" => "position.length() == 2;"},
-	                 "depth" => 2}).map{|n| n["data"]["name"]}.join(', ')
-	end
-
-	johnathan = create_person('Johnathan')
-	mark      = create_person('Mark')
-	phil      = create_person('Phil')
-	mary      = create_person('Mary')
-	luke      = create_person('Luke')
-
-	make_mutual_friends(johnathan, mark)
-	make_mutual_friends(mark, mary)
-	make_mutual_friends(mark, phil)
-	make_mutual_friends(phil, mary)
-	make_mutual_friends(phil, luke)
-
-	puts "Johnathan should become friends with #{suggestions_for(johnathan)}"
-
-	# RESULT
-	# Johnathan should become friends with Mary, Phil
-=end
-
+	@name = "Jacob Haip"
+	@course = 6
+	@year = 2
+	@living_group = "Pilam"
+	@likes = ["art","tec"]
   end
 
   def create
@@ -114,15 +48,19 @@ class GraphController < ApplicationController
 
   def datapull
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-  	query = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN n.name, collect(type(r));")["data"][0]
+  	query = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN n.name, n.course, n.year, n.living_group, n.likes, collect(type(r));")["data"][0]
   	name = query[0]
-  	connections = query[1]
+  	course = query[1]
+  	year = query[2]
+  	living_group = query[3]
+  	likes = query[4]
+  	connections = query[5]
   	children = Array.new
   	connections.each do |c|
   		t = {:name => c, :type => "category", :children => Array.new }
   		children << t
   	end
-  	ret = {:name => name, :type => "person", :children => children }
+  	ret = {:name => name, :type => "person", :course => course, :year => year, :living_group => living_group, :likes => likes, :children => children }
   	render :json => ret.to_json
   end
 end
