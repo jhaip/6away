@@ -1,6 +1,8 @@
 class GraphController < ApplicationController
 
   def index
+  	@me = @neo.execute_query("START me=node:node_auto_index(athena='jhaip') RETURN me.name;")
+  	puts @me
 =begin
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
 
@@ -73,6 +75,20 @@ class GraphController < ApplicationController
 	# RESULT
 	# Johnathan should become friends with Mary, Phil
 =end
+
+  end
+
+  def create_graph
+  	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
+  	me = @neo.create_node("athena" => "jhaip","name"=>"Jacob Haip","course"=>6,"year"=>2,"living_group"=>"Pi Lambda Phi","likes"=>["art","tech"])
+  	user1 = @neo.create_node("athena" => "user1","name"=>"User One","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
+  	user2 = @neo.create_node("athena" => "user2","name"=>"User Two","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
+  	user3 = @neo.create_node("athena" => "user3","name"=>"User Three","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
+  	@neo.create_relationship("lives_with",me,user1)
+  	@neo.create_relationship("lives_with",me,user2)
+  	@neo.create_relationship("hangs_with",me,user2)
+  	@neo.create_relationship("hangs_with",me,user3)
+  	@neo.create_relationship("urop",me,user3)
 
   end
 
