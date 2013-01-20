@@ -2,12 +2,8 @@ class GraphController < ApplicationController
 
   def index
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-  	@me = @neo.execute_query("START n=node(*) WHERE n.athena ='jhaip' RETURN n")
-  	puts "------start-----"
-  	puts @neo.get_node_properties(@me)
-  	puts "----------------"
-  	puts @neo.get_node_relationships(@me)
-  	puts "-----end--------"
+  	@me = @neo.execute_query("START n=node(*) WHERE n.athena ='jhaip' RETURN n.name, n.course, n.year, n.living_group, n.likes;")
+  	puts @me
 =begin
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
 
