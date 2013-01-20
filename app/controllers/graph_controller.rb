@@ -4,7 +4,7 @@ class GraphController < ApplicationController
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
   	@me = @neo.execute_query("START n=node(*) WHERE n.athena ='jhaip' RETURN n")
   	puts "------start-----"
-  	puts @me["data"]["data"]
+  	puts @neo.get_node_properties(@me)
   	puts "----------------"
   	puts @neo.get_node_relationships(@me)
   	puts "-----end--------"
