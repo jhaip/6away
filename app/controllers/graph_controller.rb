@@ -113,9 +113,23 @@ class GraphController < ApplicationController
   end
 
   def datapull
+  	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
+  	@neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN n.name, collect(type(r));")["data"][0]
+  	name = @neo[0]
+  	@connections = @neo[1]
+  	children = Array.new
+  	@connections.each do |c|
+  		t = {:name => c, :type => "category", :children => []}
+  		children << t
+  	end
+  	ret = {:name => name, :type => "person", :children => children }
+  	render :json => ret.to_json
+
+=begin
   	respond_to do |format|
       format.html { render :text => "Don't do this." }
       format.json { render :partial => "graph/datapull" }
     end
+=end
   end
 end

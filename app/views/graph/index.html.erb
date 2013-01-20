@@ -16,7 +16,8 @@ var w = 960,
     h = 500,
     node,
     link,
-    root;
+    root,
+    path = "jhaip";
 
 var force = d3.layout.force()
     .on("tick", tick)
@@ -26,10 +27,12 @@ var vis = d3.select("#chart").append("svg:svg")
     .attr("width", w)
     .attr("height", h);
 
-  d3.json("http://stark-hamlet-8685.herokuapp.com/datapull", function(json) {
+
+  d3.json("http://stark-hamlet-8685.herokuapp.com/datapull/jhaip", function(json) {
     root = json;
     update();
   });
+
 
 function update() {
   var nodes = flatten(root),
