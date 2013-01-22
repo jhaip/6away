@@ -30,6 +30,8 @@ gem 'neography'
 
 gem "d3-rails"
 
+gem 'json'
+
 group :production do
   gem 'pg', '0.12.2'
 end

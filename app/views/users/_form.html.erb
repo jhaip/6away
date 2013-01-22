@@ -42,7 +42,14 @@
 <script>
 $(function() {
   $( "#user_email" ).autocomplete({
-    source: "http://stark-hamlet-8685.herokuapp.com/userpull"
+    source: "http://stark-hamlet-8685.herokuapp.com/userpull",
+    minLength: 2,
+      source: function( request, response ) {
+        var term = request.term;
+        $.getJSON( "http://stark-hamlet-8685.herokuapp.com/userpull", request, function( data, status, xhr ) {
+          response( data );
+        });
+      }
   });
 });
 </script>
