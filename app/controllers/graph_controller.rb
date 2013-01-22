@@ -72,7 +72,8 @@ class GraphController < ApplicationController
   end
 
   def datapush
-    a = "name: "+params[:name]+" year: "+params[:year]+" LG: "+params[:living_group]+" Art: "+params[:ch_art]+" Music"+params[:ck_music]+" Travel: "+params[:ck_travel]+" Alone "+params[:ck_alone]
+    a = "name: "+params[:name]+" year: "+params[:year]+" LG: "+params[:living_group]
+    #a += " Art: "+params[:ch_art]+" Music"+params[:ck_music]+" Travel: "+params[:ck_travel]+" Alone "+params[:ck_alone]
     puts "-----------------------------------------"
     puts a
     puts "-----------------------------------------"
