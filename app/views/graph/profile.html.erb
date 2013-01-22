@@ -1,8 +1,14 @@
 <%= form_tag("/datapush", :method => "post") do %>
 
+  <h1>My Profile</h1>
+
   <div class="field">
     <%= label_tag(:name, "Full Name:") %>
     <%= text_field_tag(:name) %>
+  </div>
+  <div class="field">
+    <%= label_tag(:major, "Major:") %>
+    <%= text_field_tag(:major) %>
   </div>
   <div class="field">
     <%= label_tag(:year, "Year of study:") %>
@@ -27,6 +33,6 @@
   <div class="actions">
     <%= submit_tag("Submit") %>
   </div>
-  
+
 <% end %>
 
