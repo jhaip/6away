@@ -86,7 +86,7 @@ class GraphController < ApplicationController
     puts "Adding: "+full_name+", "+year+", "+major+", "+living_group+", "+athena_name+", "+likes.join(",")
 
     @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-    me = @neo.create_node("athena" => athena_name,"name"=>full_name,"course"=>major,"year"=>year,"living_group"=>living_group,"likes"=>likes)
+    me = @neo.create_node("athena" => athena_name,"name"=>full_name,"course"=>major,"year"=>year,"living_group"=>living_group)
 
     redirect_to(:graph)
   end
