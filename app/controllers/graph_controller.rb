@@ -17,8 +17,12 @@ class GraphController < ApplicationController
   	@out_relations = @two
   	@in_relations = @three
 =end
+    if @current_user == nil
+      redirect_to( root_path, :notice => "Couldn't find current user") and return
+    end
     current_email = @current_user.email
     @athena_name = current_email[/[^@]+/]
+
   end
 
   def profile
@@ -61,6 +65,9 @@ class GraphController < ApplicationController
   end
 
   def datapush
+    if @current_user == nil
+      redirect_to( root_path, :notice => "Couldn't find current user") and return
+    end
     full_name = params[:name]
     year = params[:year]
     major = params[:major]
