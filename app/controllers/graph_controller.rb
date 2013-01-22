@@ -1,6 +1,6 @@
 class GraphController < ApplicationController
 
-  skip_before_filter :require_login
+  skip_before_filter :require_login, :except => [:datapush]
 
   def index
 =begin
@@ -16,20 +16,9 @@ class GraphController < ApplicationController
   	@likes = @one[4]
   	@out_relations = @two
   	@in_relations = @three
-
-  	puts @name
-  	puts @course
-  	puts @year
-  	puts @living_group
-  	puts @likes
-  	puts @out_relations
-  	puts @in_relations
 =end
-	@name = "Jacob Haip"
-	@course = 6
-	@year = 2
-	@living_group = "Pilam"
-	@likes = ["art","tec"]
+    current_email = @current_user.email
+    @athena_name = current_email[/[^@]+/]
   end
 
   def profile
@@ -72,11 +61,33 @@ class GraphController < ApplicationController
   end
 
   def datapush
-    a = "Name: "+params[:name]+" Year: "+params[:year]+" Course: "+params[:major]+" LG: "+params[:living_group]
-    #a += " Art: "+params[:ch_art]+" Music"+params[:ck_music]+" Travel: "+params[:ck_travel]+" Alone "+params[:ck_alone]
-    puts "-----------------------------------------"
-    puts a
-    puts "-----------------------------------------"
+    full_name = params[:name]
+    year = params[:year]
+    major = params[:major]
+    living_group = params[:living_group]
+
+    current_email = @current_user.email
+    athena_name = current_email[/[^@]+/]
+
+    likes = Array.new
+    if params[:ch_art] != nil
+      likes << params[:ch_art]
+    end
+    if params[:ch_music] != nil
+      likes << params[:ch_music]
+    end
+    if params[:ch_travel] != nil
+      likes << params[:ch_travel]
+    end
+    if params[:ch_alone] != nil
+      likes << params[:ch_alone]
+    end
+
+    puts "Adding: "+full_name+", "+year+", "+major+", "+living_group+", "+athena_name+", "+likes.join(",")
+
+    @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
+    me = @neo.create_node("athena" => athena_name,"name"=>full_name,"course"=>major,"year"=>year,"living_group"=>living_group,"likes"=>likes)
+
     redirect_to(:graph)
   end
 
