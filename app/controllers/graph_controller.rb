@@ -65,4 +65,11 @@ class GraphController < ApplicationController
           }
   	render :json => ret.to_json
   end
+
+  def userpull
+    respond_to do |format|
+        format.html { reder :text => "Error" }
+        format.json { render :partial => "graph/_mit.json.erb" }
+      end
+    end
 end

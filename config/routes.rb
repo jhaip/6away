@@ -24,6 +24,7 @@ Tutorial::Application.routes.draw do
   
   match 'graph' => 'graph#index', :as => :graph
   match 'datapull/:name' => 'graph#datapull', :as => :datapull
+  match 'userpull' => 'graph#userpull', :as => :userpull
   match 'creategraph' => 'graph#create', :as => :creategraph
 
 end

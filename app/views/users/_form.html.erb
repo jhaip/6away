@@ -37,3 +37,10 @@
     <%= f.submit %>
   </div>
 <% end %>
+<script>
+$(function() {
+  $( "#user_email" ).autocomplete({
+    source: "http://stark-hamlet-8685.herokuapp.com/userpull"
+  });
+});
+</script>
