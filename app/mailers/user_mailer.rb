@@ -10,14 +10,14 @@ class UserMailer < ActionMailer::Base
     @user = user
     @url  = "#{SITE_URL}/users/#{user.activation_token}/activate"
     mail(:to => user.email,
-         :subject => "Welcome to My Awesome Site")
+         :subject => "6 Away - You are just one step away from meeting someone cool!")
   end
     
   def activation_success_email(user)
     @user = user
     @url  = "#{SITE_URL}/login"
     mail(:to => user.email,
-         :subject => "Your account is now activated")
+         :subject => "6 Away - Your account has been activated")
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -29,7 +29,7 @@ class UserMailer < ActionMailer::Base
     @user = user
     @url = "#{SITE_URL}/password_resets/#{user.reset_password_token}/edit"
     mail(:to => user.email,
-         :subject => "Your password has been reset")
+         :subject => "6 Away - Your password has been reset")
   end
 
 end
