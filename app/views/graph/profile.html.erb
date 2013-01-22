@@ -1,0 +1,25 @@
+<%= form_tag("/datapush", :method => "post") do %>
+
+  <%= label_tag(:name, "Full Name:") %>
+  <%= text_field_tag(:name) %>
+
+  <%= label_tag(:year, "Year of study:") %>
+  <%= text_field_tag(:year) %>
+  <%= select_tag(:year, options_for_select([['Freshman', 1], ['Sophomore', 2], ['Junior', 3], ['Senior', 4], ['Graduate', 5]])) %>
+
+  <%= label_tag(:living_group, "Dorm or living group:") %>
+  <%= text_field_tag(:living_group) %>
+
+  <h3>Check things that you have the most appreciation for</h3>
+  <%= check_box_tag(:ck_art) %>
+  <%= label_tag(:ck_art, "Art") %>
+  <%= check_box_tag(:ck_music) %>
+  <%= label_tag(:ck_music, "Music") %>
+  <%= check_box_tag(:ck_travel) %>
+  <%= label_tag(:ck_travel, "Travel") %>
+  <%= check_box_tag(:ck_alone) %>
+  <%= label_tag(:ck_alone, "Time alone") %>
+
+  <%= submit_tag("Search") %>
+<% end %>
+

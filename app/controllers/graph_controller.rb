@@ -32,6 +32,9 @@ class GraphController < ApplicationController
 	@likes = ["art","tec"]
   end
 
+  def profile
+  end
+
   def create
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
   	me = @neo.create_node("athena" => "jhaip","name"=>"Jacob Haip","course"=>6,"year"=>2,"living_group"=>"Pi Lambda Phi","likes"=>["art","tech"])
@@ -66,6 +69,14 @@ class GraphController < ApplicationController
            :graph   => {:name => name, :type => "person", :children => children }
           }
   	render :json => ret.to_json
+  end
+
+  def datapush
+    a = "name: "+params[:name]+" year: "+params[:year]+" LG: "+params[:living_group]+" Art: "+params[:ch_art]+" Music"+params[:ck_music]+" Travel: "+params[:ck_travel]+" Alone "+params[:ck_alone]
+    puts "-----------------------------------------"
+    puts a
+    puts "-----------------------------------------"
+    redirect_to(:graph)
   end
 
   def userpull
