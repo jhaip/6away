@@ -75,7 +75,7 @@ class GraphController < ApplicationController
     puts "-------------"
     #render :partial => "graph/mit.json"
 
-    file = File.new("mit.json")
+    file = File.new("graph/mit.json")
     obj = file.read
 
     i = 0
