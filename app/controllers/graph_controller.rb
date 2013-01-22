@@ -69,27 +69,22 @@ class GraphController < ApplicationController
   end
 
   def userpull
-    puts "-------------"
-    puts "#{params}"
-    puts "#{params[:term]}"
-    puts "-------------"
-    #render :partial => "graph/mit.json"
 
     file = File.new(Rails.public_path+"/mit.txt")
     obj = file.read
+    term = params[:term]
 
     i = 0
     a = Array.new
     JSON.parse(obj).each do |item|
-      if item["label"].index(params[:term]) != nil
+      if item["label"].downcase.index(term) != nil
         a << item
         i += 1
-        if i > 10
+        if i > 8
           break
         end
       end
     end
-    # t = "[" + a.join(", ") + "]"
     render :json => a.to_json
 
   end
