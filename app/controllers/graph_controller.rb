@@ -1,5 +1,7 @@
 class GraphController < ApplicationController
 
+  skip_before_filter :require_login, :except => [:userpull]
+
   def index
 =begin
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
