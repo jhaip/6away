@@ -89,8 +89,8 @@ class GraphController < ApplicationController
         end
       end
     end
-    t = "[" + a.join(", ") + "]"
-    render :text => t
+    # t = "[" + a.join(", ") + "]"
+    render :json => a.to_json
 
   end
 
