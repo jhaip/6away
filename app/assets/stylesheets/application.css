@@ -38,3 +38,7 @@ header #logo {
 header #nav {
 	float: right;
 }
+
+.ui-autocomplete-loading {
+	background: white url('/assets/ajax-loader.gif') right center no-repeat;
+}
