@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    if @current_user.username == "admin"
+    if @current_user.email == "jhaip@mit.edu"
       @users = User.all
 
       respond_to do |format|
