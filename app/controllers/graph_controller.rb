@@ -69,7 +69,7 @@ class GraphController < ApplicationController
   end
 
   def userpull
-    render :partial => "graph/_mit.json.erb" }
+    render :partial => "graph/_mit.json.erb"
   end
 
 end
