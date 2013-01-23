@@ -79,22 +79,21 @@ class GraphController < ApplicationController
 
     if person == nil
       puts "creating new person and adding properties"
-      newperson = @neo.create_node
-      @neo.add_node_to_index("nodes", "name", athena_name, newperson)
-      @neo.set_node_properties(newperson, {"athena" => athena_name,
-                                         "name"=>full_name,
-                                         "course"=>major,
-                                         "year"=>year,
-                                         "living_group"=>living_group,
-                                         "likes"=>likes})
+      person = @neo.create_node
+      @neo.add_node_to_index("nodes", "name", athena_name, person)
+    end
+    puts "person already exists, updating properties"
+    @neo.set_node_properties(person, {"athena" => athena_name,
+                                       "name"=>full_name,
+                                       "course"=>major,
+                                       "year"=>year,
+                                       "living_group"=>living_group })
+    if likes.length > 0
+      puts "adding likes"
+      @neo.set_node_properties(person, {"likes"=>likes})
     else
-      puts "person already exists, updating properties"
-      @neo.set_node_properties(person, {"athena" => athena_name,
-                                         "name"=>full_name,
-                                         "course"=>major,
-                                         "year"=>year,
-                                         "living_group"=>living_group,
-                                         "likes"=>likes})
+      puts "no likes found"
+      @neo.remove_node_properties(person, "likes")
     end
 
     redirect_to(:graph)
