@@ -23,52 +23,29 @@ class GraphController < ApplicationController
     current_email = current_user.email
     @athena_name = current_email[/[^@]+/]
 
+    @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
+    person = @neo.get_node_index("nodes", "name", @athena_name)
+    if person == nil
+      puts "person #{@athena_name} not found, redirecting to profile page to create them"
+      redirect_to :profile
+    else
+      props = @neo.get_node_properties(person, ["course","year"])
+      puts props
+      if props[0] == nil or props[1] == nil
+        puts "properties for #{@athena_name} found to be empty, redirecting to profile to fill them out"
+        redirect_to :profile
+      end
+    end
+
   end
 
   def profile
   end
 
-  def create
-  	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-  	me = @neo.create_node("athena" => "jhaip","name"=>"Jacob Haip","course"=>6,"year"=>2,"living_group"=>"Pi Lambda Phi","likes"=>["art","tech"])
-  	user1 = @neo.create_node("athena" => "user1","name"=>"User One","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
-  	user2 = @neo.create_node("athena" => "user2","name"=>"User Two","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
-  	user3 = @neo.create_node("athena" => "user3","name"=>"User Three","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
-  	@neo.create_relationship("lives_with",me,user1)
-  	@neo.create_relationship("lives_with",me,user2)
-  	@neo.create_relationship("hangs_with",me,user2)
-  	@neo.create_relationship("hangs_with",me,user3)
-  	@neo.create_relationship("urop",me,user3)
-
-  	render :text => "done"
-
-  end
-
-  def datapull
-  	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-  	query = @neo.execute_query("START n=node(*) WHERE n.athena ='#{params[:name]}' RETURN n.name, n.course, n.year, n.living_group, n.likes;")["data"][0]
-    query2 = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN collect(type(r));")["data"][0]
-  	name = query[0]
-  	course = query[1]
-  	year = query[2]
-  	living_group = query[3]
-  	likes = query[4]
-  	connections = query2[0]
-  	children = Array.new
-  	connections.each do |c|
-  		t = {:name => c, :type => "category", :children => Array.new }
-  		children << t
-  	end
-  	ret = {:details => {:name => name, :course => course, :year => year, :living_group => living_group, :likes => likes},
-           :graph   => {:name => name, :type => "person", :children => children }
-          }
-  	render :json => ret.to_json
-  end
-
-  def datapush
-    #if current_user == nil
-    #  redirect_to( root_path, :notice => "Couldn't find current user") and return
-    #end
+  def profile_push
+    if current_user == nil
+      redirect_to( root_path, :notice => "Couldn't find current user") and return
+    end
     full_name = params[:name]
     year = params[:year]
     major = params[:major]
@@ -94,9 +71,77 @@ class GraphController < ApplicationController
     puts "Adding: "+full_name+", "+year+", "+major+", "+living_group+", "+athena_name+", "+likes.join(",")
 
     @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-    me = @neo.create_node("athena" => athena_name,"name"=>full_name,"course"=>major,"year"=>year,"living_group"=>living_group,"likes"=>["art","tech"])
+
+    person = @neo.get_node_index("nodes", "name", athena_name)
+
+    if person == nil
+      puts "creating new person and adding properties"
+      newperson = @neo.create_node
+      @neo.add_node_to_index("nodes", "name", athena_name, newperson)
+      @neo.set_node_properties(newperson, {"athena" => athena_name,
+                                         "name"=>full_name,
+                                         "course"=>major,
+                                         "year"=>year,
+                                         "living_group"=>living_group,
+                                         "likes"=>["art","tech"]})
+    else
+      puts "person already exists, updating properties"
+      @neo.set_node_properties(person, {"athena" => athena_name,
+                                         "name"=>full_name,
+                                         "course"=>major,
+                                         "year"=>year,
+                                         "living_group"=>living_group,
+                                         "likes"=>["art","tech"]})
+    end
 
     redirect_to(:graph)
+  end
+
+  def create
+  	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
+
+    @neo.create_node_index("nodes")
+
+  	me = @neo.create_node("athena" => "jhaip","name"=>"Jacob Haip","course"=>6,"year"=>2,"living_group"=>"Pi Lambda Phi","likes"=>["art","tech"])
+  	user1 = @neo.create_node("athena" => "__user1","name"=>"User One","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
+  	user2 = @neo.create_node("athena" => "__user2","name"=>"User Two","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
+  	user3 = @neo.create_node("athena" => "__user3","name"=>"User Three","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
+  	@neo.create_relationship("lives_with",me,user1)
+  	@neo.create_relationship("lives_with",me,user2)
+  	@neo.create_relationship("hangs_with",me,user2)
+  	@neo.create_relationship("hangs_with",me,user3)
+  	@neo.create_relationship("urop",me,user3)
+    @neo.add_node_to_index("nodes", "name", "jhaip", me)
+    @neo.add_node_to_index("nodes", "name", "__user1", user1)
+    @neo.add_node_to_index("nodes", "name", "__user2", user2)
+    @neo.add_node_to_index("nodes", "name", "__user3", user3)
+
+  	render :text => "database created"
+
+  end
+
+  def datapull
+  	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
+  	query = @neo.execute_query("START n=node(*) WHERE n.athena ='#{params[:name]}' RETURN n.name, n.course, n.year, n.living_group, n.likes;")["data"][0]
+    query2 = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN collect(type(r));")["data"][0]
+  	name = query[0]
+  	course = query[1]
+  	year = query[2]
+  	living_group = query[3]
+  	likes = query[4]
+  	connections = query2[0]
+  	children = Array.new
+  	connections.each do |c|
+  		t = {:name => c, :type => "category", :children => Array.new }
+  		children << t
+  	end
+  	ret = {:details => {:name => name, :course => course, :year => year, :living_group => living_group, :likes => likes},
+           :graph   => {:name => name, :type => "person", :children => children }
+          }
+  	render :json => ret.to_json
+  end
+
+  def datapush
   end
 
   def userpull
