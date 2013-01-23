@@ -51,6 +51,14 @@ function path_update(new_path) {
       var inside = d3.select("#inside");
       inside.append("p").text("Course "+details.course+", Year "+details.year);
       inside.append("p").text("Lives at "+details.living_group);
+      inside.append("h3").text("Likes:");
+      console.log("Details:");
+      console.log(details);
+      if (details.likes) {
+        for (var i=0; i < details.likes.length; i+=1) {
+          inside.append("p").text(details.likes[i]);
+        }
+      }
 
       update();
     });

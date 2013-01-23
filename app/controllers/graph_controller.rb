@@ -55,20 +55,20 @@ class GraphController < ApplicationController
     athena_name = current_email[/[^@]+/]
 
     likes = Array.new
-=begin
-    if params[:ch_art] != nil
-      likes << params[:ch_art]
+
+    if params[:ck_art]
+      likes << params[:ck_art]
     end
-    if params[:ch_music] != nil
-      likes << params[:ch_music]
+    if params[:ck_music]
+      likes << params[:ck_music]
     end
-    if params[:ch_travel] != nil
-      likes << params[:ch_travel]
+    if params[:ck_travel]
+      likes << params[:ck_travel]
     end
-    if params[:ch_alone] != nil
-      likes << params[:ch_alone]
+    if params[:ck_alone]
+      likes << params[:ck_alone]
     end
-=end
+
     likes << "Tacos"
     likes << "Burritos"
 
