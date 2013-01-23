@@ -52,11 +52,11 @@ function path_update(new_path) {
       inside.append("p").text("Course "+details.course+", Year "+details.year);
       inside.append("p").text("Lives at "+details.living_group);
       inside.append("h3").text("Likes:");
-      console.log("Details:");
-      console.log(details);
+      inside.append("ol").classed("likes_list", true);
+      var likes_list = d3.select(".likes_list");
       if (details.likes) {
         for (var i=0; i < details.likes.length; i+=1) {
-          inside.append("p").text(details.likes[i]);
+          likes_list.append("p").text(details.likes[i]);
         }
       }
 

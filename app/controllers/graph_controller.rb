@@ -57,20 +57,17 @@ class GraphController < ApplicationController
     likes = Array.new
 
     if params[:ck_art]
-      likes << params[:ck_art]
+      likes << "Art"
     end
     if params[:ck_music]
-      likes << params[:ck_music]
+      likes << "Music"
     end
     if params[:ck_travel]
-      likes << params[:ck_travel]
+      likes << "Travel"
     end
     if params[:ck_alone]
-      likes << params[:ck_alone]
+      likes << "Time alone"
     end
-
-    likes << "Tacos"
-    likes << "Burritos"
 
     puts "Adding: "+full_name+", "+year+", "+major+", "+living_group+", "+athena_name
     puts "likes:"
