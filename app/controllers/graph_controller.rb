@@ -31,7 +31,7 @@ class GraphController < ApplicationController
     else
       props = @neo.get_node_properties(person, ["course","year"])
       puts props
-      if props[0] == nil or props[1] == nil
+      if props["course"] == nil or props["course"] == nil
         puts "properties for #{@athena_name} found to be empty, redirecting to profile to fill them out"
         redirect_to :profile
       end
