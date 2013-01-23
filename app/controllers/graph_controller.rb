@@ -55,6 +55,7 @@ class GraphController < ApplicationController
     athena_name = current_email[/[^@]+/]
 
     likes = Array.new
+=begin
     if params[:ch_art] != nil
       likes << params[:ch_art]
     end
@@ -67,8 +68,13 @@ class GraphController < ApplicationController
     if params[:ch_alone] != nil
       likes << params[:ch_alone]
     end
+=end
+    likes << "Tacos"
+    likes << "Burritos"
 
-    puts "Adding: "+full_name+", "+year+", "+major+", "+living_group+", "+athena_name+", "+likes.join(",")
+    puts "Adding: "+full_name+", "+year+", "+major+", "+living_group+", "+athena_name
+    puts "likes:"
+    puts likes
 
     @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
 
