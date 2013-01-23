@@ -83,7 +83,7 @@ class GraphController < ApplicationController
                                          "course"=>major,
                                          "year"=>year,
                                          "living_group"=>living_group,
-                                         "likes"=>["art","tech"]})
+                                         "likes"=>likes})
     else
       puts "person already exists, updating properties"
       @neo.set_node_properties(person, {"athena" => athena_name,
@@ -91,7 +91,7 @@ class GraphController < ApplicationController
                                          "course"=>major,
                                          "year"=>year,
                                          "living_group"=>living_group,
-                                         "likes"=>["art","tech"]})
+                                         "likes"=>likes})
     end
 
     redirect_to(:graph)
