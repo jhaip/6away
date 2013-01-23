@@ -46,13 +46,14 @@ class GraphController < ApplicationController
 
   def datapull
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-  	query = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN n.name, n.course, n.year, n.living_group, n.likes, collect(type(r));")["data"][0]
+  	query = @neo.execute_query("START n=node(*) WHERE n.athena ='#{params[:name]}' RETURN n.name, n.course, n.year, n.living_group, n.likes;")["data"][0]
+    query2 = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN collect(type(r));")["data"][0]
   	name = query[0]
   	course = query[1]
   	year = query[2]
   	living_group = query[3]
   	likes = query[4]
-  	connections = query[5]
+  	connections = query2[0]
   	children = Array.new
   	connections.each do |c|
   		t = {:name => c, :type => "category", :children => Array.new }
@@ -93,7 +94,7 @@ class GraphController < ApplicationController
     puts "Adding: "+full_name+", "+year+", "+major+", "+living_group+", "+athena_name+", "+likes.join(",")
 
     @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-    me = @neo.create_node("athena" => athena_name,"name"=>full_name,"course"=>major,"year"=>year,"living_group"=>living_group)
+    me = @neo.create_node("athena" => athena_name,"name"=>full_name,"course"=>major,"year"=>year,"living_group"=>living_group,"likes"=>["art","tech"])
 
     redirect_to(:graph)
   end
