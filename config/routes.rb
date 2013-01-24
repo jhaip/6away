@@ -23,7 +23,7 @@ Tutorial::Application.routes.draw do
   match 'logout' => 'user_sessions#destroy', :as => :logout
   
   match 'graph' => 'graph#index', :as => :graph
-  match 'datapull/:name' => 'graph#datapull', :as => :datapull
+  match 'datapull' => 'graph#datapull', :as => :datapull
   match 'datapush' => 'graph#datapush', :via => :post, :as => :datapush
 
   match 'profile' => 'graph#profile', :via => :get, :as => :profile

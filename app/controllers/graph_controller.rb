@@ -120,6 +120,7 @@ class GraphController < ApplicationController
   end
 
   def datapull
+    # should be passed params: name, type, and id
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
   	query = @neo.execute_query("START n=node(*) WHERE n.athena ='#{params[:name]}' RETURN n.name, n.course, n.year, n.living_group, n.likes;")["data"][0]
     query2 = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN collect(type(r));")["data"][0]
@@ -131,11 +132,12 @@ class GraphController < ApplicationController
   	connections = query2[0].uniq
   	children = Array.new
   	connections.each do |c|
-  		t = {:name => c, :type => "category", :children => Array.new }
+      unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+  		t = {:name => c, :type => "category", :id => unique_id, :children => Array.new }
   		children << t
   	end
   	ret = {:details => {:name => name, :course => course, :year => year, :living_group => living_group, :likes => likes},
-           :graph   => {:name => name, :type => "person", :children => children }
+           :graph   => {:name => params[:name], :type => params[:type], :id => params[:id], :children => children }
           }
   	render :json => ret.to_json
   end

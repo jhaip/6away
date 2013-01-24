@@ -130,7 +130,8 @@ function path_update(new_path) {
   //data: { name: "John", location: "Boston" }
   $.ajax({
     type: "GET",
-    url: "http://stark-hamlet-8685.herokuapp.com/datapull/"+last.name
+    url: "http://stark-hamlet-8685.herokuapp.com/datapull",
+    data: { type: last.type, id: last.id, name: last.name }
   }).done(function(data, textStatus, jqXHR ) {
     console.log("data recieved "+textStatus);
     if (data == null) { alert("Data recieved was empty"); }
@@ -148,7 +149,7 @@ function path_update(new_path) {
   });
 }
 
-path_update([{type:"person",name:"<%= @athena_name %>"}]);
+path_update([{type:"person",id:"first",name:"<%= @athena_name %>"}]);
 
 
 function update() {
@@ -257,7 +258,7 @@ function click(d) {
   */
   if (d.type == "category") {
     var p = path;
-    p.push({type:"category",name:d.name});
+    p.push({type:"category",id:d.id,name:d.name});
     path_update(p);
   }
   update();
