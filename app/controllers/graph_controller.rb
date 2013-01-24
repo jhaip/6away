@@ -142,7 +142,7 @@ class GraphController < ApplicationController
             }
     	render :json => ret.to_json
     elsif params[:type] == "category"
-      query = @neo.execute_query("START n=node(*) MATCH (n)-[:#{params[:name]}]-(x) WHERE n.athena ='#{params[:parent]}' RETURN collect(r.athena);")["data"][0]
+      query = @neo.execute_query("START n=node(*) MATCH (n)-[:#{params[:name]}]-(x) WHERE n.athena ='#{params[:parent]}' RETURN collect(x.athena);")["data"][0]
       connections = query[0]
       connections.each do |c|
         unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
