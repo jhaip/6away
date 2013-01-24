@@ -74,7 +74,6 @@ function person_me_callback(root,details) {
   for (var i=0; i < root.children.length; i+=1) {
     l.append("<li>"+root.children[i].name+"</li>");
   }
-  update();
 }
 
 function person_other_callback(root,details) {
@@ -91,9 +90,16 @@ function person_other_callback(root,details) {
     }
   }
   inside.children("#likes").text(likes_str);
+}
 
-  update();
-
+function person_category_callback(root,details) {
+  inside = $("#inside_person_category");
+  //inside.children(".detail_title").text(details.name);
+  l = inside.children("ul");
+  l.empty();
+  for (var i=0; i < root.children.length; i+=1) {
+    l.append("<li>"+root.children[i].name+"</li>");
+  }
 }
 
 
@@ -122,24 +128,37 @@ function path_update(new_path) {
     }
   } else if ( last.type == "category" ) {
     console.log("type: category");
+    callback_function = person_category_callback;
     $("#inside_me").hide();
     $("#inside_me_category").hide();
     $("#inside_person").hide();
     $("#inside_person_category").show();
   }
   //data: { name: "John", location: "Boston" }
+  parent_name = "";
+  if (last.type == "category") {
+    parent_name = path[path.length-2].name;
+  }
   $.ajax({
     type: "GET",
     url: "http://stark-hamlet-8685.herokuapp.com/datapull",
-    data: { type: last.type, id: last.id, name: last.name }
+    data: { type: last.type, id: last.id, name: last.name, parent: parent_name }
   }).done(function(data, textStatus, jqXHR ) {
     console.log("data recieved "+textStatus);
     if (data == null) { alert("Data recieved was empty"); }
-    root = data.graph;
+    //combine current path and new expansion
+    root = path[path.length-1];
+    root.children = data.graph;
+    for (var i=path.length-2; i>=0; i-=1) {
+      newroot = path[i];
+      newroot.children = root;
+      root = newroot;
+    }
     details = data.details;
     console.log(root);
     console.log(details);
-    callback_function(root,details);
+    callback_function(data.graph,details);
+    update();
   }).fail(function(obj, textStatus, errorThrown ) {
     alert( "Error" );
     console.log("ERROR");
@@ -259,6 +278,10 @@ function click(d) {
   if (d.type == "category") {
     var p = path;
     p.push({type:"category",id:d.id,name:d.name});
+    path_update(p);
+  } else if (d.type == "person") {
+    var p = path;
+    p.push({type:"person",id:d.id,name:d.name});
     path_update(p);
   }
   update();

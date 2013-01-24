@@ -120,26 +120,40 @@ class GraphController < ApplicationController
   end
 
   def datapull
-    # should be passed params: name, type, and id
+    # should be passed params: name, type, id, and parent name
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-  	query = @neo.execute_query("START n=node(*) WHERE n.athena ='#{params[:name]}' RETURN n.name, n.course, n.year, n.living_group, n.likes;")["data"][0]
-    query2 = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN collect(type(r));")["data"][0]
-  	name = query[0]
-  	course = query[1]
-  	year = query[2]
-  	living_group = query[3]
-  	likes = query[4]
-  	connections = query2[0].uniq
-  	children = Array.new
-  	connections.each do |c|
-      unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-  		t = {:name => c, :type => "category", :id => unique_id, :children => Array.new }
-  		children << t
-  	end
-  	ret = {:details => {:name => name, :course => course, :year => year, :living_group => living_group, :likes => likes},
-           :graph   => {:name => params[:name], :type => params[:type], :id => params[:id], :children => children }
-          }
-  	render :json => ret.to_json
+    if params[:type] == "person"
+    	query = @neo.execute_query("START n=node(*) WHERE n.athena ='#{params[:name]}' RETURN n.name, n.course, n.year, n.living_group, n.likes;")["data"][0]
+      query2 = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN collect(type(r));")["data"][0]
+    	name = query[0]
+    	course = query[1]
+    	year = query[2]
+    	living_group = query[3]
+    	likes = query[4]
+    	connections = query2[0].uniq
+    	children = Array.new
+    	connections.each do |c|
+        unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    		t = {:name => c, :type => "category", :id => unique_id, :children => Array.new }
+    		children << t
+    	end
+    	ret = {:details => {:name => name, :course => course, :year => year, :living_group => living_group, :likes => likes},
+             :graph   => {:name => params[:name], :type => params[:type], :id => params[:id], :children => children }
+            }
+    	render :json => ret.to_json
+    elsif params[:type] == "category"
+      query = @neo.execute_query("START n=node(*) MATCH (n)-[:#{params[:name]}]-(x) WHERE n.athena ='#{params[:parent]}' RETURN collect(r.athena);")["data"][0]
+      connections = query[0]
+      connections.each do |c|
+        unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+        t = {:name => c, :type => "person", :id => unique_id, :children => Array.new }
+        children << t
+      end
+      ret = {:details => {},
+             :graph   => {:name => params[:name], :type => params[:type], :id => params[:id], :children => children }
+            };
+      render :json => ret.to_json
+    end
   end
 
   def datapush
