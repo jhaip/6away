@@ -149,10 +149,10 @@ function path_update(new_path) {
     //combine current path and new expansion
     if (path.length > 1) {
       root = path[path.length-1];
-      root.children = data.graph;
+      root.children = [data.graph];
       for (var i=path.length-2; i>=0; i-=1) {
         newroot = path[i];
-        newroot.children = root;
+        newroot.children = [root];
         root = newroot;
       }
     } else {
@@ -295,7 +295,7 @@ function click(d) {
 function flatten(root) {
   console.log("Flattening");
   console.log(root);
-  
+
   var nodes = [], i = 0;
 
   function recurse(node) {
