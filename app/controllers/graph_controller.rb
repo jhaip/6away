@@ -128,7 +128,7 @@ class GraphController < ApplicationController
   	year = query[2]
   	living_group = query[3]
   	likes = query[4]
-  	connections = query2[0]
+  	connections = query2[0].uniq
   	children = Array.new
   	connections.each do |c|
   		t = {:name => c, :type => "category", :children => Array.new }
