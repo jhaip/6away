@@ -15,7 +15,9 @@
   <div id="inside_me_category">
     <h1 class="detail_title">Connections:</h1>
     <%= form_tag do %>
-      <%= text_field_tag :new_connection_name, 'Type name of person' %>
+      <div class="ui-widget">
+        <%= text_field_tag :new_connection_name, 'Type name of person' %>
+      </div>
       <%= submit_tag("Connect") %>
     <% end %>
     <h3>My Connections:</h3>
@@ -227,17 +229,28 @@ function tick() {
 
 // Color leaf nodes orange, and packages white or blue.
 function color(d) {
-  return d._children ? "#3182bd" : d.children ? "#c6dbef" : "#fd8d3c";
+  //return d._children ? "#3182bd" : d.children ? "#c6dbef" : "#fd8d3c";
+  if (d.type == "person") {
+    return "#3cfd8d";
+  }
+  return "#fd8d3c";
 }
 
 // Toggle children on click.
 function click(d) {
+  /*
   if (d.children) {
     d._children = d.children;
     d.children = null;
   } else {
     d.children = d._children;
     d._children = null;
+  }
+  */
+  if (d.type == "category") {
+    var p = path;
+    p.push({type:"category",name:d.name});
+    path_update(p);
   }
   update();
 }
@@ -256,4 +269,18 @@ function flatten(root) {
   return nodes;
 }
 
+</script>
+<script>
+$(function() {
+  $( "#new_connection_name" ).autocomplete({
+    source: "http://stark-hamlet-8685.herokuapp.com/userpull",
+    minLength: 2,
+      source: function( request, response ) {
+        var term = request.term;
+        $.getJSON( "http://stark-hamlet-8685.herokuapp.com/userpull", request, function( data, status, xhr ) {
+          response( data );
+        });
+      }
+  });
+});
 </script>
