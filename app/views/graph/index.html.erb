@@ -11,7 +11,6 @@
     <ul>
     </ul>
   </div>
-  <div class="hr"></div>
   <!-- INSIDE ME CATEGORY -->
   <div id="inside_me_category">
     <h1 class="detail_title">Connections:</h1>
@@ -24,7 +23,6 @@
     <h3>Connections to me:</h3>
     <ul class="out"></ul>
   </div>
-  <div class="hr"></div>
   <!-- INSIDE PERSON -->
   <div id="inside_person">
     <h1 class="detail_title">Tim Beaver:</h1>
@@ -33,13 +31,11 @@
     <p>Lives at <span id="lives_at">X</span></p>
     <p>Likes: <span id="likes">X,X,X</span></p>
   </div>
-  <div class="hr"></div>
   <!-- INSIDE PERSON CATEGORY -->
   <div id="inside_person_category">
     <h1 class="detail_title">Connections:</h1>
     <ul></ul>
   </div>
-  <div class="hr"></div><!--HR -->
 </div>
 <script type="text/javascript">
 
@@ -110,10 +106,24 @@ function path_update(new_path) {
     if ( last.name == "<%= @athena_name %>" ) {
       console.log("type: person = me");
       callback_function = person_me_callback;
+      $("#inside_me").show();
+      $("#inside_me_category").hide();
+      $("#inside_person").hide();
+      $("#inside_person_category").hide();
     } else {
       console.log("type: person = not me");
       callback_function = person_other_callback;
+      $("#inside_me").hide();
+      $("#inside_me_category").hide();
+      $("#inside_person").show();
+      $("#inside_person_category").hide();
     }
+  } else if ( last.type == "category" ) {
+    console.log("type: category");
+    $("#inside_me").hide();
+    $("#inside_me_category").hide();
+    $("#inside_person").hide();
+    $("#inside_person_category").show();
   }
   //data: { name: "John", location: "Boston" }
   $.ajax({
@@ -122,8 +132,8 @@ function path_update(new_path) {
   }).done(function(data, textStatus, jqXHR ) {
     console.log("data recieved "+textStatus);
     if (data == null) { alert("Data recieved was empty"); }
-    root = json.graph;
-    details = json.details;
+    root = data.graph;
+    details = data.details;
     console.log(root);
     console.log(details);
     callback_function(root,details);
