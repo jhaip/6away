@@ -147,12 +147,16 @@ function path_update(new_path) {
     console.log("data recieved "+textStatus);
     if (data == null) { alert("Data recieved was empty"); }
     //combine current path and new expansion
-    root = path[path.length-1];
-    root.children = data.graph;
-    for (var i=path.length-2; i>=0; i-=1) {
-      newroot = path[i];
-      newroot.children = root;
-      root = newroot;
+    if (path.length > 1) {
+      root = path[path.length-1];
+      root.children = data.graph;
+      for (var i=path.length-2; i>=0; i-=1) {
+        newroot = path[i];
+        newroot.children = root;
+        root = newroot;
+      }
+    } else {
+      root = data.graph;
     }
     details = data.details;
     console.log(root);
@@ -289,6 +293,9 @@ function click(d) {
 
 // Returns a list of all nodes under the root.
 function flatten(root) {
+  console.log("Flattening");
+  console.log(root);
+  
   var nodes = [], i = 0;
 
   function recurse(node) {
