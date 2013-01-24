@@ -88,7 +88,7 @@ class GraphController < ApplicationController
                                        "course"=>major,
                                        "year"=>year,
                                        "living_group"=>living_group })
-    if likes.length > 0
+    if likes.length == 0
       likes = ["empty"]
     end
     @neo.set_node_properties(person, {"likes"=>likes})
