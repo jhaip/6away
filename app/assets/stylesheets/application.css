@@ -49,3 +49,10 @@ header #nav {
 .ui-autocomplete-loading {
 	background: white url('/assets/ajax-loader.gif') right center no-repeat;
 }
+
+h1 {
+	font-size: 36px;
+}
+h3 {
+	font-size: 24px;
+}
