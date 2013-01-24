@@ -89,12 +89,9 @@ class GraphController < ApplicationController
                                        "year"=>year,
                                        "living_group"=>living_group })
     if likes.length > 0
-      puts "adding likes"
-      @neo.set_node_properties(person, {"likes"=>likes})
-    else
-      puts "no likes found"
-      @neo.remove_node_properties(person, "likes")
+      likes = ["empty"]
     end
+    @neo.set_node_properties(person, {"likes"=>likes})
 
     redirect_to(:graph)
   end

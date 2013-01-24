@@ -52,9 +52,9 @@ function path_update(new_path) {
       inside.append("p").text("Course "+details.course+", Year "+details.year);
       inside.append("p").text("Lives at "+details.living_group);
       inside.append("h3").text("Likes:");
-      inside.append("ul").classed("likes_list", true);
-      var likes_list = d3.select(".likes_list");
-      if (details.likes) {
+      if (details.likes && details.likes[0] != "empty") {
+        inside.append("ul").classed("likes_list", true);
+        var likes_list = d3.select(".likes_list");
         for (var i=0; i < details.likes.length; i+=1) {
           likes_list.append("li").text(details.likes[i]);
         }
