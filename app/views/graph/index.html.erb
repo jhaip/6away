@@ -45,7 +45,7 @@ function person_me_callback(json) {
   console.log(details);
 
   $("#detail_title").text(details.name);
-  $("#inside").append("<h1>Categories:</h1>");
+  $("#inside").append("<h3>Categories:</h3>");
   l = $("#inside").append("<ul></ul>");
   for (var i=0; i < root.children.length; i+=1) {
     l.append("<li>"+root.children[i].name+"</li>");
@@ -69,7 +69,7 @@ function person_other_callback(json) {
 
   d3.select("#detail_title").text(details.name);
   var inside = d3.select("#inside");
-  inside.append("p").text("Course "+details.course+", Year "+details.year);
+  inside.append("p").text("Majoring in "+details.course+", Year "+details.year);
   inside.append("p").text("Lives at "+details.living_group);
   inside.append("h3").text("Likes:");
   if (details.likes && details.likes[0] != "empty") {
