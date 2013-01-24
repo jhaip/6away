@@ -276,7 +276,7 @@ function click(d) {
     d._children = null;
   }
   */
-  for (int i=0; i<path.length; i+=1) {
+  for (var i=0; i<path.length; i+=1) {
     if (d.id == path[i].id) {
       path_update(path.slice(0,i+1));
       update();
