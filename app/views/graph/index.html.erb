@@ -2,8 +2,44 @@
 <h1 id="path">Name Path</h1>
 <div class="hr"></div>
 <div id="details">
-  <h1 id="detail_title">Detail title</h1>
-  <div id="inside"></div>
+  <div id="inside_me"><!-- INSIDE ME -->
+    <h1 class="detail_title">Me:</h1>
+    <%= form_tag do %>
+      <%= text_field_tag :new_category_name, 'Type name of category to add' %>
+      <%= submit_tag("Add") %>
+    <% end %>
+    <ul>
+    </ul>
+  </div>
+  <div class="hr"></div>
+  <!-- INSIDE ME CATEGORY -->
+  <div id="inside_me_category">
+    <h1 class="detail_title">Connections:</h1>
+    <%= form_tag do %>
+      <%= text_field_tag :new_connection_name, 'Type name of person' %>
+      <%= submit_tag("Connect") %>
+    <% end %>
+    <h3>My Connections:</h3>
+    <ul class="in"></ul>
+    <h3>Connections to me:</h3>
+    <ul class="out"></ul>
+  </div>
+  <div class="hr"></div>
+  <!-- INSIDE PERSON -->
+  <div id="inside_person">
+    <h1 class="detail_title">Tim Beaver:</h1>
+    <p>Majoring in <span id="major">X</span></p>
+    <p>Year <span id="year">X</span></p>
+    <p>Lives at <span id="lives_at">X</span></p>
+    <p>Likes: <span id="likes">X,X,X</span></p>
+  </div>
+  <div class="hr"></div>
+  <!-- INSIDE PERSON CATEGORY -->
+  <div id="inside_person_category">
+    <h1 class="detail_title">Connections:</h1>
+    <ul></ul>
+  </div>
+  <div class="hr"></div><!--HR -->
 </div>
 <script type="text/javascript">
 
@@ -32,53 +68,31 @@ function path_to_text(p) {
   return str;
 }
 
-function person_me_callback(json) {
-  if (json == null) {
-    alert("Error when pulling data");
-    path_update([{type:"person",name:"<%= @athena_name %>"}]);
-    return;
-  }
-  console.log("json returned");
-  root = json.graph;
-  details = json.details;
-  console.log(root);
-  console.log(details);
-
-  $("#detail_title").text(details.name);
-  $("#inside").append("<h3>Categories:</h3>");
-  l = $("#inside").append("<ul></ul>");
+function person_me_callback(root,details) {
+  inside = $("#inside_me");
+  inside.children(".detail_title").text(details.name);
+  l = inside.children("ul");
+  l.empty();
   for (var i=0; i < root.children.length; i+=1) {
     l.append("<li>"+root.children[i].name+"</li>");
   }
-
   update();
-
 }
 
-function person_other_callback(json) {
-  if (json == null) {
-    alert("Error when pulling data");
-    path_update([{type:"person",name:"<%= @athena_name %>"}]);
-    return;
-  }
-  console.log("json returned");
-  root = json.graph;
-  details = json.details;
-  console.log(root);
-  console.log(details);
-
-  d3.select("#detail_title").text(details.name);
-  var inside = d3.select("#inside");
-  inside.append("p").text("Majoring in "+details.course+", Year "+details.year);
-  inside.append("p").text("Lives at "+details.living_group);
-  inside.append("h3").text("Likes:");
+function person_other_callback(root,details) {
+  inside = $("#inside_person");
+  inside.children(".detail_title").text(details.name);
+  inside.children("#major").text(details.course);
+  inside.children("#year").text(details.year);
+  inside.children("#lives_at").text(details.living_group);
+  likes_str = "";
   if (details.likes && details.likes[0] != "empty") {
-    inside.append("ul").classed("likes_list", true);
-    var likes_list = d3.select(".likes_list");
     for (var i=0; i < details.likes.length; i+=1) {
-      likes_list.append("li").text(details.likes[i]);
+      if (i != 0) { likes_str += ", "; }
+      likes_str += details.likes[i];
     }
   }
+  inside.children("#likes").text(likes_str);
 
   update();
 
@@ -87,20 +101,39 @@ function person_other_callback(json) {
 
 function path_update(new_path) {
   path = new_path;
-  d3.select("#path").text(path_to_text(path));
+  $("#path").text(path_to_text(path));
   last = path[path.length-1];
   console.log("new path");
   console.log(path);
-  $("#inside").empty();
+  callback_function = function() {alert("didn't find a callback function");}
   if ( last.type == "person" ) {
     if ( last.name == "<%= @athena_name %>" ) {
       console.log("type: person = me");
-      d3.json("http://stark-hamlet-8685.herokuapp.com/datapull/"+last.name, person_me_callback);
+      callback_function = person_me_callback;
     } else {
       console.log("type: person = not me");
-      d3.json("http://stark-hamlet-8685.herokuapp.com/datapull/"+last.name, person_other_callback);
+      callback_function = person_other_callback;
     }
   }
+  //data: { name: "John", location: "Boston" }
+  $.ajax({
+    type: "GET",
+    url: "http://stark-hamlet-8685.herokuapp.com/datapull/"+last.name
+  }).done(function(data, textStatus, jqXHR ) {
+    console.log("data recieved "+textStatus);
+    if (data == null) { alert("Data recieved was empty"); }
+    root = json.graph;
+    details = json.details;
+    console.log(root);
+    console.log(details);
+    callback_function(root,details);
+  }).fail(function(obj, textStatus, errorThrown ) {
+    alert( "Error" );
+    console.log("ERROR");
+    console.log(obj);
+    console.log(textStatus);
+    console.log(errorThrown);
+  });
 }
 
 path_update([{type:"person",name:"<%= @athena_name %>"}]);
