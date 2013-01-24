@@ -33,6 +33,11 @@ function path_to_text(p) {
 }
 
 function person_me_callback(json) {
+  if (json == null) {
+    alert("Error when pulling data");
+    path_update([{type:"person",name:"<%= @athena_name %>"}]);
+    return;
+  }
   console.log("json returned");
   root = json.graph;
   details = json.details;
