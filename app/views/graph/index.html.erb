@@ -32,36 +32,71 @@ function path_to_text(p) {
   return str;
 }
 
+function person_me_callback(json) {
+  console.log("json returned");
+  root = json.graph;
+  details = json.details;
+  console.log(root);
+  console.log(details);
+
+  d3.select("#detail_title").text(details.name);
+  var inside = d3.select("#inside");
+  inside.append("h1").text("IT'S MEEEEE");
+  inside.append("p").text("Course "+details.course+", Year "+details.year);
+  inside.append("p").text("Lives at "+details.living_group);
+  inside.append("h3").text("Likes:");
+  if (details.likes && details.likes[0] != "empty") {
+    inside.append("ul").classed("likes_list", true);
+    var likes_list = d3.select(".likes_list");
+    for (var i=0; i < details.likes.length; i+=1) {
+      likes_list.append("li").text(details.likes[i]);
+    }
+  }
+
+  update();
+
+}
+
+function person_other_callback(json) {
+  console.log("json returned");
+  root = json.graph;
+  details = json.details;
+  console.log(root);
+  console.log(details);
+
+  d3.select("#detail_title").text(details.name);
+  var inside = d3.select("#inside");
+  inside.append("p").text("Course "+details.course+", Year "+details.year);
+  inside.append("p").text("Lives at "+details.living_group);
+  inside.append("h3").text("Likes:");
+  if (details.likes && details.likes[0] != "empty") {
+    inside.append("ul").classed("likes_list", true);
+    var likes_list = d3.select(".likes_list");
+    for (var i=0; i < details.likes.length; i+=1) {
+      likes_list.append("li").text(details.likes[i]);
+    }
+  }
+
+  update();
+
+}
+
+
 function path_update(new_path) {
   path = new_path;
   d3.select("#path").text(path_to_text(path));
   last = path[path.length-1];
   console.log("new path");
   console.log(path);
+  $("#inside").empty();
   if ( last.type == "person" ) {
-    console.log("type: person");
-    d3.json("http://stark-hamlet-8685.herokuapp.com/datapull/"+last.name, function(json) {
-      console.log("json returned");
-      root = json.graph;
-      details = json.details;
-      console.log(root);
-      console.log(details);
-
-      d3.select("#detail_title").text(details.name);
-      var inside = d3.select("#inside");
-      inside.append("p").text("Course "+details.course+", Year "+details.year);
-      inside.append("p").text("Lives at "+details.living_group);
-      inside.append("h3").text("Likes:");
-      if (details.likes && details.likes[0] != "empty") {
-        inside.append("ul").classed("likes_list", true);
-        var likes_list = d3.select(".likes_list");
-        for (var i=0; i < details.likes.length; i+=1) {
-          likes_list.append("li").text(details.likes[i]);
-        }
-      }
-
-      update();
-    });
+    if ( last.name == "<%= @athena_name %>" ) {
+      console.log("type: person = me");
+      d3.json("http://stark-hamlet-8685.herokuapp.com/datapull/"+last.name, person_me_callback);
+    } else {
+      console.log("type: person = not me");
+      d3.json("http://stark-hamlet-8685.herokuapp.com/datapull/"+last.name, person_other_callback);
+    }
   }
 }
 
