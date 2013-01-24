@@ -19,7 +19,6 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 	color: #333;
 	font-size: 14px;
-	line-height: 130%;
 }
 
 #bodywrap {
@@ -54,7 +53,10 @@ header #nav {
 
 h1 {
 	font-size: 36px;
+	line-height: 130%;
 }
 h3 {
 	font-size: 24px;
+	line-height: 130%;
+
 }
