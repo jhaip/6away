@@ -52,7 +52,8 @@ var force = d3.layout.force()
     .on("tick", tick)
     .size([w, h])
     .linkDistance(100)
-    .charge(-800);
+    .charge(-1500)
+    .linkStrength(function(x) { return x.weight * 10 });
 
 var vis = d3.select("#chart").append("svg:svg")
     .attr("width", w)
@@ -222,7 +223,7 @@ function update() {
 
   // Update the labels…
   labels = vis.selectAll("text.label")
-      .data(nodes, function(d) { return d.name; });
+      .data(nodes, function(d) { return d.id; });
 
   // Enter any new labels.
   labels.enter().append("svg:text")
