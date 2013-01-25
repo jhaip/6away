@@ -215,8 +215,6 @@ function update() {
       .style("fill", color)
       .on("click", click)
       .call(force.drag)
-      //.append("svg:title")
-      //.text(function(d) { return d.name });
 
   // Exit any old nodes.
   node.exit().remove();
@@ -259,6 +257,14 @@ function tick() {
 // Color leaf nodes orange, and packages white or blue.
 function color(d) {
   //return d._children ? "#3182bd" : d.children ? "#c6dbef" : "#fd8d3c";
+  for (var i=0; i<path.length-1; i+=1) {
+    if (d.id == path[i].id) {
+      if (d.type == "person") {
+        return "#badbc8";
+      }
+      return "#d2c1b5";
+    }
+  }
   if (d.type == "person") {
     return "#3cfd8d";
   }
