@@ -51,10 +51,10 @@ var w = 960,
 var force = d3.layout.force() 
     .on("tick", tick)
     .size([w, h])
-    .gravity(0.1)
-    .charge(-2000)
-    .linkDistance(50)
-    .linkStrength(0.1);
+    //.gravity(0.1)
+    //.charge(-2000)
+    //.linkDistance(50)
+    //.linkStrength(0.1);
     //.linkDistance(100)
     //.charge(-1000)
     //.linkStrength(function(d) { 
@@ -201,7 +201,7 @@ function update() {
 
   // Update the links…
   link = vis.selectAll("line.link")
-      .data(links, function(d) { return d.target.id; });
+      .data(links, function(d) { console.log("Assigning id to link "+d.target.id); return d.target.id; });
 
   // Enter any new links.
   link.enter().insert("svg:line", ".node")
@@ -216,7 +216,7 @@ function update() {
 
   // Update the nodes…
   node = vis.selectAll("circle.node")
-      .data(nodes, function(d) { return d.id; })
+      .data(nodes, function(d) { console.log("Assigning id to node "+d.id); return d.id; })
       .style("fill", color);
 
   // Enter any new nodes.
