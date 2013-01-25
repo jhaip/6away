@@ -52,7 +52,7 @@ var force = d3.layout.force()
     .on("tick", tick)
     .size([w, h])
     .linkDistance(100)
-    .charge(-400);
+    .charge(-800);
 
 var vis = d3.select("#chart").append("svg:svg")
     .attr("width", w)
@@ -259,10 +259,7 @@ function color(d) {
   //return d._children ? "#3182bd" : d.children ? "#c6dbef" : "#fd8d3c";
   for (var i=0; i<path.length-1; i+=1) {
     if (d.id == path[i].id) {
-      if (d.type == "person") {
-        return "#badbc8";
-      }
-      return "#d2c1b5";
+      return "#888888";
     }
   }
   if (d.type == "person") {
