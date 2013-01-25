@@ -295,11 +295,12 @@ function click(d) {
   */
   for (var i=0; i<path.length; i+=1) {
     if (d.id == path[i].id) {
+      console.log("Clicked on something already in path");
       path_update(path.slice(0,i+1));
-      update();
       return;
     }
   }
+  console.log("Clicked on point not in path");
   if (d.type == "category") {
     var p = path;
     p.push({type:"category",id:d.id,name:d.name});
