@@ -50,7 +50,11 @@ var w = 960,
 
 var force = d3.layout.force() 
     .on("tick", tick)
-    .size([w, h]);
+    .size([w, h])
+    .gravity(0.1)
+    .charge(-2000)
+    .linkDistance(50)
+    .linkStrength(0.1);
     //.linkDistance(100)
     //.charge(-1000)
     //.linkStrength(function(d) { 
