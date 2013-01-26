@@ -284,7 +284,7 @@ function update() {
       .attr("r", function(d) { return 10+"px"; })
       .style("fill", color)
       .on("click", click)
-      .call(force.drag);
+      .call(force.drag)
       .each(function(d) {
         console.log("custom_enter!!");
         //valx = cm_x+Math.cos(2*Math.PI*Math.random())*(mass_range+10);
@@ -297,7 +297,7 @@ function update() {
         d.px = valx;
         d.py = valy;
         console.log("Moving node to "+valx+", "+valy);
-      });;
+      });
       //.attr("r", function(d) { return 10+"px"; })
       //.attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; })
 
