@@ -276,6 +276,26 @@ function update() {
     yyy = Math.random()*h;
   }
 
+  node.each(function(d) {
+    var inPath = false;
+    for (int i=0; i<path.length; i+=1) {
+      if (path[i].id == d.id) {
+        inPath = true;
+        break;
+      }
+    }
+    if (!inPath) {
+      angle = 2*Math.PI*Math.random();
+      valx = xxx+Math.cos(angle)*(50);
+      valy = yyy+Math.sin(angle)*(50);
+      d.x = valx;
+      d.y = valy;
+      d.px = valx;
+      d.py = valy;
+      console.log("Moving node to "+valx+", "+valy);
+    }
+  })
+
   // Enter any new nodes.
   node.enter().append("svg:circle")
       .attr("class", "node")
@@ -284,21 +304,7 @@ function update() {
       .attr("r", function(d) { return 10+"px"; })
       .style("fill", color)
       .on("click", click)
-      .call(force.drag)
-      .each(function(d) {
-        console.log("custom_enter!!");
-        //valx = cm_x+Math.cos(2*Math.PI*Math.random())*(mass_range+10);
-        //valy = cm_y+Math.sin(2*Math.PI*Math.random())*(mass_range+10);
-        
-        angle = 2*Math.PI*Math.random();
-        valx = xxx+Math.cos(angle)*(50);
-        valy = yyy+Math.sin(angle)*(50);
-        d.x = valx;
-        d.y = valy;
-        d.px = valx;
-        d.py = valy;
-        console.log("Moving node to "+valx+", "+valy);
-      });
+      .call(force.drag);
       //.attr("r", function(d) { return 10+"px"; })
       //.attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; })
 
