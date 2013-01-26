@@ -117,7 +117,7 @@ function path_update(new_path) {
   console.log(path);
   console.log("New Path:");
   console.log(new_path);
-  if (path.length == new_path.length) {
+  if (path && path.length == new_path.length) {
     var match = true;
     for (var i=0; i<new_path.length; i+=1) {
       if (path[i].id != new_path[i].id) {
