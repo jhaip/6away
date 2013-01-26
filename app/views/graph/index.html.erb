@@ -290,8 +290,9 @@ function update() {
         //valx = cm_x+Math.cos(2*Math.PI*Math.random())*(mass_range+10);
         //valy = cm_y+Math.sin(2*Math.PI*Math.random())*(mass_range+10);
         
-        valx = xxx+Math.cos(2*Math.PI*Math.random())*(40);
-        valy = yyy+Math.sin(2*Math.PI*Math.random())*(40);
+        angle = 2*Math.PI*Math.random();
+        valx = xxx+Math.cos(angle)*(50);
+        valy = yyy+Math.sin(angle)*(50);
         d.x = valx;
         d.y = valy;
         d.px = valx;
