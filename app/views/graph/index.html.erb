@@ -178,7 +178,7 @@ function path_update(new_path) {
       root = data.graph;
     } else {
       if (last.id == root.id) {
-        root.children = [data.graph.children];
+        root.children = data.graph.children;
       } else {
         var tempnode = root,
             found = false;
