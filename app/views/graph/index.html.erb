@@ -185,7 +185,7 @@ function path_update(new_path) {
         while (tempnode.children.length != 0) {
           for (var i=0; i<tempnode.children.length; i+=1) {
             if (tempnode.children[i].id == last.id) {
-              tempnode.children[i].children = [data.graph.children];
+              tempnode.children[i].children = data.graph.children;
               tempnode.children = [tempnode.children[i]];
               found = true;
               break;
