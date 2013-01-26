@@ -231,11 +231,6 @@ function update() {
   link = vis.selectAll("line.link")
       .data(links, function(d) { console.log("Assigning id to link "+d.target.id); return d.source.id + "-" + d.target.id; });
 
-    // Update the nodes…
-  node = vis.selectAll("circle.node")
-      .data(nodes, function(d) { console.log("Assigning id to node "+d.id); return d.id; })
-      .style("fill", color);
-
   // Enter any new links.
   link.enter().insert("svg:line", ".node")
       .attr("class", "link")
@@ -243,6 +238,14 @@ function update() {
       .attr("y1", function(d) { return d.source.y; })
       .attr("x2", function(d) { return d.target.x; })
       .attr("y2", function(d) { return d.target.y; });
+
+  // Exit any old links.
+  link.exit().remove();
+
+  // Update the nodes…
+  node = vis.selectAll("circle.node")
+      .data(nodes, function(d) { console.log("Assigning id to node "+d.id); return d.id; })
+      .style("fill", color);
 
   // Enter any new nodes.
   node.enter().append("svg:circle")
@@ -255,9 +258,6 @@ function update() {
       .call(force.drag);
       //.attr("r", function(d) { return 10+"px"; })
       //.attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; })
-
-    // Exit any old links.
-  link.exit().remove();
 
   // Exit any old nodes.
   node.exit().remove();
@@ -308,11 +308,11 @@ function click(d) {
   }
   console.log("Clicked on point not in path");
   if (d.type == "category") {
-    var p = path;
+    var p = path.slice(0);
     p.push({type:"category",id:d.id,name:d.name});
     path_update(p);
   } else if (d.type == "person") {
-    var p = path;
+    var p = path.slice(0);
     p.push({type:"person",id:d.id,name:d.name});
     path_update(p);
   }
