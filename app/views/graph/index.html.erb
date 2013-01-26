@@ -159,6 +159,8 @@ function path_update(new_path) {
     console.log("data recieved "+textStatus);
     if (data == null) { alert("Data recieved was empty"); }
     //combine current path and new expansion
+    path[path.length-1].id = data.graph.id; //make sure id of last node in path is correct
+
     if (path.length > 1) {
       root = path[path.length-2];
       root.children = [data.graph];
