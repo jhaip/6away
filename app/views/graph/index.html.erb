@@ -173,26 +173,31 @@ function path_update(new_path) {
       root = data.graph;
     }
 */
-    if (last.id == root.id) {
-      root.children = [data.graph.children];
+    if (!root) {
+      console.log("First time setting root");
+      root = data.graph;
     } else {
-      var tempnode = root,
-          found = false;
-      while (tempnode.children.length != 0) {
-        for (var i=0; i<tempnode.children.length; i+=1) {
-          if (tempnode.children[i].id == last.id) {
-            tempnode.children[i].children = [data.graph.children];
-            tempnode.children = [tempnode.children[i]];
-            found = true;
-            break;
+      if (last.id == root.id) {
+        root.children = [data.graph.children];
+      } else {
+        var tempnode = root,
+            found = false;
+        while (tempnode.children.length != 0) {
+          for (var i=0; i<tempnode.children.length; i+=1) {
+            if (tempnode.children[i].id == last.id) {
+              tempnode.children[i].children = [data.graph.children];
+              tempnode.children = [tempnode.children[i]];
+              found = true;
+              break;
+            }
           }
+          if (found) { break; }
+          tempnode = tempnode.children[0]
         }
-        if (found) { break; }
-        tempnode = tempnode.children[0]
+        if (!found) { alert("NODE NOT FOUND"); }
+        console.log("NODES AFTER COMBINING!!!!")
+        console.log(tempnode);
       }
-      if (!found) { alert("NODE NOT FOUND"); }
-      console.log("NODES AFTER COMBINING!!!!")
-      console.log(tempnode);
     }
 
     details = data.details;
