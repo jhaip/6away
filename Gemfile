@@ -28,7 +28,7 @@ gem 'sorcery'
 
 gem 'neography'
 
-gem "d3-rails"
+#gem "d3-rails"
 
 gem 'json'
 
