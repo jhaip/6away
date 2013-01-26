@@ -113,10 +113,6 @@ function person_category_callback(root,details) {
 
 
 function path_update(new_path) {
-  console.log("Path:");
-  console.log(path);
-  console.log("New Path:");
-  console.log(new_path);
   if (path && path.length == new_path.length) {
     var match = true;
     for (var i=0; i<new_path.length; i+=1) {
@@ -263,6 +259,23 @@ function update() {
       .data(nodes, function(d) { console.log("Assigning id to node "+d.id); return d.id; })
       .style("fill", color);
 
+  var last_id = path[path.length-1].id,
+      xxx = 0,
+      yyy = 0;
+  for (var i=0; i<node.length; i+=1) {
+    if (node.id == last_id) {
+      xxx = node.x;
+      yyy = node.y;
+      console.log("found nooooooooooooooooooodde!");
+      break;
+    }
+  }
+  if (xxx == 0 && yyy == 0) {
+    alert("ID not found for expansion!");
+    xxx = Math.random()*w;
+    yyy = Math.random()*h
+  }
+
   // Enter any new nodes.
   node.enter().append("svg:circle")
       .attr("class", "node")
@@ -272,6 +285,19 @@ function update() {
       .style("fill", color)
       .on("click", click)
       .call(force.drag);
+      .each(function(d) {
+        console.log("custom_enter!!");
+        //valx = cm_x+Math.cos(2*Math.PI*Math.random())*(mass_range+10);
+        //valy = cm_y+Math.sin(2*Math.PI*Math.random())*(mass_range+10);
+        
+        valx = xxx+Math.cos(2*Math.PI*Math.random())*(40);
+        valy = yyy+Math.sin(2*Math.PI*Math.random())*(40);
+        d.x = valx;
+        d.y = valy;
+        d.px = valx;
+        d.py = valy;
+        console.log("Moving node to "+valx+", "+valy);
+      });;
       //.attr("r", function(d) { return 10+"px"; })
       //.attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; })
 
