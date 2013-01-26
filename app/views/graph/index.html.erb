@@ -113,7 +113,19 @@ function person_category_callback(root,details) {
 
 
 function path_update(new_path) {
-  if (new_path == path) { update(); return; }
+  if (path.length == new_path.length) {
+    var match = true;
+    for (var i=0; i<new_path.length) {
+      if (path[i].id != new_path[i].id) {
+        match = false;
+      }
+    }
+    if (match) {
+      console.log("Same path!");
+      update();
+      return;
+    }
+  }
   path = new_path;
   $("#path").text(path_to_text(path));
   last = path[path.length-1];
