@@ -51,9 +51,8 @@ var w = 960,
 var force = d3.layout.force() 
     .on("tick", tick)
     .size([w, h])
-    .gravity(0.1)
-    .charge(-1000)
-    .linkDistance(100);
+    .charge(-100)
+    .linkDistance(50);
     //.charge(-1000)
     //.linkStrength(function(d) { 
     //  for (var i=0; i<path.length; i+=1) {
@@ -253,7 +252,7 @@ function update() {
       .attr("class", "node")
       .attr("cx", function(d) { console.log("NODE ENTERED!"); return d.x; })
       .attr("cy", function(d) { return d.y; })
-      .attr("r", function(d) { return 20+"px"; })
+      .attr("r", function(d) { return 10+"px"; })
       .style("fill", color)
       .on("click", click)
       .call(force.drag);
