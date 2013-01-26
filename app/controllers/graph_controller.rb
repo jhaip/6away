@@ -119,16 +119,14 @@ class GraphController < ApplicationController
   	rel4 = @neo.create_relationship("hangs_with",me,user3)
   	rel5 = @neo.create_relationship("urop",me,user3)
 
-    unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    @neo.set_relationship_properties(rel1, {"id" => unique_id})
-    unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    @neo.set_relationship_properties(rel2, {"id" => unique_id})
-    unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    @neo.set_relationship_properties(rel3, {"id" => unique_id})
-    unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    @neo.set_relationship_properties(rel4, {"id" => unique_id})
-    unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    @neo.set_relationship_properties(rel5, {"id" => unique_id})
+    lives_with_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    hangs_with_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    urop_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    @neo.set_relationship_properties(rel1, {"id" => lives_with_id})
+    @neo.set_relationship_properties(rel2, {"id" => lives_with_id})
+    @neo.set_relationship_properties(rel3, {"id" => hangs_with_id})
+    @neo.set_relationship_properties(rel4, {"id" => hangs_with_id})
+    @neo.set_relationship_properties(rel5, {"id" => urop_id})
 
     @neo.add_node_to_index("nodes", "name", "jhaip", me)
     @neo.add_node_to_index("nodes", "name", "__user1", user1)
