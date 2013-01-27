@@ -276,6 +276,21 @@ function update() {
     yyy = Math.random()*h;
   }
 
+  // Enter any new nodes.
+  node.enter().append("svg:circle")
+      .attr("class", "node")
+      .attr("cx", function(d) { console.log("NODE ENTERED!"); return d.x; })
+      .attr("cy", function(d) { return d.y; })
+      .attr("r", function(d) { return 10+"px"; })
+      .style("fill", color)
+      .on("click", click)
+      .call(force.drag);
+      //.attr("r", function(d) { return 10+"px"; })
+      //.attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; })
+
+  // Exit any old nodes.
+  node.exit().remove();
+
   node.each(function(d) {
     var inPath = false;
     for (var i=0; i<path.length; i+=1) {
@@ -295,21 +310,7 @@ function update() {
       console.log("Moving node to "+valx+", "+valy);
     }
   })
-
-  // Enter any new nodes.
-  node.enter().append("svg:circle")
-      .attr("class", "node")
-      .attr("cx", function(d) { console.log("NODE ENTERED!"); return d.x; })
-      .attr("cy", function(d) { return d.y; })
-      .attr("r", function(d) { return 10+"px"; })
-      .style("fill", color)
-      .on("click", click)
-      .call(force.drag);
-      //.attr("r", function(d) { return 10+"px"; })
-      //.attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; })
-
-  // Exit any old nodes.
-  node.exit().remove();
+  
 }
 
 function tick() {
