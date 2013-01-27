@@ -304,6 +304,7 @@ function update() {
 
   node.append("svg:text")
       .attr("text-anchor", "middle")
+      .style("fill", "#333333")
       .text(function(d) { return d.name; });
 
   // Exit any old nodes.
