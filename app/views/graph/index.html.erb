@@ -55,15 +55,6 @@ var force = d3.layout.force()
     .charge(-1000)
     .gravity(0.1)
     .linkDistance(70);
-    //.charge(-1000)
-    //.linkStrength(function(d) { 
-    //  for (var i=0; i<path.length; i+=1) {
-    //    if (d.id == path[i].id) {
-    //      return 1;
-    //    }
-    //  }
-    //  return 0.5;
-    //});
 
 var vis = d3.select("#chart").append("svg:svg")
     .attr("width", w)
@@ -88,6 +79,7 @@ function person_me_callback(root,details) {
 }
 
 function person_other_callback(root,details) {
+  console.log("Person other callback");
   inside = $("#inside_person");
   inside.children(".detail_title").text(details.name);
   inside.children("#major").text(details.course);
@@ -158,7 +150,7 @@ function path_update(new_path) {
     $("#inside_person").hide();
     $("#inside_person_category").show();
   }
-  //data: { name: "John", location: "Boston" }
+  
   parent_name = "";
   if (last.type == "category") {
     parent_name = path[path.length-2].name;
@@ -172,19 +164,6 @@ function path_update(new_path) {
     if (data == null) { alert("Data recieved was empty"); }
     //combine current path and new expansion
     path[path.length-1].id = data.graph.id; //make sure id of last node in path is correct
-/*
-    if (path.length > 1) {
-      root = path[path.length-2];
-      root.children = [data.graph];
-      for (var i=path.length-3; i>=0; i-=1) {
-        newroot = path[i];
-        newroot.children = [root];
-        root = newroot;
-      }
-    } else {
-      root = data.graph;
-    }
-*/
     if (!root) {
       console.log("First time setting root");
       root = data.graph;
@@ -213,7 +192,9 @@ function path_update(new_path) {
     }
 
     details = data.details;
+    console.log("root -------------------------");
     console.log(root);
+    console.log("details -------------------------");
     console.log(details);
     callback_function(data.graph,details);
     update();
