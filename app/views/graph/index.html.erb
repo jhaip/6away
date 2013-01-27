@@ -51,9 +51,9 @@ var w = 960,
 var force = d3.layout.force() 
     .on("tick", tick)
     .size([w, h])
-    .friction(0.9)
-    .charge(-500)
-    .gravity(0)
+    .friction(0.8)
+    .charge(-1000)
+    .gravity(0.1)
     .linkDistance(70);
     //.charge(-1000)
     //.linkStrength(function(d) { 
@@ -294,6 +294,7 @@ function update() {
   node.exit().remove();
 
   node.each(function(d) {
+    /* Fix center node
     if (d.name == "<%= @athena_name %>") {
       d.x = w/2;
       d.y = h/2;
@@ -301,6 +302,7 @@ function update() {
       d.py = d.y;
       d.fixed = true;
     }
+    */
     var inPath = false;
     for (var i=0; i<path.length; i+=1) {
       if (path[i].id == d.id) {
