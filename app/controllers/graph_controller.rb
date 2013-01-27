@@ -3,23 +3,6 @@ class GraphController < ApplicationController
   skip_before_filter :require_login, :except => [:datapush]
 
   def index
-=begin
-  	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
-  	@one = @neo.execute_query("START n=node(*) WHERE n.athena ='jhaip' RETURN n.name, n.course, n.year, n.living_group, n.likes;")["data"][0]
-  	@two = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='jhaip' RETURN collect(type(r));")["data"][0]
-  	@three = @neo.execute_query("START n=node(*) MATCH n<-[r]-() WHERE n.athena ='jhaip' RETURN collect(type(r));")["data"][0]
-
-  	@name = @one[0]
-  	@course = @one[1]
-  	@year = @one[2]
-  	@living_group = @one[3]
-  	@likes = @one[4]
-  	@out_relations = @two
-  	@in_relations = @three
-=end
-    #if current_user == nil
-    #  redirect_to( root_path, :notice => "Couldn't find current user") and return
-    #end
     current_email = current_user.email
     @athena_name = current_email[/[^@]+/]
 
@@ -107,31 +90,54 @@ class GraphController < ApplicationController
     unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
   	me = @neo.create_node("athena" => "jhaip","id"=>unique_id,"name"=>"Jacob Haip","course"=>6,"year"=>2,"living_group"=>"Pi Lambda Phi","likes"=>["art","tech"])
     unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-  	user1 = @neo.create_node("athena" => "__user1","id"=>unique_id,"name"=>"User One","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
+  	user1 = @neo.create_node("athena" => "ssul","id"=>unique_id,"name"=>"Steve Sullivan","course"=>2,"year"=>2,"living_group"=>"Pi Lambda Phi","likes"=>["art","tech"])
   	unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    user2 = @neo.create_node("athena" => "__user2","id"=>unique_id,"name"=>"User Two","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
+    user2 = @neo.create_node("athena" => "fishr","id"=>unique_id,"name"=>"Ryan Fish","course"=>2,"year"=>2,"living_group"=>"Next House","likes"=>["art","tech"])
     unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-  	user3 = @neo.create_node("athena" => "__user3","id"=>unique_id,"name"=>"User Three","course"=>2,"year"=>1,"living_group"=>"Next","likes"=>["art","tech"])
-  	
-    rel1 = @neo.create_relationship("lives_with",me,user1)
-  	rel2 = @neo.create_relationship("lives_with",me,user2)
-  	rel3 = @neo.create_relationship("hangs_with",me,user2)
-  	rel4 = @neo.create_relationship("hangs_with",me,user3)
-  	rel5 = @neo.create_relationship("urop",me,user3)
-
-    lives_with_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    hangs_with_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    urop_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    @neo.set_relationship_properties(rel1, {"id" => lives_with_id})
-    @neo.set_relationship_properties(rel2, {"id" => lives_with_id})
-    @neo.set_relationship_properties(rel3, {"id" => hangs_with_id})
-    @neo.set_relationship_properties(rel4, {"id" => hangs_with_id})
-    @neo.set_relationship_properties(rel5, {"id" => urop_id})
+  	user3 = @neo.create_node("athena" => "ahuang27","id"=>unique_id,"name"=>"Alice Huang","course"=>2,"year"=>2,"living_group"=>"Maseeh","likes"=>["art","tech"])
+    unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    nil_user = @neo.create_node("athena" => "_nil","id"=>unique_id,"name"=>"BLANK USER")
 
     @neo.add_node_to_index("nodes", "name", "jhaip", me)
-    @neo.add_node_to_index("nodes", "name", "__user1", user1)
-    @neo.add_node_to_index("nodes", "name", "__user2", user2)
-    @neo.add_node_to_index("nodes", "name", "__user3", user3)
+    @neo.add_node_to_index("nodes", "name", "ssul", user1)
+    @neo.add_node_to_index("nodes", "name", "fishr", user2)
+    @neo.add_node_to_index("nodes", "name", "ahuang27", user3)
+    @neo.add_node_to_index("nodes", "name", "_nil", nil_user)
+  	
+    id1 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    id2 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    id3 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    id4 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    id5 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    id6 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+
+    rel1 = @neo.create_relationship("living group",me,user1)
+    rel2 = @neo.create_relationship("living group",me,user3)
+    rel3 = @neo.create_relationship("living_group",me,nil_user)
+    @neo.set_relationship_properties(rel1, {"id" => id1})
+    @neo.set_relationship_properties(rel2, {"id" => id1})
+    @neo.set_relationship_properties(rel3, {"id" => id1})
+
+  	rel4 = @neo.create_relationship("misc",me,user2)
+    rel5 = @neo.create_relationship("misc",me,nil_user)
+    @neo.set_relationship_properties(rel4, {"id" => id2})
+    @neo.set_relationship_properties(rel5, {"id" => id2})
+
+  	rel6 = @neo.create_relationship("work",me,user2)
+  	rel7 = @neo.create_relationship("work",me,user3)
+    rel8 = @neo.create_relationship("work",me,nil_user)
+    @neo.set_relationship_properties(rel6, {"id" => id3})
+    @neo.set_relationship_properties(rel7, {"id" => id3})
+    @neo.set_relationship_properties(rel8, {"id" => id3})
+
+    rel9 = @neo.create_relationship("work",user2,me)
+    @neo.set_relationship_properties(rel9, {"id" => id4})
+
+    rel10 = @neo.create_relationship("work",user2,user3)
+    @neo.set_relationship_properties(rel10, {"id" => id5})
+
+    rel11 = @neo.create_relationship("work",user3,user2)
+    @neo.set_relationship_properties(rel11, {"id" => id6})
 
   	render :text => "database created"
 
@@ -183,6 +189,26 @@ class GraphController < ApplicationController
   end
 
   def datapush
+    if current_user == nil
+      redirect_to( root_path, :notice => "Couldn't find current user") and return
+    end
+
+    category_name = params[:category]
+
+    current_email = current_user.email
+    athena_name = current_email[/[^@]+/]
+
+    @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
+
+    me_node = @neo.get_node_index("nodes", "name", athena_name) 
+    null_node = @neo.get_node_index("nodes", "name", "_nil") 
+
+    rel1 = @neo.create_relationship(category_name,me,null_node)
+    unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+    @neo.set_relationship_properties(rel1, {"id" => unique_id})
+
+    ret = {:response => "All good"}
+    render :json => ret.to_json
   end
 
   def userpull
