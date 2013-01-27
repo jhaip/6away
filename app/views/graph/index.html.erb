@@ -70,8 +70,8 @@ function path_to_text(p) {
 
 function person_me_callback(root,details) {
   inside = $("#inside_me");
-  inside.children(".detail_title").text(details.name);
-  l = inside.children("ul");
+  inside.find(".detail_title").text(details.name);
+  l = inside.find("ul");
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
     l.append("<li>"+root.children[i].name+"</li>");
@@ -81,10 +81,10 @@ function person_me_callback(root,details) {
 function person_other_callback(root,details) {
   console.log("Person other callback");
   inside = $("#inside_person");
-  inside.children(".detail_title").text(details.name);
-  inside.children("#major").text(details.course);
-  inside.children("#year").text(details.year);
-  inside.children("#lives_at").text(details.living_group);
+  inside.find(".detail_title").text(details.name);
+  inside.find("#major").text(details.course);
+  inside.find("#year").text(details.year);
+  inside.find("#lives_at").text(details.living_group);
   likes_str = "";
   if (details.likes && details.likes[0] != "empty") {
     for (var i=0; i < details.likes.length; i+=1) {
@@ -92,13 +92,13 @@ function person_other_callback(root,details) {
       likes_str += details.likes[i];
     }
   }
-  inside.children("#likes").text(likes_str);
+  inside.find("#likes").text(likes_str);
 }
 
 function person_category_callback(root,details) {
   inside = $("#inside_person_category");
   //inside.children(".detail_title").text(details.name);
-  l = inside.children("ul");
+  l = inside.find("ul");
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
     l.append("<li>"+root.children[i].name+"</li>");
