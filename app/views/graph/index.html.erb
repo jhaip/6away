@@ -285,13 +285,25 @@ function update() {
               .call(force.drag);
               //.attr("transform", function(d) { return "translate(" + d.x + ","+ d.y + ")"; })
 
-  node.append("svg:circle")
-      .attr("cx", function(d) { return d.x; })
-      .attr("cy", function(d) { return d.y; })
+  node.filter(function(d) { return d.type == "person"; })
+      .append("svg:circle")
       .attr("r", function(d) { return 15+"px"; })
       .style("fill", color);
+      //.attr("cx", function(d) { return d.x; })
+      //.attr("cy", function(d) { return d.y; })
+
+  node.filter(function(d) { return d.type == "category"; })
+      .append("svg:rect")
+      .attr("x",-7)
+      .attr("y",-7)
+      .attr("width",15)
+      .attr("height",15)
+      .style("fill", color);
+      //.attr("cx", function(d) { return d.x; })
+      //.attr("cy", function(d) { return d.y; })
 
   node.append("svg:text")
+      .attr("text-anchor", "middle")
       .text(function(d) { return d.name; });
 
   // Exit any old nodes.
