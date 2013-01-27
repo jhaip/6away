@@ -279,20 +279,20 @@ function update() {
   }
 
   // Enter any new nodes.
-  node.enter().append("svg:g")
+  enter_node = node.enter().append("svg:g")
               .attr("class","node")
               .on("click", click)
               .call(force.drag);
               //.attr("transform", function(d) { return "translate(" + d.x + ","+ d.y + ")"; })
 
-  node.filter(function(d) { return d.type == "person"; })
+  enter_node.filter(function(d) { return d.type == "person"; })
       .append("svg:circle")
       .attr("r", function(d) { return 20+"px"; })
       .style("fill", color)
       //.attr("cx", function(d) { return d.x; })
       //.attr("cy", function(d) { return d.y; })
 
-  node.filter(function(d) { return d.type == "category"; })
+  enter_node.filter(function(d) { return d.type == "category"; })
       .append("svg:rect")
       .attr("x",-15)
       .attr("y",-15)
@@ -302,7 +302,7 @@ function update() {
       //.attr("cx", function(d) { return d.x; })
       //.attr("cy", function(d) { return d.y; })
 
-  node.append("svg:text")
+  enter_node.append("svg:text")
       .attr("text-anchor", "middle")
       .style("fill", "#333333")
       .text(function(d) { return d.name; });
