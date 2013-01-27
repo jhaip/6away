@@ -131,7 +131,7 @@ function path_update(new_path) {
   last = path[path.length-1];
   last_prev = null;
   if (path.length > 1) {
-    last_prev = path[path.length-1];
+    last_prev = path[path.length-2];
   }
   console.log("new path");
   console.log(path);
@@ -284,6 +284,9 @@ function update() {
               .on("click", click)
               .call(force.drag);
               //.attr("transform", function(d) { return "translate(" + d.x + ","+ d.y + ")"; })
+
+  circle_nodes = node = vis.selectAll("circle.node").style("fill", color);
+  rect_nodes = node = vis.selectAll("rect.node").style("fill", color);
 
   enter_node.filter(function(d) { return d.type == "person"; })
       .append("svg:circle")
