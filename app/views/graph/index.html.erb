@@ -293,6 +293,13 @@ function update() {
   node.exit().remove();
 
   node.each(function(d) {
+    if (d.id == "<%= @athena_name %>") {
+      d.x = w/2;
+      d.y = h/2;
+      d.px = d.x;
+      d.py = d.y;
+      d.fixed = true;
+    }
     var inPath = false;
     for (var i=0; i<path.length; i+=1) {
       if (path[i].id == d.id) {
