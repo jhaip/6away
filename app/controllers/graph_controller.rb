@@ -150,13 +150,7 @@ class GraphController < ApplicationController
     	living_group = query[3]
       unique_id = query[4]
     	likes = query[5]
-    	#connections = query2[0].uniq
     	children = Array.new
-    	#connections.each do |c|
-      #  #unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    	#	t = {:name => c, :type => "category", :id => unique_id, :children => Array.new }
-    	#	children << t
-    	#end
       puts "-----------------------------------"
       puts query2
       connections = query2.uniq

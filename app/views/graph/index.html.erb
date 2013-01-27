@@ -16,9 +16,8 @@
     <h1 class="detail_title">Connections:</h1>
     <%= form_tag do %>
       <div class="ui-widget">
-        <%= text_field_tag :new_connection_name, 'Type name of person' %>
+        <%= text_field_tag :new_connection_name, 'Type name of person' %> <%= submit_tag("Connect") %>
       </div>
-      <%= submit_tag("Connect") %>
     <% end %>
     <h3>My Connections:</h3>
     <ul></ul>
@@ -103,7 +102,7 @@ function person_category_callback(root,details) {
 }
 
 function person_me_category_callback(root,details) {
-  inside = $("#inside_me");
+  inside = $("#inside_me_category");
   l = inside.find("ul");
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
