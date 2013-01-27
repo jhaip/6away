@@ -293,7 +293,7 @@ function update() {
   node.exit().remove();
 
   node.each(function(d) {
-    if (d.id == "<%= @athena_name %>") {
+    if (d.name == "<%= @athena_name %>") {
       d.x = w/2;
       d.y = h/2;
       d.px = d.x;
