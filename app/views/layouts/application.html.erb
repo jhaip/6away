@@ -14,11 +14,11 @@
 <h1 id="logo"><%= link_to "6 Away", root_url %></h1>
 <div id="nav">
 	<% if current_user %>
-		<%= link_to "My Graph", :graph %>
-		<%= link_to "Edit Profile - #{current_user.email}", :profile %>
+		<%= link_to "My Graph", :graph %>&nbsp;&nbsp;&nbsp;
+		<%= link_to "Edit Profile - #{current_user.email}", :profile %>&nbsp;&nbsp;&nbsp;
 		<%= link_to "Logout", :logout %>
 	<% else %>
-		<%= link_to "Register", new_user_path %> |
+		<%= link_to "Register", new_user_path %>&nbsp;&nbsp;&nbsp;
 		<%= link_to "Login", :login %>
 	<% end %>
 </div>

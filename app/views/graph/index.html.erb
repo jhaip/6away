@@ -21,9 +21,7 @@
       <%= submit_tag("Connect") %>
     <% end %>
     <h3>My Connections:</h3>
-    <ul class="in"></ul>
-    <h3>Connections to me:</h3>
-    <ul class="out"></ul>
+    <ul></ul>
   </div>
   <!-- INSIDE PERSON -->
   <div id="inside_person">
@@ -97,7 +95,15 @@ function person_other_callback(root,details) {
 
 function person_category_callback(root,details) {
   inside = $("#inside_person_category");
-  //inside.children(".detail_title").text(details.name);
+  l = inside.find("ul");
+  l.empty();
+  for (var i=0; i < root.children.length; i+=1) {
+    l.append("<li>"+root.children[i].name+"</li>");
+  }
+}
+
+function person_me_category_callback(root,details) {
+  inside = $("#inside_me");
   l = inside.find("ul");
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
@@ -123,6 +129,10 @@ function path_update(new_path) {
   path = new_path;
   $("#path").text(path_to_text(path));
   last = path[path.length-1];
+  last_prev = null;
+  if (path.length > 1) {
+    last_prev = path[path.length-1];
+  }
   console.log("new path");
   console.log(path);
   callback_function = function() {alert("didn't find a callback function");}
@@ -143,12 +153,21 @@ function path_update(new_path) {
       $("#inside_person_category").hide();
     }
   } else if ( last.type == "category" ) {
-    console.log("type: category");
-    callback_function = person_category_callback;
-    $("#inside_me").hide();
-    $("#inside_me_category").hide();
-    $("#inside_person").hide();
-    $("#inside_person_category").show();
+    if ( last_prev.name == "<%= @athena_name %>" ) {
+      console.log("type: my category");
+      callback_function = person_me_category_callback;
+      $("#inside_me").hide();
+      $("#inside_me_category").show();
+      $("#inside_person").hide();
+      $("#inside_person_category").hide();
+    } else {
+      console.log("type: other's category");
+      callback_function = person_category_callback;
+      $("#inside_me").hide();
+      $("#inside_me_category").hide();
+      $("#inside_person").hide();
+      $("#inside_person_category").show();
+    }
   }
   
   parent_name = "";
