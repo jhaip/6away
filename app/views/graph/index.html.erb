@@ -51,6 +51,7 @@ var w = 960,
 var force = d3.layout.force() 
     .on("tick", tick)
     .size([w, h])
+    .friction(0.7)
     .charge(-500)
     .linkDistance(50);
     //.charge(-1000)
@@ -310,7 +311,7 @@ function update() {
       console.log("Moving node to "+valx+", "+valy);
     }
   })
-  
+
 }
 
 function tick() {
