@@ -278,15 +278,15 @@ function update() {
     yyy = Math.random()*h;
   }
 
+  circle_nodes = vis.selectAll("circle.node").style("fill", color);
+  rect_nodes = vis.selectAll("rect.node").style("fill", color);
+
   // Enter any new nodes.
   enter_node = node.enter().append("svg:g")
               .attr("class","node")
               .on("click", click)
               .call(force.drag);
               //.attr("transform", function(d) { return "translate(" + d.x + ","+ d.y + ")"; })
-
-  circle_nodes = node = vis.selectAll("circle.node").style("fill", color);
-  rect_nodes = node = vis.selectAll("rect.node").style("fill", color);
 
   enter_node.filter(function(d) { return d.type == "person"; })
       .append("svg:circle")
