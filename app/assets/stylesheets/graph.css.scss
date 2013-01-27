@@ -22,6 +22,9 @@ rect.node {
   /*stroke: #3182bd;*/
   /*stroke-width: 1.5px;*/
 }
+g.node {
+  cursor: pointer;
+}
 
 line.link {
   fill: none;
@@ -31,5 +34,5 @@ line.link {
 
 .node text {
   pointer-events: none;
-  font: 10px sans-serif;
+  font: 12px sans-serif;
 }
