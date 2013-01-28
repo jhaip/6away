@@ -113,7 +113,7 @@ class GraphController < ApplicationController
 
     rel1 = @neo.create_relationship("living group",me,user1)
     rel2 = @neo.create_relationship("living group",me,user3)
-    rel3 = @neo.create_relationship("living_group",me,nil_user)
+    rel3 = @neo.create_relationship("living group",me,nil_user)
     @neo.set_relationship_properties(rel1, {"id" => id1})
     @neo.set_relationship_properties(rel2, {"id" => id1})
     @neo.set_relationship_properties(rel3, {"id" => id1})
@@ -175,11 +175,12 @@ class GraphController < ApplicationController
       connections = query
       children = Array.new
       connections.each do |c|
-        #unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
         person_athena = c[0]
         person_id = c[1]
-        t = {:name => person_athena, :type => "person", :id => person_id, :children => Array.new }
-        children << t
+        if person_athena != "_nil"
+          t = {:name => person_athena, :type => "person", :id => person_id, :children => Array.new }
+          children << t
+        end
       end
       ret = {:details => {},
              :graph   => {:name => params[:name], :type => params[:type], :id => params[:id], :children => children }
@@ -198,16 +199,22 @@ class GraphController < ApplicationController
     current_email = current_user.email
     athena_name = current_email[/[^@]+/]
 
+    puts "Trying to add category #{category_name} to #{athena_name}"
+
     @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
 
     me_node = @neo.get_node_index("nodes", "name", athena_name) 
     null_node = @neo.get_node_index("nodes", "name", "_nil") 
 
-    rel1 = @neo.create_relationship(category_name,me_node,null_node)
-    unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    @neo.set_relationship_properties(rel1, {"id" => unique_id})
-
     ret = {:response => "All good"}
+    if @neo.get_node_relationships(me_node, "out", category_name) != nil
+      ret = {:response => "repeated category"}
+    else
+      rel1 = @neo.create_relationship(category_name,me_node,null_node)
+      unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+      @neo.set_relationship_properties(rel1, {"id" => unique_id})
+    end
+
     render :json => ret.to_json
   end
 
