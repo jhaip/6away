@@ -228,6 +228,10 @@ class GraphController < ApplicationController
       me_node = @neo.get_node_index("nodes", "name", athena_name) 
       connection_node = @neo.get_node_index("nodes", "name", connection_name)
 
+      category_id = @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category}`]->() WHERE n.athena ='#{athena_name}' RETURN r.id;")["data"]
+      puts "Category id:"
+      puts category_id
+
       puts "Connection node"
       puts connection_node
 
@@ -238,7 +242,8 @@ class GraphController < ApplicationController
         @neo.add_node_to_index("nodes", "name", connection_name, connection_node)
 
         #create connection
-        @neo.create_relationship(category, me_node, connection_node)
+        rel = @neo.create_relationship(category, me_node, connection_node)
+        @neo.set_relationship_properties(rel, {"id" => category_id})
       else
         query = @neo.execute_query("START n=node(*) MATCH (n)-[:`#{category}`]->(x) WHERE n.athena ='#{athena_name}' RETURN x.athena, x.id;")["data"]
         puts "query results for connection data"
@@ -252,7 +257,8 @@ class GraphController < ApplicationController
         end
         if !connection_exists
           puts "no existing path found, creating new connection"
-          @neo.create_relationship(category, me_node, connection_node)
+          rel = @neo.create_relationship(category, me_node, connection_node)
+          @neo.set_relationship_properties(rel, {"id" => category_id})
         else
           puts "existing path found, not creating new connection"
           ret = {:response => "repeated connection"}
