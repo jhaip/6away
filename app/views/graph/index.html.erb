@@ -289,8 +289,7 @@ function update() {
 
   // Update the nodes…
   node = vis.selectAll("g.node")
-      .data(nodes, function(d) { console.log("Assigning id to node "+d.id); return d.id; })
-      .style("fill", color);
+      .data(nodes, function(d) { console.log("Assigning id to node "+d.id); return d.id; });
 
   var last_id = path[path.length-1].id,
       xxx = 0,
@@ -309,8 +308,8 @@ function update() {
     yyy = Math.random()*h;
   }
 
-  circle_nodes = vis.selectAll("circle.node").style("fill", color);
-  rect_nodes = vis.selectAll("rect.node").style("fill", color);
+  circle_nodes = vis.selectAll("g.node circle").style("fill", color);
+  rect_nodes = vis.selectAll("g.node circle").style("fill", color);
 
   // Enter any new nodes.
   enter_node = node.enter().append("svg:g")

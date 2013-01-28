@@ -149,7 +149,7 @@ class GraphController < ApplicationController
     if params[:type] == "person"
     	query = @neo.execute_query("START n=node(*) WHERE n.athena ='#{params[:name]}' RETURN n.name, n.course, n.year, n.living_group, n.id, n.likes;")["data"][0]
       #query2 = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN collect(type(r)), collect(r.id);")["data"][0]
-      query2 = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN type(r), r.id;")["data"]
+      query2 = @neo.execute_query("START n=node(*) MATCH (n)-[r]->() WHERE n.athena ='#{params[:name]}' RETURN type(r), r.id;")["data"]
     	name = query[0]
     	course = query[1]
     	year = query[2]
