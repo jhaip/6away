@@ -238,6 +238,7 @@ function path_update(new_path) {
       root = data.graph;
     } else {
       if (last.id == root.id) {
+        //graph is currently just center node, simply attach children
         root.children = data.graph.children;
       } else {
         var tempnode = root,
@@ -245,6 +246,15 @@ function path_update(new_path) {
         while (tempnode.children.length != 0) {
           for (var i=0; i<tempnode.children.length; i+=1) {
             if (tempnode.children[i].id == last.id) {
+              //look for nodes which have already been expanded and add a special tag
+              for (var a=0; a<data.graph.children.length; a+=1) {
+                for (var b=0; b<path.length; b+=1) {
+                  if (path[b].id == data.graph.children[a].id) {
+                    console.log("Repeat node found, adding special tag");
+                    data.graph.children[a].id += "_repeat";
+                  }
+                }
+              }
               tempnode.children[i].children = data.graph.children;
               tempnode.children = [tempnode.children[i]];
               found = true;
@@ -400,6 +410,10 @@ function tick() {
 
 // Color leaf nodes orange, and packages white or blue.
 function color(d) {
+  if (d.id.indexOf("_repeat") != -1) {
+    //repeated node
+    return "#FFFF00";
+  }
   if (d.highlight) {
     return "#00FFFF";
   }
@@ -416,6 +430,10 @@ function color(d) {
 
 // Toggle children on click.
 function click(d) {
+  if (d.id.indexOf("_repeat") != -1) {
+    //repeated node
+    return;
+  }
   for (var i=0; i<path.length; i+=1) {
     if (d.id == path[i].id) {
       console.log("Clicked on something already in path");
