@@ -243,7 +243,7 @@ class GraphController < ApplicationController
         cat_connections.each do |c|
           puts "ccccccccccccccccc"
           puts c["data"]
-          if (c["data"].athena == connection_name)
+          if (c["data"]["athena"] == connection_name)
             connection_exists = true
           end
         end
