@@ -309,12 +309,14 @@ function update() {
   }
 
   circle_nodes = vis.selectAll("g.node circle").style("fill", color);
-  rect_nodes = vis.selectAll("g.node circle").style("fill", color);
+  rect_nodes = vis.selectAll("g.node rect").style("fill", color);
 
   // Enter any new nodes.
   enter_node = node.enter().append("svg:g")
               .attr("class","node")
               .on("click", click)
+              .on("mouseover", node_mouseover)
+              .on("mouseout", node_mouseout)
               .call(force.drag);
               //.attr("transform", function(d) { return "translate(" + d.x + ","+ d.y + ")"; })
 
@@ -379,6 +381,9 @@ function tick() {
 
 // Color leaf nodes orange, and packages white or blue.
 function color(d) {
+  if (d.highlight) {
+    return "#FF00FF";
+  }
   for (var i=0; i<path.length-1; i+=1) {
     if (d.id == path[i].id) {
       return "#AAAAAA";
@@ -409,6 +414,13 @@ function click(d) {
     p.push({type:"person",id:d.id,name:d.name});
     path_update(p);
   }
+}
+
+function node_mouseover(d) {
+  d.highlight = true;
+}
+function node_mouseout(d) {
+  d.highlight = false;
 }
 
 // Returns a list of all nodes under the root.
