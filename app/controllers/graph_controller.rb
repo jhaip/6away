@@ -131,10 +131,9 @@ class GraphController < ApplicationController
     @neo.set_relationship_properties(rel8, {"id" => id3})
 
     rel9 = @neo.create_relationship("work",user2,me)
-    @neo.set_relationship_properties(rel9, {"id" => id4})
-
     rel10 = @neo.create_relationship("work",user2,user3)
-    @neo.set_relationship_properties(rel10, {"id" => id5})
+    @neo.set_relationship_properties(rel9, {"id" => id4})
+    @neo.set_relationship_properties(rel10, {"id" => id4})
 
     rel11 = @neo.create_relationship("work",user3,user2)
     @neo.set_relationship_properties(rel11, {"id" => id6})
