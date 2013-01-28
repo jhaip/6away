@@ -238,8 +238,6 @@ class GraphController < ApplicationController
       else
         cat_connections = @neo.execute_query("START n=node(*) MATCH (n)-[:`#{category}`]->(x) WHERE n.athena ='#{athena_name}' RETURN x;")
         puts "query results for connection data"
-        puts cat_connections.class
-        puts cat_connections.type
         puts cat_connections
         connection_exists = false
         cat_connections.each do |c|
