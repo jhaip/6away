@@ -199,6 +199,8 @@ class GraphController < ApplicationController
 
     @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
 
+    ret = {:response => "All good"}
+
     if params[:new_category_name]
       category_name = params[:new_category_name]
 
@@ -216,22 +218,33 @@ class GraphController < ApplicationController
         @neo.set_relationship_properties(rel1, {"id" => unique_id})
       end
     else
+      puts "params:"
+      puts params
       connection_name = params[:new_connection_name]
       category = params[:category]
 
       puts "Trying to add connection #{connection_name} in category #{category} to #{athena_name}"
 
       me_node = @neo.get_node_index("nodes", "name", athena_name) 
-      connection_node = @neo.get_node_index("nodes", "name", athena_name)
+      connection_node = @neo.get_node_index("nodes", "name", connection_name)
 
       if connection_node == nil #user doesn't exist
         unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
         connection_node = @neo.create_node("athena"=>connection_name,"id"=>unique_id,"name"=>connection_name)
         @neo.add_node_to_index("nodes", "name", connection_name, connection_node)
-      end
 
-      ret = {:response => "All good"}
-      @neo.get_node_relationships(me_node, "out", category_name)
+        #create connection
+        @neo.create_relationship(category, me_node, connection_node)
+      else
+        if !me_node.path_to(connection_node).outgoing(category.to_sym).depth(1)
+          puts "no existing path found, creating new connection"
+          @neo.create_relationship(category, me_node, connection_node)
+        else
+          puts "existing path found, not creating new connection"
+          ret = {:response => "repeated connection"}
+        end
+      end
+      
     end
 
     render :json => ret.to_json

@@ -63,9 +63,9 @@ $('#add_category_submit').click(function(e) {
 });
 $('#add_connection_submit').click(function(e) {
   $('#form_add_connection').submit(function() {  
-      var valuesToSubmit = $(this).serialize();
+      var valuesToSubmit = $(this).serializeArray();
       last = path[path.length-1]
-      valuesToSubmit += "&category="+last.name;
+      valuesToSubmit.push({"category":last.name})
       console.log("Values to submit");
       console.log(valuesToSubmit);
       $.ajax({
@@ -82,7 +82,7 @@ $('#add_connection_submit').click(function(e) {
         console.log(obj);
         console.log(textStatus);
         console.log(errorThrown);
-      }); 
+      });
       return false; // prevents normal behaviour
   });
 });
