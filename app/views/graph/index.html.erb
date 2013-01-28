@@ -4,8 +4,8 @@
 <div id="details">
   <div id="inside_me"><!-- INSIDE ME -->
     <h1 class="detail_title">Me:</h1>
-    <%= form_tag :datapush, :method => :post do %>
-      <%= text_field_tag :new_category_name, 'Type name of category to add' %>
+    <%= form_tag :datapush, :id => "form_add_category", :method => :post do %>
+      <%= text_field_tag :new_category_name, 'name of category' %>
       <%= submit_tag "Add", :onclick => "return validateform()" %>
     <% end %>
     <ul>
@@ -14,7 +14,7 @@
   <!-- INSIDE ME CATEGORY -->
   <div id="inside_me_category">
     <h1 class="detail_title">Connections:</h1>
-    <%= form_tag :datapush, :method => :post do %>
+    <%= form_tag :datapush, :id => "form_add_connection", :method => :post do %>
       <div class="ui-widget">
         <%= text_field_tag :new_connection_name, 'Type name of person' %> <%= submit_tag "Connect", :onclick => "return validateform()" %>
       </div>
@@ -37,6 +37,46 @@
   </div>
 </div>
 <script type="text/javascript">
+
+$('#form_add_category').submit(function() {  
+    var valuesToSubmit = $(this).serialize();
+    $.ajax({
+        url: $(this).attr('action'), //sumbits it to the given url of the form
+        data: valuesToSubmit,
+        dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
+    }).success(function(json){
+      console.log("Category added to database successfully");
+      path_update(path);
+    }).fail(function(obj, textStatus, errorThrown ) {
+      alert( "Error" );
+      console.log("ERROR");
+      console.log(obj);
+      console.log(textStatus);
+      console.log(errorThrown);
+    }); 
+    return false; // prevents normal behaviour
+});
+$('#form_add_connection').submit(function() {  
+/*
+    var valuesToSubmit = $(this).serialize();
+    $.ajax({
+        url: $(this).attr('action'), //sumbits it to the given url of the form
+        data: valuesToSubmit,
+        dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
+    }).success(function(json){
+      console.log("Category added to database successfully");
+      path_update(path);
+    }).fail(function(obj, textStatus, errorThrown ) {
+      alert( "Error" );
+      console.log("ERROR");
+      console.log(obj);
+      console.log(textStatus);
+      console.log(errorThrown);
+    }); 
+*/
+    console.log("Adding new connections isn't ready yet!");
+    return false; // prevents normal behaviour
+});
 
 var w = 960,
     h = 400,
@@ -112,6 +152,7 @@ function person_me_category_callback(root,details) {
 
 
 function path_update(new_path) {
+  /*
   if (path && path.length == new_path.length) {
     var match = true;
     for (var i=0; i<new_path.length; i+=1) {
@@ -125,6 +166,7 @@ function path_update(new_path) {
       return;
     }
   }
+  */
   path = new_path;
   $("#path").text(path_to_text(path));
   last = path[path.length-1];
@@ -313,15 +355,6 @@ function update() {
   node.exit().remove();
 
   node.each(function(d) {
-    /* Fix center node
-    if (d.name == "<%= @athena_name %>") {
-      d.x = w/2;
-      d.y = h/2;
-      d.px = d.x;
-      d.py = d.y;
-      d.fixed = true;
-    }
-    */
     var inPath = false;
     for (var i=0; i<path.length; i+=1) {
       if (path[i].id == d.id) {
