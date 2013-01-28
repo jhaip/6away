@@ -45,6 +45,7 @@ $('#add_category_submit').click(function(e) {
       console.log(valuesToSubmit);
       $.ajax({
           url: $(this).attr('action'), //sumbits it to the given url of the form
+          type: 'POST',
           data: valuesToSubmit,
           dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
       }).success(function(json){
