@@ -417,9 +417,11 @@ function click(d) {
 }
 
 function node_mouseover(d) {
+  console.log("mouseover");
   d.highlight = true;
 }
 function node_mouseout(d) {
+  console.log("mouseout");
   d.highlight = false;
 }
 
