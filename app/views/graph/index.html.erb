@@ -382,7 +382,7 @@ function tick() {
 // Color leaf nodes orange, and packages white or blue.
 function color(d) {
   if (d.highlight) {
-    return "#FF00FF";
+    return "#00FFFF";
   }
   for (var i=0; i<path.length-1; i+=1) {
     if (d.id == path[i].id) {
@@ -419,10 +419,14 @@ function click(d) {
 function node_mouseover(d) {
   console.log("mouseover");
   d.highlight = true;
+  circle_nodes = vis.selectAll("g.node circle").style("fill", color);
+  rect_nodes = vis.selectAll("g.node rect").style("fill", color);
 }
 function node_mouseout(d) {
   console.log("mouseout");
   d.highlight = false;
+  circle_nodes = vis.selectAll("g.node circle").style("fill", color);
+  rect_nodes = vis.selectAll("g.node rect").style("fill", color);
 }
 
 // Returns a list of all nodes under the root.
