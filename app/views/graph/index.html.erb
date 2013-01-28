@@ -120,7 +120,10 @@ function person_me_callback(root,details) {
   l = inside.find("ul");
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
-    l.append("<li>"+root.children[i].name+"</li>");
+    l_item = $("<li></li>").text(root.children[i].name+"  ");
+    delete_link = $("<a href='/*'>delete</a>").data('catlink',{ category: root.children[i].name });
+    l_item.append(delete_link);
+    l.append(l_item);
   }
 }
 

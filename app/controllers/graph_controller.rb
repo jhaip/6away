@@ -269,6 +269,11 @@ class GraphController < ApplicationController
     render :json => ret.to_json
   end
 
+  def datadelete
+    ret = {:response => "All good"}
+    render :json => ret.to_json
+  end
+
   def userpull
 
     file = File.new(Rails.public_path+"/mit.txt")

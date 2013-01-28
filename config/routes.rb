@@ -25,6 +25,7 @@ Tutorial::Application.routes.draw do
   match 'graph' => 'graph#index', :as => :graph
   match 'datapull' => 'graph#datapull', :as => :datapull
   match 'datapush' => 'graph#datapush', :via => :post, :as => :datapush
+  match 'datadelete' => 'graph#datadelete', :via => :delete, :as => :datadelete
 
   match 'profile' => 'graph#profile', :via => :get, :as => :profile
   match 'profile' => 'graph#profile_push', :via => :post, :as => :profile_push
