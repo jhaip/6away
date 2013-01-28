@@ -228,7 +228,7 @@ class GraphController < ApplicationController
       me_node = @neo.get_node_index("nodes", "name", athena_name) 
       connection_node = @neo.get_node_index("nodes", "name", connection_name)
 
-      category_id = @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category}`]->() WHERE n.athena ='#{athena_name}' RETURN r.id;")["data"]
+      category_id = @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category}`]->() WHERE n.athena ='#{athena_name}' RETURN r.id;")["data"][0]
       puts "Category id:"
       puts category_id
 
