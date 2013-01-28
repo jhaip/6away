@@ -236,7 +236,10 @@ class GraphController < ApplicationController
         #create connection
         @neo.create_relationship(category, me_node, connection_node)
       else
-        if !me_node.path_to(connection_node).outgoing(category.to_sym).depth(1)
+        c = @neo.get_path(me_node, connection_node, {"type" => category, "direction" => "out"}, depth=1, algorithm="allPaths")
+        puts "connection query results"
+        puts c
+        if !c
           puts "no existing path found, creating new connection"
           @neo.create_relationship(category, me_node, connection_node)
         else
