@@ -193,7 +193,7 @@ class GraphController < ApplicationController
       redirect_to( root_path, :notice => "Couldn't find current user") and return
     end
 
-    category_name = params[:category]
+    category_name = params[:new_category_name]
 
     current_email = current_user.email
     athena_name = current_email[/[^@]+/]
