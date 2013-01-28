@@ -203,7 +203,7 @@ class GraphController < ApplicationController
     me_node = @neo.get_node_index("nodes", "name", athena_name) 
     null_node = @neo.get_node_index("nodes", "name", "_nil") 
 
-    rel1 = @neo.create_relationship(category_name,me,null_node)
+    rel1 = @neo.create_relationship(category_name,me_node,null_node)
     unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
     @neo.set_relationship_properties(rel1, {"id" => unique_id})
 
