@@ -194,25 +194,44 @@ class GraphController < ApplicationController
       redirect_to( root_path, :notice => "Couldn't find current user") and return
     end
 
-    category_name = params[:new_category_name]
-
     current_email = current_user.email
     athena_name = current_email[/[^@]+/]
 
-    puts "Trying to add category #{category_name} to #{athena_name}"
-
     @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
 
-    me_node = @neo.get_node_index("nodes", "name", athena_name) 
-    null_node = @neo.get_node_index("nodes", "name", "_nil") 
+    if params[:new_category_name]
+      category_name = params[:new_category_name]
 
-    ret = {:response => "All good"}
-    if @neo.get_node_relationships(me_node, "out", category_name) != nil
-      ret = {:response => "repeated category"}
+      puts "Trying to add category #{category_name} to #{athena_name}"
+
+      me_node = @neo.get_node_index("nodes", "name", athena_name) 
+      null_node = @neo.get_node_index("nodes", "name", "_nil") 
+
+      ret = {:response => "All good"}
+      if @neo.get_node_relationships(me_node, "out", category_name) != nil
+        ret = {:response => "repeated category"}
+      else
+        rel1 = @neo.create_relationship(category_name,me_node,null_node)
+        unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+        @neo.set_relationship_properties(rel1, {"id" => unique_id})
+      end
     else
-      rel1 = @neo.create_relationship(category_name,me_node,null_node)
-      unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-      @neo.set_relationship_properties(rel1, {"id" => unique_id})
+      connection_name = params[:new_connection_name]
+      category = params[:category]
+
+      puts "Trying to add connection #{connection_name} in category #{category} to #{athena_name}"
+
+      me_node = @neo.get_node_index("nodes", "name", athena_name) 
+      connection_node = @neo.get_node_index("nodes", "name", athena_name)
+
+      if connection_node == nil #user doesn't exist
+        unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+        connection_node = @neo.create_node("athena"=>connection_name,"id"=>unique_id,"name"=>connection_name)
+        @neo.add_node_to_index("nodes", "name", connection_name, connection_node)
+      end
+
+      ret = {:response => "All good"}
+      @neo.get_node_relationships(me_node, "out", category_name)
     end
 
     render :json => ret.to_json
