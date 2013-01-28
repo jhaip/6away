@@ -309,7 +309,7 @@ function update() {
   }
 
   circle_nodes = vis.selectAll("g.node circle").style("fill", color);
-  rect_nodes = vis.selectAll("g.node rect").style("fill", color);
+  //rect_nodes = vis.selectAll("g.node rect").style("fill", color);
 
   // Enter any new nodes.
   enter_node = node.enter().append("svg:g")
@@ -320,13 +320,13 @@ function update() {
               .call(force.drag);
               //.attr("transform", function(d) { return "translate(" + d.x + ","+ d.y + ")"; })
 
-  enter_node.filter(function(d) { return d.type == "person"; })
-      .append("svg:circle")
+  enter_node.append("svg:circle")
       .attr("r", function(d) { return 20+"px"; })
       .style("fill", color);
+      //.filter(function(d) { return d.type == "person"; })
       //.attr("cx", function(d) { return d.x; })
       //.attr("cy", function(d) { return d.y; })
-
+/*
   enter_node.filter(function(d) { return d.type == "category"; })
       .append("svg:rect")
       .attr("x",-15)
@@ -336,7 +336,7 @@ function update() {
       .style("fill", color);
       //.attr("cx", function(d) { return d.x; })
       //.attr("cy", function(d) { return d.y; })
-
+*/
   enter_node.append("svg:text")
       .attr("text-anchor", "middle")
       .style("fill", "#333333")
@@ -420,13 +420,13 @@ function node_mouseover(d) {
   console.log("mouseover");
   d.highlight = true;
   circle_nodes = vis.selectAll("g.node circle").style("fill", color);
-  rect_nodes = vis.selectAll("g.node rect").style("fill", color);
+  //rect_nodes = vis.selectAll("g.node rect").style("fill", color);
 }
 function node_mouseout(d) {
   console.log("mouseout");
   d.highlight = false;
   circle_nodes = vis.selectAll("g.node circle").style("fill", color);
-  rect_nodes = vis.selectAll("g.node rect").style("fill", color);
+  //rect_nodes = vis.selectAll("g.node rect").style("fill", color);
 }
 
 // Returns a list of all nodes under the root.
