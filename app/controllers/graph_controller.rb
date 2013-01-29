@@ -256,8 +256,14 @@ class GraphController < ApplicationController
         end
         if !connection_exists
           puts "no existing path found, creating new connection"
-          rel = @neo.create_relationship(category, me_node, connection_node)
-          @neo.set_relationship_properties(rel, {"id" => category_id})
+          #rel = @neo.create_relationship(category, me_node, connection_node)
+          #@neo.set_relationship_properties(rel, {"id" => category_id})
+          query_str = "START n1=node:nodes(name = '#{athena_name}'), n2=node:nodes(name = '#{connection_name}')";
+          query_str += " CREATE n1-[r:`#{category}` {id: #{category_id} }]->n2"
+          query_str += " RETURN r;"
+          puts "QUERY SUBMITTED:"
+          puts query_str
+          @neo.execute_query(query_str);
         else
           puts "existing path found, not creating new connection"
           ret = {:response => "repeated connection"}
