@@ -270,6 +270,8 @@ class GraphController < ApplicationController
   end
 
   def datadelete
+    category_name = params[:category]
+    puts "WOULD BE DELETING CATEGORY #{category_name}"
     ret = {:response => "All good"}
     render :json => ret.to_json
   end

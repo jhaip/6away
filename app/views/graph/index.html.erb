@@ -88,8 +88,23 @@ $('#add_connection_submit').click(function(e) {
 });
 
 function delete_click(e) {
-  alert($(this).data("category"));
-  return false;
+  category_name = $(this).data("category");
+  console.log("Deleting category "+category_name);
+  $.ajax({
+    url: "http://stark-hamlet-8685.herokuapp.com/datapull",
+    type: 'DELETE',
+    data: { category: category_name },
+  }).success(function(json){
+    console.log("Category "+category_name+"successfully removed");
+    path_update(path);
+  }).fail(function(obj, textStatus, errorThrown ) {
+    alert( "Error deleting category "+category_name);
+    console.log("ERROR when deleting category "+category_name);
+    console.log(obj);
+    console.log(textStatus);
+    console.log(errorThrown);
+  });
+  return false; // prevents normal behaviour
 }
 
 var w = 960,
