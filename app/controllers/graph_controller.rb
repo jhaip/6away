@@ -270,9 +270,16 @@ class GraphController < ApplicationController
   end
 
   def datadelete
+    # passed just :category, or :category and :name
     category_name = params[:category]
-    puts "WOULD BE DELETING CATEGORY #{category_name}"
+
     ret = {:response => "All good"}
+    if params[:name]
+      puts "WOULD BE DELETING CONNECTION TO #{name} IN CATEGORY #{category_name}"
+    else
+      puts "WOULD BE DELETING CATEGORY #{category_name}"
+    end
+    
     render :json => ret.to_json
   end
 

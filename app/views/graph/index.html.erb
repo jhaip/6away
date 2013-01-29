@@ -87,7 +87,7 @@ $('#add_connection_submit').click(function(e) {
   });
 });
 
-function delete_click(e) {
+function delete_category_click(e) {
   category_name = $(this).data("category");
   console.log("Deleting category "+category_name);
   $.ajax({
@@ -96,11 +96,32 @@ function delete_click(e) {
     data: { category: category_name },
     headers: { 'X-CSRF-Token': '<%= form_authenticity_token.to_s %>' }
   }).success(function(json){
-    console.log("Category "+category_name+"successfully removed");
+    console.log("Category "+category_name+" successfully removed");
     path_update(path);
   }).fail(function(obj, textStatus, errorThrown ) {
     alert( "Error deleting category "+category_name);
     console.log("ERROR when deleting category "+category_name);
+    console.log(obj);
+    console.log(textStatus);
+    console.log(errorThrown);
+  });
+  return false; // prevents normal behaviour
+}
+function delete_category_click(e) {
+  connection_name = $(this).data("connection_name");
+  category_name = path[path.lenght-1].name;
+  console.log("Deleting connection to "+category_name+" in category "+category_name);
+  $.ajax({
+    url: "http://stark-hamlet-8685.herokuapp.com/datadelete",
+    type: 'DELETE',
+    data: { name: connection_name, category: category_name },
+    headers: { 'X-CSRF-Token': '<%= form_authenticity_token.to_s %>' }
+  }).success(function(json){
+    console.log("Connection in category "+connection_name+" to "+category_name+" successfully removed");
+    path_update(path);
+  }).fail(function(obj, textStatus, errorThrown ) {
+    alert("Error deteling connection to "+category_name+" in category "+category_name);
+    console.log("Error deteling connection to "+category_name+" in category "+category_name);
     console.log(obj);
     console.log(textStatus);
     console.log(errorThrown);
@@ -142,7 +163,7 @@ function person_me_callback(root,details) {
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
     l_item = $("<li></li>").text(root.children[i].name+"  ");
-    delete_link = $("<a class='delete_category'>delete</a>").data("category",root.children[i].name).click(delete_click);
+    delete_link = $("<a class='delete_category'>delete</a>").data("category",root.children[i].name).click(delete_category_click);
     l_item.append(delete_link);
     l.append(l_item);
   }
@@ -179,7 +200,10 @@ function person_me_category_callback(root,details) {
   l = inside.find("ul");
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
-    l.append("<li>"+root.children[i].name+"</li>");
+    l_item = $("<li></li>").text(root.children[i].name+"  ");
+    delete_link = $("<a class='delete_connection'>delete</a>").data("connection_name",root.children[i].name).click(delete_connection_click);
+    l_item.append(delete_link);
+    l.append(l_item);
   }
 }
 
