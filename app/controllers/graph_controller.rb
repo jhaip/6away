@@ -275,7 +275,7 @@ class GraphController < ApplicationController
           #rel = @neo.create_relationship(category, me_node, connection_node)
           #@neo.set_relationship_properties(rel, {"id" => category_id})
           query_str = "START n1=node:nodes(name = '#{athena_name}'), n2=node:nodes(name = '#{connection_name}')";
-          query_str += " CREATE n1-[r:`#{category}` {id: #{category_id} }]->n2"
+          query_str += " CREATE n1-[r:`#{category}` {id: '#{category_id}' }]->n2"
           query_str += " RETURN r;"
           puts "QUERY SUBMITTED:"
           puts query_str
