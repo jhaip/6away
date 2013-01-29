@@ -2,7 +2,7 @@ Tutorial::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   #SITE_URL = "http://stark-hamlet-8685.herokuapp.com"
-  SITE_URL = "www.6away.us"
+  SITE_URL = "http://www.6away.us"
 
   # Code is not reloaded between requests
   config.cache_classes = true
