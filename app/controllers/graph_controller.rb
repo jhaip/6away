@@ -210,7 +210,7 @@ class GraphController < ApplicationController
         children << t
       end
     	ret = {:details => {:name => name, :course => course, :year => year, :living_group => living_group, :likes => likes},
-             :graph   => {:name => params[:name], :type => params[:type], :id => unique_id, :children => children }
+             :graph   => {:name => params[:name], :type => params[:type], :id => unique_id, :children => children, :likes => likes }
             }
     	render :json => ret.to_json
     elsif params[:type] == "category"

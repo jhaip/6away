@@ -3,7 +3,10 @@
 <div class="hr"></div>
 <div id="details">
   <div id="inside_me"><!-- INSIDE ME -->
-    <h1 class="detail_title">Me:</h1>
+    <h1 class="detail_title">Categories:</h1>
+    <p>Add a few categories that you connect to people in.</p>
+    <p>For example, you may have a group of friends who you go running with so you could add the group "running".</p>
+    <br>
     <%= form_tag :datapush, :id => "form_add_category", :method => :post do %>
       <%= label_tag(:new_category_name, "Category name:") %>
       <%= text_field_tag :new_category_name, 'name of category' %>
@@ -167,7 +170,7 @@ function path_to_text(p) {
 
 function person_me_callback(root,details) {
   inside = $("#inside_me");
-  inside.find(".detail_title").text(details.name);
+  //inside.find(".detail_title").text(details.name);
   l = inside.find("ul");
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
@@ -397,7 +400,7 @@ function update() {
     yyy = Math.random()*h;
   }
 
-  circle_nodes = vis.selectAll("g.node circle").style("fill", color);
+  circle_nodes = vis.selectAll("g.node circle").style("fill", color).attr("r", node_sizer);
   //rect_nodes = vis.selectAll("g.node rect").style("fill", color);
 
   // Enter any new nodes.
@@ -410,7 +413,7 @@ function update() {
               //.attr("transform", function(d) { return "translate(" + d.x + ","+ d.y + ")"; })
 
   enter_node.append("svg:circle")
-      .attr("r", function(d) { return 20+"px"; })
+      .attr("r", node_sizer)
       .style("fill", color);
       //.filter(function(d) { return d.type == "person"; })
       //.attr("cx", function(d) { return d.x; })
@@ -466,6 +469,10 @@ function tick() {
   //    .attr("cy", function(d) { return d.y; });
   node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
+}
+
+function node_sizer(d) {
+  return "20px";
 }
 
 // Color leaf nodes orange, and packages white or blue.
