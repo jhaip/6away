@@ -167,7 +167,7 @@ function path_to_text(p) {
 
 function person_me_callback(root,details) {
   inside = $("#inside_me");
-  inside.find(".detail_title").append(details.name);
+  inside.find(".detail_title").text(details.name);
   l = inside.find("ul");
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
