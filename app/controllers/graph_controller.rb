@@ -140,7 +140,7 @@ class GraphController < ApplicationController
     unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
   	user3 = @neo.create_node("athena" => "ahuang27","id"=>unique_id,"name"=>"Alice Huang","course"=>2,"year"=>2,"living_group"=>"Maseeh","likes"=>["art","tech"])
     unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    nil_user = @neo.create_node("athena" => "_nil","id"=>unique_id,"name"=>"BLANK USER")
+    nil_user = @neo.create_node("athena" => "_nil","id"=>unique_id,"name"=>"BLANK USER","course"=>"?","year"=>"?","living_group"=>"?","likes"=>["empty"])
 
     @neo.add_node_to_index("nodes", "name", "jhaip", me)
     @neo.add_node_to_index("nodes", "name", "ssul", user1)
