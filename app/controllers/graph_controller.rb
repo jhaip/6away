@@ -234,7 +234,7 @@ class GraphController < ApplicationController
 
       #category_id = @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category}`]->() WHERE n.athena ='#{athena_name}' RETURN collect(r.id);")["data"][0][0]
       id_rel = @neo.get_node_relationships(me_node, "out", category)[0]
-      category_id = @neo.get_relationship_properties(id_rel, "id")
+      category_id = @neo.get_relationship_properties(id_rel, "id")["id"]
       puts "Id rel:"
       puts id_rel
       puts "Category id:"
