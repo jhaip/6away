@@ -71,6 +71,8 @@ footer {
 	font-size: 48px;
 	line-height: 120%;
 	color: #white;
-	background-color: #3cfd8d;
-	padding: 30px 30px 50px 320px;
+	background-color: #FF9;
+	padding: 30px 30px 40px 280px;
+	text-shadow: 2px 3px 4px rgba(0,0,0,0.2);
+	border-bottom: 2px solid #333;
 }
