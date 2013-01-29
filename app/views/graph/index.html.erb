@@ -19,9 +19,9 @@
   <!-- INSIDE ME CATEGORY -->
   <div id="inside_me_category">
     <h1 class="detail_title">Connections:</h1>
-    <p>List the names of the people you connect to in this category.<br>
-       This list shouldn't be everyone you know, only the people who you are really close to and would feel comfortable introducing someone to.  Around 12 people at a maximum.<br>
-       <i>Begin typing the person's name or MIT email address, autocomplete will help you get it right!</i>
+    <p>List the names of the people you connect to in this category.<br><br>
+       This list shouldn't be everyone you know, only the people who you are really close to <br>and would feel comfortable introducing someone to.<br>Around 12 people at a maximum.<br><br>
+       Begin typing the person's name or MIT email address, autocomplete will help you get it right!
     <%= form_tag :datapush, :id => "form_add_connection", :method => :post do %>
       <div class="ui-widget">
         <%= text_field_tag :new_connection_name, nil, placeholder: "user@mit.edu" %> <%= submit_tag "Connect", :id => "add_connection_submit" %>
