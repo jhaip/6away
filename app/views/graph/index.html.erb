@@ -174,7 +174,7 @@ function person_me_callback(root,details) {
     l_item = $("<li></li>").text(root.children[i].name+"  ");
     //preserve living group and work categories
     if (root.children[i].name != "living group" && root.children[i].name != "work") {
-      delete_link = $("<a class='delete_category'>delete</a>").data("category",root.children[i].name).click(delete_category_click);
+      delete_link = $("<a class='delete_category'><i class="icon-remove"></i></a>").data("category",root.children[i].name).click(delete_category_click);
       l_item.append(delete_link);
     }
     l.append(l_item);
@@ -213,7 +213,7 @@ function person_me_category_callback(root,details) {
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
     l_item = $("<li></li>").text(root.children[i].name+"  ");
-    delete_link = $("<a class='delete_connection'>delete</a>").data("connection_name",root.children[i].name).click(delete_connection_click);
+    delete_link = $("<a class='delete_connection'><i class="icon-remove"></i></a>").data("connection_name",root.children[i].name).click(delete_connection_click);
     l_item.append(delete_link);
     l.append(l_item);
   }
