@@ -293,7 +293,7 @@ class GraphController < ApplicationController
       if connection_node == nil #user doesn't exist
         puts "node doesn't exist, creating one"
         unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-        connection_node = @neo.create_node("athena"=>connection_name,"id"=>unique_id,"name"=>connection_name)
+        connection_node = @neo.create_node("athena"=>connection_name,"id"=>unique_id,"name"=>connection_name,"course"=>"?","year"=>"?","living_group"=>"?","likes"=>["empty"])
         @neo.add_node_to_index("nodes", "name", connection_name, connection_node)
 
         #create connection
