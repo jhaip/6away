@@ -275,7 +275,8 @@ class GraphController < ApplicationController
 
     ret = {:response => "All good"}
     if params[:name]
-      puts "WOULD BE DELETING CONNECTION TO #{name} IN CATEGORY #{category_name}"
+      connection_name = params[:name]
+      puts "WOULD BE DELETING CONNECTION TO #{connection_name} IN CATEGORY #{category_name}"
     else
       puts "WOULD BE DELETING CATEGORY #{category_name}"
     end

@@ -110,7 +110,7 @@ function delete_category_click(e) {
 function delete_connection_click(e) {
   connection_name = $(this).data("connection_name");
   category_name = path[path.length-1].name;
-  console.log("Deleting connection to "+category_name+" in category "+category_name);
+  console.log("Deleting connection to "+connection_name+" in category "+category_name);
   $.ajax({
     url: "http://stark-hamlet-8685.herokuapp.com/datadelete",
     type: 'DELETE',
@@ -120,8 +120,8 @@ function delete_connection_click(e) {
     console.log("Connection in category "+connection_name+" to "+category_name+" successfully removed");
     path_update(path);
   }).fail(function(obj, textStatus, errorThrown ) {
-    alert("Error deteling connection to "+category_name+" in category "+category_name);
-    console.log("Error deteling connection to "+category_name+" in category "+category_name);
+    alert("Error deteling connection to "+connection_name+" in category "+category_name);
+    console.log("Error deteling connection to "+connection_name+" in category "+category_name);
     console.log(obj);
     console.log(textStatus);
     console.log(errorThrown);
