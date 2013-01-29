@@ -8,6 +8,9 @@
 
 <%= form_tag do %>
 
+  <fieldset>
+  <legend>Personal Information</legend>
+
   <div class="field">
     <%= label_tag(:name, "Full Name:") %>
     <%= text_field_tag(:name) %>
@@ -25,7 +28,10 @@
     <%= text_field_tag(:living_group) %>
   </div>
 
-  <div class="small-hr"></div>
+  </fieldset>
+
+  <fieldset>
+  <legend>Personal Information</legend>
 
   <h3>Check things that you have the most appreciation for</h3>
   <div class="field">
@@ -41,6 +47,8 @@
   <div class="actions">
     <%= submit_tag("Submit") %>
   </div>
+
+  </fieldset>
 
 <% end %>
 
