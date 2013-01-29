@@ -66,12 +66,11 @@ footer {
 }
 
 #bigquote {
-	font-family: Times New Roman, serif;
+	font-family: 'Bitter', serif;
 	font-style: italic;
 	font-size: 48px;
 	line-height: 120%;
 	color: #white;
 	background-color: #3cfd8d;
-	padding: 40px 30px 30px 320px;
-	height: 400px;
+	padding: 30px 30px 50px 320px;
 }
