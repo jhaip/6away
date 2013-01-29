@@ -91,7 +91,7 @@ function delete_category_click(e) {
   category_name = $(this).data("category");
   console.log("Deleting category "+category_name);
   $.ajax({
-    url: "http://stark-hamlet-8685.herokuapp.com/datadelete",
+    url: "<%= SITE_URL %>/datadelete",
     type: 'DELETE',
     data: { category: category_name },
     headers: { 'X-CSRF-Token': '<%= form_authenticity_token.to_s %>' }
@@ -112,7 +112,7 @@ function delete_connection_click(e) {
   category_name = path[path.length-1].name;
   console.log("Deleting connection to "+connection_name+" in category "+category_name);
   $.ajax({
-    url: "http://stark-hamlet-8685.herokuapp.com/datadelete",
+    url: "<%= SITE_URL %>/datadelete",
     type: 'DELETE',
     data: { name: connection_name, category: category_name },
     headers: { 'X-CSRF-Token': '<%= form_authenticity_token.to_s %>' }
@@ -277,7 +277,7 @@ function path_update(new_path) {
   }
   $.ajax({
     type: "GET",
-    url: "http://stark-hamlet-8685.herokuapp.com/datapull",
+    url: "<%= SITE_URL %>/datapull",
     data: { type: last.type, id: last.id, name: last.name, parent: parent_name }
   }).done(function(data, textStatus, jqXHR ) {
     console.log("data recieved "+textStatus);
@@ -541,11 +541,11 @@ function flatten(root) {
 <script>
 $(function() {
   $( "#new_connection_name" ).autocomplete({
-    source: "http://stark-hamlet-8685.herokuapp.com/userpull",
+    source: "<%= SITE_URL %>/userpull",
     minLength: 2,
       source: function( request, response ) {
         var term = request.term;
-        $.getJSON( "http://stark-hamlet-8685.herokuapp.com/userpull", request, function( data, status, xhr ) {
+        $.getJSON( "<%= SITE_URL %>/userpull", request, function( data, status, xhr ) {
           response( data );
         });
       }
