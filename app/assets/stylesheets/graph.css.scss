@@ -62,6 +62,9 @@ line.link {
   font-weight:700;
   font-size:.9em;
 }
+.profile_checkboxes label {
+  width: 100px;
+}
 
 #profile_container legend {
   font-size: 20px;
@@ -85,5 +88,5 @@ select {
 input[type=submit] {
   border: 2px solid #333;
   padding: 5px 20px;
-  background: rgb(81, 207, 247);
+  background: rgb(171, 255, 150);
 }
