@@ -122,7 +122,7 @@ footer {
 .twin_container {
 	overflow: hidden; /* Clearfix! */
     zoom: 1;  /* Triggering "hasLayout" in IE */
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .twin {
@@ -132,7 +132,7 @@ footer {
 	margin-right: 10px;
 }
 
-.triplet h3 {
+.twin h3 {
 	font-size: 16px;
 	font-weight: 900;
 	line-height: 130%;
@@ -141,7 +141,7 @@ footer {
 	margin-bottom: 10px;
 }
 
-.triplet p {
+.twin p {
 	font-size: 16px;
 	line-height: 140%;
 }
