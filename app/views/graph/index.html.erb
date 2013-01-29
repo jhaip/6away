@@ -87,6 +87,48 @@ $('#add_connection_submit').click(function(e) {
   });
 });
 
+function delete_category_click(e) {
+  category_name = $(this).data("category");
+  console.log("Deleting category "+category_name);
+  $.ajax({
+    url: "http://stark-hamlet-8685.herokuapp.com/datadelete",
+    type: 'DELETE',
+    data: { category: category_name },
+    headers: { 'X-CSRF-Token': '<%= form_authenticity_token.to_s %>' }
+  }).success(function(json){
+    console.log("Category "+category_name+" successfully removed");
+    path_update(path);
+  }).fail(function(obj, textStatus, errorThrown ) {
+    alert( "Error deleting category "+category_name);
+    console.log("ERROR when deleting category "+category_name);
+    console.log(obj);
+    console.log(textStatus);
+    console.log(errorThrown);
+  });
+  return false; // prevents normal behaviour
+}
+function delete_category_click(e) {
+  connection_name = $(this).data("connection_name");
+  category_name = path[path.length-1].name;
+  console.log("Deleting connection to "+category_name+" in category "+category_name);
+  $.ajax({
+    url: "http://stark-hamlet-8685.herokuapp.com/datadelete",
+    type: 'DELETE',
+    data: { name: connection_name, category: category_name },
+    headers: { 'X-CSRF-Token': '<%= form_authenticity_token.to_s %>' }
+  }).success(function(json){
+    console.log("Connection in category "+connection_name+" to "+category_name+" successfully removed");
+    path_update(path);
+  }).fail(function(obj, textStatus, errorThrown ) {
+    alert("Error deteling connection to "+category_name+" in category "+category_name);
+    console.log("Error deteling connection to "+category_name+" in category "+category_name);
+    console.log(obj);
+    console.log(textStatus);
+    console.log(errorThrown);
+  });
+  return false; // prevents normal behaviour
+}
+
 var w = 960,
     h = 400,
     node,
@@ -112,48 +154,6 @@ function path_to_text(p) {
     str += p[i].name+" / ";
   }
   return str;
-}
-
-function delete_category_click(e) {
-  category_name = $(this).data("category");
-  console.log("Deleting category "+category_name);
-  $.ajax({
-    url: "http://stark-hamlet-8685.herokuapp.com/datadelete",
-    type: 'DELETE',
-    data: { category: category_name },
-    headers: { 'X-CSRF-Token': '<%= form_authenticity_token.to_s %>' }
-  }).success(function(json){
-    console.log("Category "+category_name+" successfully removed");
-    path_update(path);
-  }).fail(function(obj, textStatus, errorThrown ) {
-    alert( "Error deleting category "+category_name);
-    console.log("ERROR when deleting category "+category_name);
-    console.log(obj);
-    console.log(textStatus);
-    console.log(errorThrown);
-  });
-  return false; // prevents normal behaviour
-}
-function delete_category_click(e) {
-  connection_name = $(this).data("connection_name");
-  category_name = path[path.lenght-1].name;
-  console.log("Deleting connection to "+category_name+" in category "+category_name);
-  $.ajax({
-    url: "http://stark-hamlet-8685.herokuapp.com/datadelete",
-    type: 'DELETE',
-    data: { name: connection_name, category: category_name },
-    headers: { 'X-CSRF-Token': '<%= form_authenticity_token.to_s %>' }
-  }).success(function(json){
-    console.log("Connection in category "+connection_name+" to "+category_name+" successfully removed");
-    path_update(path);
-  }).fail(function(obj, textStatus, errorThrown ) {
-    alert("Error deteling connection to "+category_name+" in category "+category_name);
-    console.log("Error deteling connection to "+category_name+" in category "+category_name);
-    console.log(obj);
-    console.log(textStatus);
-    console.log(errorThrown);
-  });
-  return false; // prevents normal behaviour
 }
 
 function person_me_callback(root,details) {
