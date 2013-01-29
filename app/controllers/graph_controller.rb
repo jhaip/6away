@@ -280,13 +280,18 @@ class GraphController < ApplicationController
     category_name = params[:category]
 
     ret = {:response => "All good"}
-    if params[:name]
-      connection_name = params[:name]
-      puts "DELETING CONNECTION TO #{connection_name} IN CATEGORY #{category_name}"
-      @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category_name}`]->(x) WHERE (n.athena ='#{athena_name}' and x.athena='#{connection_name}') DELETE r;")
+
+    if category_name == "living group" or category_name == "work"
+      ret = {:response => "Can't delete living gorup or work categories!"}
     else
-      puts "DELETING CATEGORY #{category_name}"
-      @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category_name}`]->() WHERE n.athena ='#{athena_name}' DELETE r;")
+      if params[:name]
+        connection_name = params[:name]
+        puts "DELETING CONNECTION TO #{connection_name} IN CATEGORY #{category_name}"
+        @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category_name}`]->(x) WHERE (n.athena ='#{athena_name}' and x.athena='#{connection_name}') DELETE r;")
+      else
+        puts "DELETING CATEGORY #{category_name}"
+        @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category_name}`]->() WHERE n.athena ='#{athena_name}' DELETE r;")
+      end
     end
     
     render :json => ret.to_json
