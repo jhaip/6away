@@ -168,7 +168,7 @@ class GraphController < ApplicationController
     	ret = {:details => {:name => name, :course => course, :year => year, :living_group => living_group, :likes => likes},
              :graph   => {:name => params[:name], :type => params[:type], :id => unique_id, :children => children }
             }
-    	render :json => ret.to_json and return
+    	render :json => ret.to_json
     elsif params[:type] == "category"
       query = @neo.execute_query("START n=node(*) MATCH (n)-[:`#{params[:name]}`]->(x) WHERE n.athena ='#{params[:parent]}' RETURN x.athena, x.id;")["data"]
       connections = query
@@ -184,7 +184,7 @@ class GraphController < ApplicationController
       ret = {:details => {},
              :graph   => {:name => params[:name], :type => params[:type], :id => params[:id], :children => children }
             };
-      render :json => ret.to_json and return
+      render :json => ret.to_json
     end
   end
 
@@ -266,14 +266,14 @@ class GraphController < ApplicationController
       
     end
 
-    render :json => ret.to_json and return
+    render :json => ret.to_json
   end
 
   def datadelete
     category_name = params[:category]
     puts "WOULD BE DELETING CATEGORY #{category_name}"
     ret = {:response => "All good"}
-    render :json => ret.to_json and return
+    render :json => ret.to_json
   end
 
   def userpull

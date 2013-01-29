@@ -91,7 +91,7 @@ function delete_click(e) {
   category_name = $(this).data("category");
   console.log("Deleting category "+category_name);
   $.ajax({
-    url: "http://stark-hamlet-8685.herokuapp.com/datapull",
+    url: "http://stark-hamlet-8685.herokuapp.com/datadelete",
     type: 'DELETE',
     data: { category: category_name },
     headers: { 'X-CSRF-Token': '<%= form_authenticity_token.to_s %>' }
