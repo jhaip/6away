@@ -83,6 +83,7 @@ footer {
 .triplet_container {
 	overflow: hidden; /* Clearfix! */
     zoom: 1;  /* Triggering "hasLayout" in IE */
+    margin-top: 20px;
 }
 
 .triplet {
@@ -92,6 +93,19 @@ footer {
 	margin-right: 10px;
 }
 
+.triplet h3 {
+	font-size: 24px;
+	line-height: 130%;
+	font-family: 'Bitter', serif;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.triplet p {
+	font-size: 16px;
+	line-height: 140%;
+}
+
 .guide {
 	font-family: 'Bitter', serif;
 	font-size: 36px;
@@ -99,4 +113,12 @@ footer {
 	line-height: 120%;
 	padding: 30px;
 	text-shadow: 2px 3px 4px rgba(0,0,0,0.2);
+}
+.guide {
+	font-family: 'Bitter', serif;
+	font-size: 36px;
+	text-align: center;
+	line-height: 120%;
+	padding: 30px;
+	text-shadow: 3px 5px 5px rgba(0,0,0,0.3);
 }
