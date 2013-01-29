@@ -39,13 +39,6 @@ line.link {
   font-weight: 900;
 }
 
-.small-hr {
-  width: 60px;
-  border-top: 1px dotted #666;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
 #profile_container {
   width: 100%;
   margin-left: 100px;
@@ -54,6 +47,7 @@ line.link {
 #profile_container fieldset {
   border: 2px solid #555;
   padding: 20px;
+  margin-bottom: 20px;
 }
 #profile_container label {
   display:block;
@@ -61,9 +55,11 @@ line.link {
   font-weight:700;
   font-size:.9em;
   float:left;
-  width:90px;
+  width:110px;
 }
 
-#profile_container label:after {
-  content:": ";
+#profile_container legend {
+  font-size: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
