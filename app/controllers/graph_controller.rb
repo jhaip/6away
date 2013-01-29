@@ -39,17 +39,38 @@ class GraphController < ApplicationController
 
     likes = Array.new
 
-    if params[:ck_art]
-      likes << "Art"
-    end
-    if params[:ck_music]
-      likes << "Music"
+    if params[:ck_family]
+      likes << "Family"
     end
     if params[:ck_travel]
       likes << "Travel"
     end
-    if params[:ck_alone]
-      likes << "Time alone"
+    if params[:ck_education]
+      likes << "Education"
+    end
+    if params[:ck_organization]
+      likes << "Organization"
+    end
+    if params[:ck_leadership]
+      likes << "Leadership"
+    end
+    if params[:ck_outdoors]
+      likes << "The outdoors"
+    end
+    if params[:ck_fun]
+      likes << "Fun"
+    end
+    if params[:ck_making_things]
+      likes << "Making things"
+    end
+    if params[:ck_staying_fit]
+      likes << "Staying fit"
+    end
+    if params[:ck_music]
+      likes << "Music"
+    end
+    if params[:ck_giving_back]
+      likes << "Giving back"
     end
 
     unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
@@ -78,6 +99,29 @@ class GraphController < ApplicationController
       likes = ["empty"]
     end
     @neo.set_node_properties(person, {"likes"=>likes})
+
+    work_connections = @neo.get_node_relationships(person, "out", "work")
+    live_connections = @neo.get_node_relationships(person, "out", "living group")
+
+    puts "Work connections:"
+    puts work_connections
+    puts "Living group connections:"
+    puts live_connections
+
+    null_node = @neo.get_node_index("nodes", "name", "_nil") 
+
+    if work_connections.length == 0
+      puts "WORK CATEGORY NOT FOUND, WOULD BE CREATING WORK CATEGORY"
+      #rel1 = @neo.create_relationship("work",person,null_node)
+      #unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+      #@neo.set_relationship_properties(rel1, {"id" => unique_id})
+    end
+    if live_connections.lenght == 0
+      puts "LIVING GROUP CATEGORY NOT FOUND, WOULD BE CREATING LIVING GROUP CATEGORY"
+      #rel1 = @neo.create_relationship("living group",person,null_node)
+      #unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+      #@neo.set_relationship_properties(rel1, {"id" => unique_id})
+    end
 
     redirect_to(:graph)
   end
