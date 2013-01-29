@@ -72,6 +72,7 @@ $('#add_connection_submit').click(function(e) {
         alert("Connection name must be an @mit.edu email address")
         return false;
       }
+      valuesToSubmit[2].value = new_conn_name.substr(0,new_conn_name.length-8); //isolate name
       last = path[path.length-1]
       valuesToSubmit.push({"name":"category","value":last.name})
       console.log("Values to submit");
