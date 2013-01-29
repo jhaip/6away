@@ -9,7 +9,7 @@
     </p>
     <br>
     <%= form_tag :datapush, :id => "form_add_category", :method => :post do %>
-      <%= text_field_tag :new_category_name, :placeholder => "category name" %>
+      <%= text_field_tag :new_category_name, nil, placeholder: "category name" %>
       <%= submit_tag "Add", :id => "add_category_submit" %>
     <% end %>
     <br>
@@ -21,7 +21,7 @@
     <h1 class="detail_title">Connections:</h1>
     <%= form_tag :datapush, :id => "form_add_connection", :method => :post do %>
       <div class="ui-widget">
-        <%= text_field_tag :new_connection_name, :placeholder => "user@mit.edu" %> <%= submit_tag "Connect", :id => "add_connection_submit" %>
+        <%= text_field_tag :new_connection_name, nil, placeholder: "user@mit.edu" %> <%= submit_tag "Connect", :id => "add_connection_submit" %>
       </div>
     <% end %>
     <h3>My Connections:</h3>
