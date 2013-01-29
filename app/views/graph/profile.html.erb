@@ -33,14 +33,37 @@
   <h3>Check things that you have the most appreciation for</h3>
   <br>
   <div class="field profile_checkboxes">
-    <%= check_box_tag(:ck_art) %>
-    <%= label_tag(:ck_art, "Art") %>
-    <%= check_box_tag(:ck_music) %>
-    <%= label_tag(:ck_music, "Music") %>
-    <%= check_box_tag(:ck_travel) %>
-    <%= label_tag(:ck_travel, "Travel") %>
-    <%= check_box_tag(:ck_alone) %>
-    <%= label_tag(:ck_alone, "Time alone") %>
+    <div class="field">
+      <%= check_box_tag(:ck_family) %>
+      <%= label_tag(:ck_family, "Family") %>
+      <%= check_box_tag(:ck_travel) %>
+      <%= label_tag(:ck_travel, "Travel") %>
+      <%= check_box_tag(:ck_education) %>
+      <%= label_tag(:ck_education, "Education") %>
+      <%= check_box_tag(:ck_fun) %>
+      <%= label_tag(:ck_fun, "Fun") %>
+    </div>
+    <div class="field">
+      <%= check_box_tag(:ck_leadership) %>
+      <%= label_tag(:ck_leadership, "Leadership") %>
+      <%= check_box_tag(:ck_outdoors) %>
+      <%= label_tag(:ck_outdoors, "The outdoors") %>
+      <%= check_box_tag(:ck_organization) %>
+      <%= label_tag(:ck_organization, "Organization") %>
+      <%= check_box_tag(:ck_international_development) %>
+      <%= label_tag(:ck_international_development, "International development") %>
+    </div>
+    <div class="field">
+      <%= check_box_tag(:ck_making_things) %>
+      <%= label_tag(:ck_making_things, "Making things") %>
+      <%= check_box_tag(:ck_staying_fit) %>
+      <%= label_tag(:ck_staying_fit, "Staying fit") %>
+      <%= check_box_tag(:ck_music) %>
+      <%= label_tag(:ck_music, "Music") %>
+      <%= check_box_tag(:ck_giving_back) %>
+      <%= label_tag(:ck_giving_back, "Giving back") %>
+    </div>
+
   </div>
   <div class="actions">
     <%= submit_tag("Submit") %>

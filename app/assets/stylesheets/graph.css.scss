@@ -40,7 +40,7 @@ line.link {
 }
 
 #profile_container {
-  width: 600px;
+  width: 540px;
   margin: 0 auto;
 }
 
@@ -82,7 +82,7 @@ select {
   margin: 0;
 }
 
-input:not([type=submit]):not([type=file]) {
+input[type=submit]) {
   border: 2px solid #333;
   padding: 5px 20px;
   background: rgb(81, 207, 247);
