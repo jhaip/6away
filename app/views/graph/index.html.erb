@@ -5,6 +5,7 @@
   <div id="inside_me"><!-- INSIDE ME -->
     <h1 class="detail_title">Me:</h1>
     <%= form_tag :datapush, :id => "form_add_category", :method => :post do %>
+      <%= label_tag(:new_category_name, "Category name:") %>
       <%= text_field_tag :new_category_name, 'name of category' %>
       <%= submit_tag "Add", :id => "add_category_submit" %>
     <% end %>
@@ -16,7 +17,7 @@
     <h1 class="detail_title">Connections:</h1>
     <%= form_tag :datapush, :id => "form_add_connection", :method => :post do %>
       <div class="ui-widget">
-        <%= text_field_tag :new_connection_name, 'Type name of person' %> <%= submit_tag "Connect", :id => "add_connection_submit" %>
+        <%= label_tag(:new_category_name, "Email of friend:") %> <%= text_field_tag :new_connection_name, 'Type name of person' %> <%= submit_tag "Connect", :id => "add_connection_submit" %>
       </div>
     <% end %>
     <h3>My Connections:</h3>
@@ -64,6 +65,13 @@ $('#add_category_submit').click(function(e) {
 $('#add_connection_submit').click(function(e) {
   $('#form_add_connection').submit(function() {  
       var valuesToSubmit = $(this).serializeArray();
+      var new_conn_name = valuesToSubmit[2].value;
+      console.log("new connection name:");
+      console.log(new_conn_name);
+      if (new_conn_name.length > 8 && new_conn_name.substr(new_conn_name.length-8,new_conn_name.length) === "@mit.edu") {
+        alert("Connection name must be an @mit.edu email address")
+        return;
+      }
       last = path[path.length-1]
       valuesToSubmit.push({"name":"category","value":last.name})
       console.log("Values to submit");
