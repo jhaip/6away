@@ -20,7 +20,7 @@
   <div id="inside_me_category">
     <h1 class="detail_title">Connections:</h1>
     <p>List the names of the people you connect to in this category.<br><br>
-       This list shouldn't be everyone you know, only the people who you are really close to <br>and would feel comfortable introducing someone to.<br>Around 12 people at a maximum.<br><br>
+       This list shouldn't be everyone you know, only the people who you are really close to <br>and would feel comfortable introducing someone to.  Around 12 people at a maximum.<br><br>
        Begin typing the person's name or MIT email address, autocomplete will help you get it right!
     <%= form_tag :datapush, :id => "form_add_connection", :method => :post do %>
       <div class="ui-widget">
@@ -41,6 +41,7 @@
   <!-- INSIDE PERSON CATEGORY -->
   <div id="inside_person_category">
     <h1 class="detail_title">Connections:</h1>
+    <br>
     <ul></ul>
   </div>
 </div>
@@ -165,10 +166,11 @@ var vis = d3.select("#chart").append("svg:svg")
     .attr("height", h);
 
 function path_to_text(p) {
-  str = "";
-  for (var i=0; i<p.length; i+=1) {
+  str = "<span class='crumbs'>";
+  for (var i=0; i<p.length-1; i+=1) {
     str += p[i].name+" / ";
   }
+  str += "</span>"+p[p.length-1];
   return str;
 }
 
@@ -244,7 +246,7 @@ function path_update(new_path) {
   }
   */
   path = new_path;
-  $("#path").text(path_to_text(path));
+  $("#path").html(path_to_text(path));
   last = path[path.length-1];
   last_prev = null;
   if (path.length > 1) {
