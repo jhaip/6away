@@ -45,7 +45,7 @@ line.link {
 }
 
 #profile_container fieldset {
-  border: 2px solid #555;
+  border: 2px solid #333;
   padding: 20px;
   margin-bottom: 20px;
 }
@@ -55,7 +55,12 @@ line.link {
   font-weight:700;
   font-size:.9em;
   float:left;
-  width:110px;
+  width:120px;
+}
+
+.profile_checkboxes {
+  font-weight:700;
+  font-size:.9em;
 }
 
 #profile_container legend {
@@ -66,13 +71,19 @@ line.link {
 
 input[type=text] {
   padding: 5px;
-  border: 2px solid #555;
+  border: 2px solid #CCC;
   font-family: Tahoma;
   width: 200px;
 }
 
 select {
-  border: 2px solid #555;
+  border: 2px solid #CCC;
   padding: 4px;
   margin: 0;
+}
+
+input:not([type=submit]):not([type=file]) {
+  border: 2px solid #333;
+  padding: 5px 20px;
+  background: rgb(81, 207, 247);
 }
