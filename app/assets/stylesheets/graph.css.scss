@@ -72,7 +72,7 @@ line.link {
   padding-right: 5px;
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
   padding: 5px;
   border: 2px solid #CCC;
   font-family: Tahoma;
@@ -88,5 +88,9 @@ select {
 input[type=submit] {
   border: 2px solid #333;
   padding: 5px 20px;
-  background: rgb(171, 255, 150);
+  background: rgb(235, 220, 46);
+}
+
+input[type=submit]:hover {
+  background: rgb(255, 83, 60);
 }
