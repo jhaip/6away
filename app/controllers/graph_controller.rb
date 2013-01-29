@@ -217,6 +217,8 @@ class GraphController < ApplicationController
         @neo.set_relationship_properties(rel1, {"id" => unique_id})
       end
     else
+      puts "AS OF eeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      puts @neo.execute_query("START n=node(*) MATCH (n)-[r]->() WHERE n.athena ='jhaip' RETURN type(r), r.id;")
       puts "params:"
       puts params
       connection_name = params[:new_connection_name]
@@ -227,12 +229,18 @@ class GraphController < ApplicationController
       me_node = @neo.get_node_index("nodes", "name", athena_name) 
       connection_node = @neo.get_node_index("nodes", "name", connection_name)
 
+      puts "AS OF eeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      puts @neo.execute_query("START n=node(*) MATCH (n)-[r]->() WHERE n.athena ='jhaip' RETURN type(r), r.id;")
+
       category_id = @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category}`]->() WHERE n.athena ='#{athena_name}' RETURN r.id;")["data"][0]
       puts "Category id:"
       puts category_id
 
       puts "Connection node"
       puts connection_node
+
+      puts "AS OF eeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      puts @neo.execute_query("START n=node(*) MATCH (n)-[r]->() WHERE n.athena ='jhaip' RETURN type(r), r.id;")
 
       if connection_node == nil #user doesn't exist
         puts "node doesn't exist, creating one"
@@ -248,6 +256,10 @@ class GraphController < ApplicationController
         puts "query results for connection data"
         puts query
         connection_exists = false
+
+        puts "AS OF eeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        puts @neo.execute_query("START n=node(*) MATCH (n)-[r]->() WHERE n.athena ='jhaip' RETURN type(r), r.id;")
+
         query.each do |c|
           if (c[0] == connection_name)
             connection_exists = true
