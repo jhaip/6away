@@ -271,14 +271,22 @@ class GraphController < ApplicationController
 
   def datadelete
     # passed just :category, or :category and :name
+
+    current_email = current_user.email
+    athena_name = current_email[/[^@]+/]
+
+    @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
+
     category_name = params[:category]
 
     ret = {:response => "All good"}
     if params[:name]
       connection_name = params[:name]
-      puts "WOULD BE DELETING CONNECTION TO #{connection_name} IN CATEGORY #{category_name}"
+      puts "DELETING CONNECTION TO #{connection_name} IN CATEGORY #{category_name}"
+      @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category_name}`]->(x) WHERE (n.athena ='#{athena_name}' and x.athena='#{connection_name}') DELETE r;")
     else
-      puts "WOULD BE DELETING CATEGORY #{category_name}"
+      puts "DELETING CATEGORY #{category_name}"
+      @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category_name}`]->() WHERE n.athena ='#{athena_name}' DELETE r;")
     end
     
     render :json => ret.to_json
