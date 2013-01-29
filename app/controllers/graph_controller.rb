@@ -232,7 +232,7 @@ class GraphController < ApplicationController
       puts "AS OF eeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
       puts @neo.execute_query("START n=node(*) MATCH (n)-[r]->() WHERE n.athena ='jhaip' RETURN type(r), r.id;")
 
-      category_id = @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category}`]->() WHERE n.athena ='#{athena_name}' RETURN r.id;")["data"][0]
+      category_id = @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category}`]->() WHERE n.athena ='#{athena_name}' RETURN r.id;")["data"][0][0]
       puts "Category id:"
       puts category_id
 
