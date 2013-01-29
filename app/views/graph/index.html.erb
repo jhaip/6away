@@ -4,14 +4,15 @@
 <div id="details">
   <div id="inside_me"><!-- INSIDE ME -->
     <h1 class="detail_title">Categories:</h1>
-    <p>Add a few categories that you connect to people in.</p>
-    <p>For example, you may have a group of friends who you go running with so you could add the group "running".</p>
+    <p>Add a few categories that you connect to people in.<br>
+      For example, you may have a group of friends who you go running with so you could add the group "running".
+    </p>
     <br>
     <%= form_tag :datapush, :id => "form_add_category", :method => :post do %>
-      <%= label_tag(:new_category_name, "Category name:") %>
-      <%= text_field_tag :new_category_name, 'name of category' %>
+      <%= text_field_tag :new_category_name, :placeholder => "category name" %>
       <%= submit_tag "Add", :id => "add_category_submit" %>
     <% end %>
+    <br>
     <ul>
     </ul>
   </div>
@@ -20,7 +21,7 @@
     <h1 class="detail_title">Connections:</h1>
     <%= form_tag :datapush, :id => "form_add_connection", :method => :post do %>
       <div class="ui-widget">
-        <%= label_tag(:new_category_name, "Email of friend:") %> <%= text_field_tag :new_connection_name, 'Type name of person' %> <%= submit_tag "Connect", :id => "add_connection_submit" %>
+        <%= text_field_tag :new_connection_name, :placeholder => "user@mit.edu" %> <%= submit_tag "Connect", :id => "add_connection_submit" %>
       </div>
     <% end %>
     <h3>My Connections:</h3>
