@@ -428,17 +428,7 @@ function update() {
       //.filter(function(d) { return d.type == "person"; })
       //.attr("cx", function(d) { return d.x; })
       //.attr("cy", function(d) { return d.y; })
-/*
-  enter_node.filter(function(d) { return d.type == "category"; })
-      .append("svg:rect")
-      .attr("x",-15)
-      .attr("y",-15)
-      .attr("width",30)
-      .attr("height",30)
-      .style("fill", color);
-      //.attr("cx", function(d) { return d.x; })
-      //.attr("cy", function(d) { return d.y; })
-*/
+
   enter_node.append("svg:text")
       .attr("text-anchor", "middle")
       .style("fill", "#333333")
@@ -481,8 +471,27 @@ function tick() {
 
 }
 
+function how_similar(other_likes) {
+  var base_likes = root.likes;
+  var num_similar = 0;
+  for (var a=0; a<base_likes.length; a+=1) {
+    for (var b=0; b<other_likes.length; b+=1) {
+      if (base_likes[a] === base_likes[b]) {
+        num_similar += 1;
+        break;
+      }
+    }
+  }
+  return num_similar;
+}
+
 function node_sizer(d) {
-  return "20px";
+  if (d.type="category") {
+    return "15px";
+  } else {
+    var pixel_size = 15+5*(how_similar(d.likes))
+    return pixel_size+"px";
+  }
 }
 
 // Color leaf nodes orange, and packages white or blue.
