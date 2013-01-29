@@ -476,7 +476,7 @@ function how_similar(other_likes) {
   var num_similar = 0;
   for (var a=0; a<base_likes.length; a+=1) {
     for (var b=0; b<other_likes.length; b+=1) {
-      if (base_likes[a] === base_likes[b]) {
+      if (base_likes[a] === other_likes[b]) {
         num_similar += 1;
         break;
       }
@@ -486,8 +486,8 @@ function how_similar(other_likes) {
 }
 
 function node_sizer(d) {
-  if (d.type="category") {
-    return "15px";
+  if (d.type=="category") {
+    return "20px";
   } else {
     var pixel_size = 15+5*(how_similar(d.likes))
     return pixel_size+"px";
