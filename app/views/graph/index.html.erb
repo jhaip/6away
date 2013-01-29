@@ -87,10 +87,10 @@ $('#add_connection_submit').click(function(e) {
   });
 });
 
-$(".delete_category").click(function(e) {
+function delete_click(e) {
   alert($(this).data("category"));
   return false;
-});
+}
 
 var w = 960,
     h = 400,
@@ -126,7 +126,7 @@ function person_me_callback(root,details) {
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
     l_item = $("<li></li>").text(root.children[i].name+"  ");
-    delete_link = $("<a class='delete_category'>delete</a>").data("category",root.children[i].name);
+    delete_link = $("<a class='delete_category'>delete</a>").data("category",root.children[i].name).click(delete_click);
     l_item.append(delete_link);
     l.append(l_item);
   }
