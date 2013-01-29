@@ -94,6 +94,7 @@ function delete_click(e) {
     url: "http://stark-hamlet-8685.herokuapp.com/datapull",
     type: 'DELETE',
     data: { category: category_name },
+    headers: { 'X-CSRF-Token': '<%= form_authenticity_token.to_s %>' }
   }).success(function(json){
     console.log("Category "+category_name+"successfully removed");
     path_update(path);
