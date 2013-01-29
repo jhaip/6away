@@ -83,7 +83,7 @@ footer {
 .triplet_container {
 	overflow: hidden; /* Clearfix! */
     zoom: 1;  /* Triggering "hasLayout" in IE */
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .triplet {
@@ -106,19 +106,42 @@ footer {
 	line-height: 140%;
 }
 
-.guide {
+.guide_header {
 	font-family: 'Bitter', serif;
 	font-size: 36px;
 	text-align: center;
 	line-height: 120%;
 	padding: 30px;
+	margin-top: 20px;
 	text-shadow: 2px 3px 4px rgba(0,0,0,0.2);
 }
-.guide {
-	font-family: 'Bitter', serif;
-	font-size: 36px;
-	text-align: center;
-	line-height: 120%;
-	padding: 30px;
+.guide_header:hover {
 	text-shadow: 3px 5px 5px rgba(0,0,0,0.3);
+}
+
+.twin_container {
+	overflow: hidden; /* Clearfix! */
+    zoom: 1;  /* Triggering "hasLayout" in IE */
+    margin-top: 30px;
+}
+
+.twin {
+	float: left;
+	width: 460px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.triplet h3 {
+	font-size: 16px;
+	font-weight: 900;
+	line-height: 130%;
+	font-family: 'Bitter', serif;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.triplet p {
+	font-size: 16px;
+	line-height: 140%;
 }
