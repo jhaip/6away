@@ -64,3 +64,14 @@ h3 {
 footer {
 	height: 200px;
 }
+
+#bigquote {
+	width: 100%;
+	font-family: Times New Roman, serif;
+	font-style: italic;
+	font-size: 48px;
+	line-height: 120%;
+	color: #white;
+	background-color: #3cfd8d;
+	padding: 30px;
+}
