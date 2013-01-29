@@ -70,7 +70,7 @@ $('#add_connection_submit').click(function(e) {
       console.log(new_conn_name);
       if (new_conn_name.length <= 8 || new_conn_name.substr(new_conn_name.length-8,new_conn_name.length) !== "@mit.edu") {
         alert("Connection name must be an @mit.edu email address")
-        return;
+        return false;
       }
       last = path[path.length-1]
       valuesToSubmit.push({"name":"category","value":last.name})
@@ -551,12 +551,17 @@ $(function() {
   $( "#new_connection_name" ).autocomplete({
     source: "<%= SITE_URL %>/userpull",
     minLength: 2,
-      source: function( request, response ) {
-        var term = request.term;
-        $.getJSON( "<%= SITE_URL %>/userpull", request, function( data, status, xhr ) {
-          response( data );
-        });
-      }
+    source: function( request, response ) {
+      var term = request.term;
+      $.getJSON( "<%= SITE_URL %>/userpull", request, function( data, status, xhr ) {
+        response( data );
+      });
+    }
+    //select: function( event, ui ) {
+    //    log( ui.item ?
+    //      "Selected: " + ui.item.value + " aka " + ui.item.id :
+    //      "Nothing selected, input was " + this.value );
+    //  }
   });
 });
 </script>
