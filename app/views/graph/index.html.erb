@@ -167,11 +167,11 @@ function path_to_text(p) {
 
 function person_me_callback(root,details) {
   inside = $("#inside_me");
-  inside.find(".detail_title").text(details.name);
+  inside.find(".detail_title").append(details.name);
   l = inside.find("ul");
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
-    l_item = $("<li></li>").text(root.children[i].name+"  ");
+    l_item = $("<li></li>").append("<span>"+root.children[i].name+"</span>");
     //preserve living group and work categories
     if (root.children[i].name != "living group" && root.children[i].name != "work") {
       delete_link = $("<a class='delete_category'><i class='icon-remove'></i></a>").data("category",root.children[i].name).click(delete_category_click);
@@ -203,7 +203,7 @@ function person_category_callback(root,details) {
   l = inside.find("ul");
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
-    l.append("<li>"+root.children[i].name+"</li>");
+    l.append("<li><span>"+root.children[i].name+"</span></li>");
   }
 }
 
@@ -212,7 +212,7 @@ function person_me_category_callback(root,details) {
   l = inside.find("ul");
   l.empty();
   for (var i=0; i < root.children.length; i+=1) {
-    l_item = $("<li></li>").text(root.children[i].name+"  ");
+    l_item = $("<li></li>").append("<span>"+root.children[i].name+"</span>");
     delete_link = $("<a class='delete_connection'><i class='icon-remove'></i></a>").data("connection_name",root.children[i].name).click(delete_connection_click);
     l_item.append(delete_link);
     l.append(l_item);

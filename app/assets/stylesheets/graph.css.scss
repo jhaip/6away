@@ -93,4 +93,12 @@ input[type=submit] {
 
 input[type=submit]:hover {
   background: rgb(255, 83, 60);
+  cursor: pointer;
+}
+
+#details span {
+  padding: 7px;
+  font-size: 20px;
+  background: #DDD;
+  margin-right: 10px;
 }
