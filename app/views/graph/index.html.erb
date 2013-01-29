@@ -87,6 +87,33 @@ $('#add_connection_submit').click(function(e) {
   });
 });
 
+var w = 960,
+    h = 400,
+    node,
+    link,
+    root,
+    path;
+
+var force = d3.layout.force() 
+    .on("tick", tick)
+    .size([w, h])
+    .friction(0.8)
+    .charge(-1000)
+    .gravity(0.1)
+    .linkDistance(70);
+
+var vis = d3.select("#chart").append("svg:svg")
+    .attr("width", w)
+    .attr("height", h);
+
+function path_to_text(p) {
+  str = "";
+  for (var i=0; i<p.length; i+=1) {
+    str += p[i].name+" / ";
+  }
+  return str;
+}
+
 function delete_category_click(e) {
   category_name = $(this).data("category");
   console.log("Deleting category "+category_name);
@@ -127,33 +154,6 @@ function delete_category_click(e) {
     console.log(errorThrown);
   });
   return false; // prevents normal behaviour
-}
-
-var w = 960,
-    h = 400,
-    node,
-    link,
-    root,
-    path;
-
-var force = d3.layout.force() 
-    .on("tick", tick)
-    .size([w, h])
-    .friction(0.8)
-    .charge(-1000)
-    .gravity(0.1)
-    .linkDistance(70);
-
-var vis = d3.select("#chart").append("svg:svg")
-    .attr("width", w)
-    .attr("height", h);
-
-function path_to_text(p) {
-  str = "";
-  for (var i=0; i<p.length; i+=1) {
-    str += p[i].name+" / ";
-  }
-  return str;
 }
 
 function person_me_callback(root,details) {
