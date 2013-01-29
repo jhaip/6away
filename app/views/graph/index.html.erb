@@ -166,7 +166,7 @@ var vis = d3.select("#chart").append("svg:svg")
     .attr("height", h);
 
 function path_to_text(p) {
-  var spn = $("<span class='crumbs'></span>");
+  var spn = $("<span></span>");
   var crumbs = $("<span class='crumbs'></span>");
   var str = "";
   for (var i=0; i<p.length-1; i+=1) {
@@ -174,7 +174,7 @@ function path_to_text(p) {
   }
   crumbs.text(str);
   spn.append(crumbs);
-  spn.append(p[p.length-1]);
+  spn.append(p[p.length-1].name);
   return spn;
 }
 
