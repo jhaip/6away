@@ -137,8 +137,13 @@ footer {
 	font-weight: 900;
 	line-height: 130%;
 	font-family: 'Bitter', serif;
-	text-align: center;
 	margin-bottom: 10px;
+}
+
+.twin h5 {
+	font-size: 16px;
+	line-height: 140%;
+	font-weight: 900;
 }
 
 .twin p {
