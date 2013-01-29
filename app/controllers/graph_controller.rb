@@ -356,7 +356,9 @@ class GraphController < ApplicationController
 
   def userpull
 
-    file = File.new("#{SITE_URL}/mit.txt")
+    file = File.new("#{root_path}/mit.txt")
+    puts "USERPULL"
+    puts "#{root_path}/mit.txt"
     obj = file.read
     term = params[:term]
 
