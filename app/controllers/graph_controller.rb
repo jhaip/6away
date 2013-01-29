@@ -111,16 +111,16 @@ class GraphController < ApplicationController
     null_node = @neo.get_node_index("nodes", "name", "_nil") 
 
     if !work_connections
-      puts "WORK CATEGORY NOT FOUND, WOULD BE CREATING WORK CATEGORY"
-      #rel1 = @neo.create_relationship("work",person,null_node)
-      #unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-      #@neo.set_relationship_properties(rel1, {"id" => unique_id})
+      puts "WORK CATEGORY NOT FOUND, CREATING WORK CATEGORY"
+      rel1 = @neo.create_relationship("work",person,null_node)
+      unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+      @neo.set_relationship_properties(rel1, {"id" => unique_id})
     end
     if !live_connections
-      puts "LIVING GROUP CATEGORY NOT FOUND, WOULD BE CREATING LIVING GROUP CATEGORY"
-      #rel1 = @neo.create_relationship("living group",person,null_node)
-      #unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-      #@neo.set_relationship_properties(rel1, {"id" => unique_id})
+      puts "LIVING GROUP CATEGORY NOT FOUND, CREATING LIVING GROUP CATEGORY"
+      rel1 = @neo.create_relationship("living group",person,null_node)
+      unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+      @neo.set_relationship_properties(rel1, {"id" => unique_id})
     end
 
     redirect_to(:graph)

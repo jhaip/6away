@@ -24,8 +24,11 @@ div {
 
 #notice {
   color: black;
-  padding: 12px;
   background-color: rgb(79, 245, 65);
+}
+#notice {
+  color: white;
+  background-color: rgb(255, 83, 60);
 }
 
 .field_with_errors {
