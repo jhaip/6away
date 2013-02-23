@@ -2,18 +2,22 @@ class GraphController < ApplicationController
 
   skip_before_filter :require_login, :except => [:datapush]
 
+  # GET /graph
+  # Main graph page
   def index
+
     current_email = current_user.email
     @athena_name = current_email[/[^@]+/]
 
     @neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
     person = @neo.get_node_index("nodes", "name", @athena_name)
     if person == nil
+      # user not already connected to in the graph, need to them to setup their node
       puts "person #{@athena_name} not found, redirecting to profile page to create them"
       redirect_to :profile
     else
+      # if node exists, but doesn't have the required information, redirect user to input info
       props = @neo.get_node_properties(person, ["course","year"])
-      puts props
       if props["course"] == nil or props["course"] == "?"
         puts "properties for #{@athena_name} found to be empty, redirecting to profile to fill them out"
         redirect_to :profile
@@ -22,13 +26,19 @@ class GraphController < ApplicationController
 
   end
 
+  # GET /users
   def profile
   end
 
+  # POST /profile
+  # when submit updated profile information, profile_push updates information in database accordingly
   def profile_push
+
+    # can only update profile if logged in
     if current_user == nil
       redirect_to( root_path, :notice => "Couldn't find current user") and return
     end
+
     full_name = params[:name]
     year = params[:year]
     major = params[:major]
@@ -39,6 +49,7 @@ class GraphController < ApplicationController
 
     likes = Array.new
 
+    # if checked box that liked something, add a string description to the likes array
     if params[:ck_family]
       likes << "Family"
     end
@@ -73,6 +84,7 @@ class GraphController < ApplicationController
       likes << "Giving back"
     end
 
+    # generate unique id for the newly created node
     unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
 
     puts "Adding: "+full_name+", "+year+", "+major+", "+living_group+", "+athena_name+", "+unique_id
@@ -88,7 +100,6 @@ class GraphController < ApplicationController
       person = @neo.create_node
       @neo.add_node_to_index("nodes", "name", athena_name, person)
     end
-    puts "person already exists, updating properties"
     @neo.set_node_properties(person, {"athena" => athena_name,
                                        "name"=>full_name,
                                        "course"=>major,
@@ -103,13 +114,9 @@ class GraphController < ApplicationController
     work_connections = @neo.get_node_relationships(person, "out", "work")
     live_connections = @neo.get_node_relationships(person, "out", "living group")
 
-    puts "Work connections:"
-    puts work_connections
-    puts "Living group connections:"
-    puts live_connections
-
     null_node = @neo.get_node_index("nodes", "name", "_nil") 
 
+    # all users should have living and working connection groups
     if !work_connections
       puts "WORK CATEGORY NOT FOUND, CREATING WORK CATEGORY"
       rel1 = @neo.create_relationship("work",person,null_node)
@@ -126,6 +133,11 @@ class GraphController < ApplicationController
     redirect_to(:graph)
   end
 
+  # GET /creategraph
+  # call to setup database
+  # - creates an index to put users in
+  # - creates a nil user so that category connections always have someone to connect to
+  #   even though it wouldn't be shown on the graph
   def create
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
 
@@ -134,65 +146,22 @@ class GraphController < ApplicationController
     unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
     nil_user = @neo.create_node("athena" => "_nil","id"=>unique_id,"name"=>"BLANK USER","course"=>"?","year"=>"?","living_group"=>"?","likes"=>["empty"])
     @neo.add_node_to_index("nodes", "name", "_nil", nil_user)
-=begin
-    unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-  	me = @neo.create_node("athena" => "jhaip","id"=>unique_id,"name"=>"Jacob Haip","course"=>6,"year"=>2,"living_group"=>"Pi Lambda Phi","likes"=>["art","tech"])
-    unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-  	user1 = @neo.create_node("athena" => "ssul","id"=>unique_id,"name"=>"Steve Sullivan","course"=>2,"year"=>2,"living_group"=>"Pi Lambda Phi","likes"=>["art","tech"])
-  	unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    user2 = @neo.create_node("athena" => "fishr","id"=>unique_id,"name"=>"Ryan Fish","course"=>2,"year"=>2,"living_group"=>"Next House","likes"=>["art","tech"])
-    unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-  	user3 = @neo.create_node("athena" => "ahuang27","id"=>unique_id,"name"=>"Alice Huang","course"=>2,"year"=>2,"living_group"=>"Maseeh","likes"=>["art","tech"])
-    
-    @neo.add_node_to_index("nodes", "name", "jhaip", me)
-    @neo.add_node_to_index("nodes", "name", "ssul", user1)
-    @neo.add_node_to_index("nodes", "name", "fishr", user2)
-    @neo.add_node_to_index("nodes", "name", "ahuang27", user3)
-    
-    id1 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    id2 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    id3 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    id4 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    id5 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-    id6 = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
-
-    rel1 = @neo.create_relationship("living group",me,user1)
-    rel2 = @neo.create_relationship("living group",me,user3)
-    rel3 = @neo.create_relationship("living group",me,nil_user)
-    @neo.set_relationship_properties(rel1, {"id" => id1})
-    @neo.set_relationship_properties(rel2, {"id" => id1})
-    @neo.set_relationship_properties(rel3, {"id" => id1})
-
-  	rel4 = @neo.create_relationship("misc",me,user2)
-    rel5 = @neo.create_relationship("misc",me,nil_user)
-    @neo.set_relationship_properties(rel4, {"id" => id2})
-    @neo.set_relationship_properties(rel5, {"id" => id2})
-
-  	rel6 = @neo.create_relationship("work",me,user2)
-  	rel7 = @neo.create_relationship("work",me,user3)
-    rel8 = @neo.create_relationship("work",me,nil_user)
-    @neo.set_relationship_properties(rel6, {"id" => id3})
-    @neo.set_relationship_properties(rel7, {"id" => id3})
-    @neo.set_relationship_properties(rel8, {"id" => id3})
-
-    rel9 = @neo.create_relationship("work",user2,me)
-    rel10 = @neo.create_relationship("work",user2,user3)
-    @neo.set_relationship_properties(rel9, {"id" => id4})
-    @neo.set_relationship_properties(rel10, {"id" => id4})
-
-    rel11 = @neo.create_relationship("work",user3,user2)
-    @neo.set_relationship_properties(rel11, {"id" => id6})
-=end
   	render :text => "database created"
 
   end
 
+  # GET /datapull
+  # Get information about connections from a node
+  # @params: name   (athena name of user wanting data for)
+  #         type   (category/person - type of node expanding)
+  #         id     (id of node wanting information about)
+  #         parent (for type=category: the user owning the category)
   def datapull
-    # should be passed params: name, type, id, and parent name
   	@neo = Neography::Rest.new(ENV['NEO4J_URL'] || "http://localhost:7474")
+
     if params[:type] == "person"
+
     	query = @neo.execute_query("START n=node(*) WHERE n.athena ='#{params[:name]}' RETURN n.name, n.course, n.year, n.living_group, n.id, n.likes;")["data"][0]
-      #query2 = @neo.execute_query("START n=node(*) MATCH n-[r]->() WHERE n.athena ='#{params[:name]}' RETURN collect(type(r)), collect(r.id);")["data"][0]
       query2 = @neo.execute_query("START n=node(*) MATCH (n)-[r]->() WHERE n.athena ='#{params[:name]}' RETURN type(r), r.id;")["data"]
     	name = query[0]
     	course = query[1]
@@ -201,8 +170,7 @@ class GraphController < ApplicationController
       unique_id = query[4]
     	likes = query[5]
     	children = Array.new
-      puts "-----------------------------------"
-      puts query2
+
       connections = query2.uniq
       connections.each do |c|
         category_name = c[0]
@@ -214,7 +182,9 @@ class GraphController < ApplicationController
              :graph   => {:name => params[:name], :type => params[:type], :id => unique_id, :children => children, :likes => likes }
             }
     	render :json => ret.to_json
+
     elsif params[:type] == "category"
+
       query = @neo.execute_query("START n=node(*) MATCH (n)-[:`#{params[:name]}`]->(x) WHERE n.athena ='#{params[:parent]}' RETURN x.athena, x.id, x.likes;")["data"]
       connections = query
       children = Array.new
@@ -234,6 +204,11 @@ class GraphController < ApplicationController
     end
   end
 
+  # POST /datapush
+  # add a new connection to a user/category in the database
+  # @params: new_category_name - name of new category to attach to current user
+  #          new_connection_name - name of user to connect to
+  #          category - if new_connection_name exist: the name of the category connecting through
   def datapush
     if current_user == nil
       redirect_to( root_path, :notice => "Couldn't find current user") and return
@@ -263,8 +238,8 @@ class GraphController < ApplicationController
         @neo.set_relationship_properties(rel1, {"id" => unique_id})
       end
     else
-      puts "params:"
-      puts params
+      # adding new connection
+
       connection_name = params[:new_connection_name]
       category = params[:category]
 
@@ -273,18 +248,12 @@ class GraphController < ApplicationController
       me_node = @neo.get_node_index("nodes", "name", athena_name) 
       connection_node = @neo.get_node_index("nodes", "name", connection_name)
 
-      #category_id = @neo.execute_query("START n=node(*) MATCH (n)-[r:`#{category}`]->() WHERE n.athena ='#{athena_name}' RETURN collect(r.id);")["data"][0][0]
       id_rel = @neo.get_node_relationships(me_node, "out", category)[0]
       category_id = @neo.get_relationship_properties(id_rel, "id")["id"]
-      puts "Id rel:"
-      puts id_rel
-      puts "Category id:"
-      puts category_id
 
-      puts "Connection node"
-      puts connection_node
+      if connection_node == nil 
+        #user doesn't exist
 
-      if connection_node == nil #user doesn't exist
         puts "node doesn't exist, creating one"
         unique_id = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
         connection_node = @neo.create_node("athena"=>connection_name,"id"=>unique_id,"name"=>connection_name,"course"=>"?","year"=>"?","living_group"=>"?","likes"=>["empty"])
@@ -293,7 +262,9 @@ class GraphController < ApplicationController
         #create connection
         rel = @neo.create_relationship(category, me_node, connection_node)
         @neo.set_relationship_properties(rel, {"id" => category_id})
-      else
+      else 
+        #user exists
+
         query = @neo.execute_query("START n=node(*) MATCH (n)-[:`#{category}`]->(x) WHERE n.athena ='#{athena_name}' RETURN x.athena, x.id;")["data"]
         puts "query results for connection data"
         puts query
@@ -307,8 +278,6 @@ class GraphController < ApplicationController
         end
         if !connection_exists
           puts "no existing path found, creating new connection"
-          #rel = @neo.create_relationship(category, me_node, connection_node)
-          #@neo.set_relationship_properties(rel, {"id" => category_id})
           query_str = "START n1=node:nodes(name = '#{athena_name}'), n2=node:nodes(name = '#{connection_name}')";
           query_str += " CREATE n1-[r:`#{category}` {id: '#{category_id}' }]->n2"
           query_str += " RETURN r;"
@@ -326,8 +295,12 @@ class GraphController < ApplicationController
     render :json => ret.to_json
   end
 
+  # DELETE /datadelete
+  # removes a new connection to a user/category in the database
+  # @params: name - name user removing connection to
+  #          category - if name param exists: the category that connected you to user
+  #                   - if not: the name of the category to remove
   def datadelete
-    # passed just :category, or :category and :name
 
     current_email = current_user.email
     athena_name = current_email[/[^@]+/]
@@ -354,6 +327,13 @@ class GraphController < ApplicationController
     render :json => ret.to_json
   end
 
+  # GET /userpull
+  # autocomplete data source
+  # looking for substring params[:term] in a large JSON file containing the mapping of every MIT student to their email
+  # THIS IS SLOW - parsing through a gigantic text file every time something is typed - should be moved into a database
+  #
+  # @params: term - what the user has typed in the autocomplete text box so far
+  # @returns JSON object of top 8 closed matches to be displayed by autocomplete
   def userpull
 
     puts "URL:"
